@@ -65,12 +65,48 @@ public class Tile {
 
     @Override
     public String toString() {
-        if (!filled) {
-            return "   ";
-        } else if(changeable) {
-            return " " + entry + " ";
-        } else {
-            return "[" + entry + "]";
+        StringBuilder sb = new StringBuilder();
+        switch(color){
+            case 0:
+                sb.append("\u001B[0m");
+                break;
+            case 1:
+                sb.append("\u001B[30m");
+                break;
+            case 2:
+                sb.append("\u001B[31m");
+                break;
+            case 3:
+                sb.append("\u001B[32m");
+                break;
+            case 4:
+                sb.append("\u001B[33m");
+                break;
+            case 5:
+                sb.append("\u001B[34m");
+                break;
+            case 6:
+                sb.append("\u001B[35m");
+                break;
+            case 7:
+                sb.append("\u001B[36m");
+                break;
+            case 8:
+                sb.append("\u001B[37m");
+                break;
+            case 9:
+                sb.append("\033[0;91m");
+                break;
+            default:
+                break;
         }
+        if (!filled) {
+            sb.append("   ");
+        } else if(changeable) {
+            sb.append(" ").append(entry).append(color);
+        } else {
+            sb.append("[").append(entry).append("]");
+        }
+        return sb.toString();
     }
 }
