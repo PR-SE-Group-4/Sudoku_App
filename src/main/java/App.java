@@ -6,7 +6,7 @@ public class App {
 
         new SudokuUI();
         //New
-
+        System.out.println("Test");
     }
 
 }
