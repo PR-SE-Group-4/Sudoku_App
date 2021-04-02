@@ -9,6 +9,7 @@ public class App {
         System.out.println("Test");
 
         // "Test": Erstes Klassik-sudoku anlegen und ausgeben.
+
         Ninesquare test9sq = new Ninesquare();
         System.out.print(test9sq);
     }

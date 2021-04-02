@@ -21,7 +21,10 @@ public class Ninesquare {
         solved = false;
     }
 
+    public int getInput (int row, int col) {
 
+        return content[row][col].getEntry();
+    }
 
 
     @Override
