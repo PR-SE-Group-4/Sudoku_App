@@ -63,6 +63,12 @@ public class Tile {
         this.conflicted = conflicted;
     }
 
+    public void setEntry(int entry) {
+        if (this.changeable) {
+            this.entry = entry;
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

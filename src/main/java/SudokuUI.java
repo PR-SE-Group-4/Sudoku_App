@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -8,25 +9,30 @@ public class SudokuUI implements ActionListener {
 
     private JFrame frame;
     private Ninesquare ninesquare;
-    private JComponent sudokufield;
-    private static final Font FONT = new Font("Arial", Font.TYPE1_FONT,15);
+    private NinesquareField sudokufield;
+    private static final Font FONT = new Font("Arial", Font.BOLD,20);
 
     public SudokuUI() {
         this.frame = new JFrame("Sudoku");
 
         final Container container = this.frame.getContentPane();
         container.setLayout(new BorderLayout(1, 5));
-        this.frame.addMouseListener(this.mouseListener);
 
+        // Add Menu
         this.frame.setJMenuBar(this.SudokuMenu());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(350 , 400);
+        this.frame.setSize(800 , 600);
         this.frame.setBackground(Color.gray);
 
-        //Create Sudoku
 
         this.ninesquare = new Ninesquare();
         this.sudokufield = new NinesquareField();
+
+
+        //Create Sudoku Gamefield
+
+
+
         /*-------------Muss noch in Class Niesqarefield---------------*/
         JTextField[][] tiles;
         JPanel grid;
@@ -39,9 +45,12 @@ public class SudokuUI implements ActionListener {
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
                 String input = String.valueOf(ninesquare.getInput(row,col));
+
                 if (!input.equals("0")) {
                     tiles[row][col] = new JTextField(input);
-                }
+                    tiles[row][col].setEditable(false);
+                    tiles[row][col].setBorder(new LineBorder(Color.BLACK, 3));
+                 }
                 else {
                     tiles[row][col] = new JTextField("");
                 }
@@ -54,8 +63,37 @@ public class SudokuUI implements ActionListener {
             }
         }
      /*----------------------------*/
-        frame.add(grid);
 
+        JPanel sudokuPanel = new JPanel();
+        sudokuPanel.setLayout(new FlowLayout());
+        sudokuPanel.setPreferredSize(new Dimension(800, 600));
+
+        sudokuPanel.add(sudokufield);
+        //Add Button Panel
+
+        JPanel btnpanel = new JPanel();
+        JButton solve = new JButton("Lösen");
+        JButton hint = new JButton("Tipp");
+        btnpanel.add(solve);
+        btnpanel.add(hint);
+
+
+        JPanel btnEntry = new JPanel();
+        btnEntry.setLayout(new BoxLayout(btnEntry, BoxLayout.Y_AXIS));
+
+        for (int i = 1; i <= 9; i++) {
+            JButton b = new JButton(String.valueOf(i));
+            b.addActionListener(sudokufield.new EntryActionListener());
+                    btnEntry.add(b);
+        }
+
+
+
+
+       // this.frame.add(grid);
+        this.frame.add(sudokuPanel);
+        this.frame.add(btnpanel, BorderLayout.SOUTH);
+        this.frame.add(btnEntry, BorderLayout.EAST);
         this.frame.setVisible(true);
         this.frame.setResizable(false);
     }

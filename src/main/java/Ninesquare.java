@@ -22,10 +22,16 @@ public class Ninesquare {
     }
 
     public int getInput (int row, int col) {
-
         return content[row][col].getEntry();
     }
 
+    public int getColor (int row, int col) {
+        return content[row][col].getColor();
+    }
+
+    public void setEntry (int row, int col, String entry) {
+        content[row][col].setEntry(Integer.parseInt(entry));
+    }
 
     @Override
     public String toString() {
