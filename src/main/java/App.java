@@ -1,7 +1,7 @@
 public class App {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
 
         new SudokuUI();
@@ -10,8 +10,11 @@ public class App {
 
         // "Test": Erstes Klassik-sudoku anlegen und ausgeben.
 
-        Ninesquare test9sq = new Ninesquare();
-        System.out.print(test9sq);
+    //    Ninesquare test9sq = new Ninesquare();
+    //    System.out.print(test9sq);
+
+        Ninesquare fileOne = Loader.loadFileOne();
+        System.out.print(fileOne);
     }
 
 }

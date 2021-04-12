@@ -1,3 +1,5 @@
+
+
 public class Tile {
     private final boolean changeable;
     private boolean filled;
@@ -5,11 +7,15 @@ public class Tile {
     private final int color;
     private int entry;
 
-    public Tile(int color, int entry) {
+    public Tile(int color, int entry, boolean changeable) {
         this.color = color;
         this.entry = entry;
-        this.changeable = false;
-        this.filled = true;
+        if (entry == 0) {
+            this.filled = false;
+        } else {
+            this.filled = true;
+        }
+        this.changeable = changeable;
     }
 
     public Tile(int color) {
@@ -103,10 +109,15 @@ public class Tile {
         if (!filled) {
             sb.append("   ");
         } else if(changeable) {
-            sb.append(" ").append(entry).append(color);
+            sb.append(" ").append(entry).append(" ");
         } else {
             sb.append("[").append(entry).append("]");
         }
         return sb.toString();
     }
+
+    public String export() {
+        return color + (changeable ? "U" : "O") + entry;
+    }
+
 }
