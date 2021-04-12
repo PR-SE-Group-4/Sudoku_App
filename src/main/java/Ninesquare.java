@@ -10,10 +10,10 @@ public class Ninesquare {
         content = new Tile[9][9];
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
-                if ((row*9+col)%7 != 0) {
-                    content[row][col] = new Tile( (col/3+1)+(row/3)*3,  (row*3+col+row/3)%9+1 );
+                if ((row * 9 + col) % 7 != 0) {
+                    content[row][col] = new Tile((col / 3 + 1) + (row / 3) * 3, (row * 3 + col + row / 3) % 9 + 1);
                 } else {
-                    content[row][col] = new Tile((col / 3 + 1) + (row / 3) * 3 );
+                    content[row][col] = new Tile((col / 3 + 1) + (row / 3) * 3);
                 }
             }
         }
@@ -21,15 +21,15 @@ public class Ninesquare {
         solved = false;
     }
 
-    public int getInput (int row, int col) {
-        return content[row][col].getEntry();
+    public Tile getTile(int row, int col) {
+        return content[row][col];
     }
 
-    public int getColor (int row, int col) {
+    public int getColor(int row, int col) {
         return content[row][col].getColor();
     }
 
-    public void setEntry (int row, int col, String entry) {
+    public void setEntry(int row, int col, String entry) {
         content[row][col].setEntry(Integer.parseInt(entry));
     }
 
@@ -44,10 +44,6 @@ public class Ninesquare {
         }
         return sb.toString();
     }
-
-
-
-
 
 
 }

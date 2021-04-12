@@ -32,7 +32,6 @@ public class SudokuUI implements ActionListener {
         //Create Sudoku Gamefield
 
 
-
         /*-------------Muss noch in Class Niesqarefield---------------*/
         JTextField[][] tiles;
         JPanel grid;
@@ -42,27 +41,6 @@ public class SudokuUI implements ActionListener {
         Border empty = new EmptyBorder(0, 12, 0, 0);
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 
-        for (int row = 0; row <= 8; row++) {
-            for (int col = 0; col <= 8; col++) {
-                String input = String.valueOf(ninesquare.getInput(row,col));
-
-                if (!input.equals("0")) {
-                    tiles[row][col] = new JTextField(input);
-                    tiles[row][col].setEditable(false);
-                    tiles[row][col].setBorder(new LineBorder(Color.BLACK, 3));
-                 }
-                else {
-                    tiles[row][col] = new JTextField("");
-                }
-                JTextField tile = tiles[row][col];
-                tile.setBorder(border);
-                tile.setBorder(empty);
-                tile.setFont(FONT);
-                tile.setPreferredSize(new Dimension(30,30));
-                grid.add(tiles[row][col]);
-            }
-        }
-     /*----------------------------*/
 
         JPanel sudokuPanel = new JPanel();
         sudokuPanel.setLayout(new FlowLayout());
