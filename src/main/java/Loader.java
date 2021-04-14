@@ -7,8 +7,8 @@ public class Loader {
 
     static File[] files;
 
-    public static File[] getFiles() /*throws IOException*/ {
-        File path = new File("C:\\PUZZLES");
+    static File[] getFiles() /*throws IOException*/ {
+        File path = new File(System.getenv("APPDATA")+"\\SudokuGR04");
         FileFilter fileFilter = new FileFilter() {
             @Override
             public boolean accept(File dir) {
@@ -27,7 +27,7 @@ public class Loader {
         return files;
     }
 
-    public static Ninesquare loadFile(int nrOfFile) throws Exception {
+    public static Ninesquare loadPuzzle(int nrOfFile) throws Exception {
         files = getFiles();
         FileReader fileReader = new FileReader(files[nrOfFile]);
 
