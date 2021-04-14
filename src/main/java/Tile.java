@@ -5,11 +5,11 @@ public class Tile {
     private final int color;
     private int entry;
 
-    public Tile(int color, int entry) {
+    public Tile(int color, int entry, boolean changeable) {
         this.color = color;
         this.entry = entry;
-        this.changeable = false;
-        this.filled = true;
+        this.filled = entry != 0;
+        this.changeable = changeable;
     }
 
     public Tile(int color) {
@@ -114,5 +114,9 @@ public class Tile {
             sb.append("[").append(entry).append("]");
         }
         return sb.toString();
+    }
+
+    public String export() {
+        return color + (changeable ? "U" : "O") + entry;
     }
 }
