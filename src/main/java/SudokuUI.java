@@ -10,6 +10,8 @@ public class SudokuUI implements ActionListener {
     private JFrame frame;
     private Ninesquare ninesquare;
     private NinesquareField sudokufield;
+    private SamuraiField samuraiField;
+    private JPanel sudokuPanel;
     private static final Font FONT = new Font("Arial", Font.BOLD,20);
 
     public SudokuUI() {
@@ -18,35 +20,28 @@ public class SudokuUI implements ActionListener {
         final Container container = this.frame.getContentPane();
         container.setLayout(new BorderLayout(1, 5));
 
+
+        this.sudokufield = new NinesquareField();
+        this.samuraiField = new SamuraiField();
+
+
+        sudokuPanel = new JPanel();
+
+        sudokuPanel.setLayout(new FlowLayout());
+
+        sudokuPanel.add(sudokufield);
+        sudokuPanel.setLocation(10,10);
+
+        container.add(sudokuPanel);
+
+
         // Add Menu
         this.frame.setJMenuBar(this.SudokuMenu());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(800 , 600);
+        this.frame.setSize(630 , 630);
         this.frame.setBackground(Color.gray);
 
 
-        this.ninesquare = new Ninesquare();
-        this.sudokufield = new NinesquareField();
-
-
-        //Create Sudoku Gamefield
-
-
-        /*-------------Muss noch in Class Niesqarefield---------------*/
-        JTextField[][] tiles;
-        JPanel grid;
-
-        tiles = new JTextField[9][9];
-        grid = new JPanel();
-        Border empty = new EmptyBorder(0, 12, 0, 0);
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-
-
-        JPanel sudokuPanel = new JPanel();
-        sudokuPanel.setLayout(new FlowLayout());
-        sudokuPanel.setPreferredSize(new Dimension(800, 600));
-
-        sudokuPanel.add(sudokufield);
         //Add Button Panel
 
         JPanel btnpanel = new JPanel();
@@ -66,10 +61,6 @@ public class SudokuUI implements ActionListener {
         }
 
 
-
-
-       // this.frame.add(grid);
-        this.frame.add(sudokuPanel);
         this.frame.add(btnpanel, BorderLayout.SOUTH);
         this.frame.add(btnEntry, BorderLayout.EAST);
         this.frame.setVisible(true);
@@ -85,8 +76,20 @@ public class SudokuUI implements ActionListener {
         JMenuItem load = new JMenuItem("Laden");
         JMenuItem export = new JMenuItem("Exportieren");
         JMenuItem classic = new JMenuItem("Classic");
-        JMenuItem matrix = new JMenuItem("Matrix");
+
+        classic.addActionListener(a -> {
+
+
+
+        });
+        JMenuItem freiform = new JMenuItem("Freiform");
+        JMenuItem samurai = new JMenuItem("Samurai");
         JMenuItem close = new JMenuItem("Schließen");
+
+        samurai.addActionListener(a -> {
+            SamuraiField samuraiField = new SamuraiField();
+
+        });
 
         game.add(newgame);
         game.add(load);
@@ -96,11 +99,13 @@ public class SudokuUI implements ActionListener {
         menuBar.add(game);
         menuBar.add(help);
         newgame.add(classic);
-        newgame.add(matrix);
+        newgame.add(freiform);
+        newgame.add(samurai);
 
 
         return menuBar;
     }
+
 
     public static void main(final String[] args) {
         new SudokuUI();

@@ -13,10 +13,11 @@ public class NinesquareField extends JPanel {
     Graphics2D graphics;
     private int selectedCol;
     private int selectedRow;
-
+    int tileWidth = 30;
+    int tileHeight = 30;
 
     public NinesquareField() {
-        this.setPreferredSize(new Dimension(450, 450));
+        this.setPreferredSize(new Dimension(270, 270));
         selectedRow = -1;
         selectedCol = -1;
         this.addMouseListener(new SudokuPanelMouseAdapter());
@@ -28,11 +29,18 @@ public class NinesquareField extends JPanel {
         super.paintComponent(g);
         graphics = (Graphics2D) g;
         graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
         graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         graphics.setColor(new Color(0.0f, 0.0f, 0.0f));
-        int tileWidth = 50;
-        int tileHeight = 50;
+
+        createComponent(graphics);
+
+    }
+        public void createComponent(Graphics g) {
+
+            graphics = (Graphics2D) g;
+
 
         for (int x = 0; x <= this.getWidth(); x += tileWidth) {
             if ((x / tileWidth) % 3 == 0) {
@@ -133,10 +141,9 @@ public class NinesquareField extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
-                int slotWidth = 50;
-                int slotHeight = 50;
-                selectedRow = e.getY() / slotHeight;
-                selectedCol = e.getX() / slotWidth;
+
+                selectedRow = e.getY() / tileHeight;
+                selectedCol = e.getX() / tileWidth;
                 e.getComponent().repaint();
             }
         }
