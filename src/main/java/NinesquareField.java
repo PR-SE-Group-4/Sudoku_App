@@ -7,20 +7,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class NinesquareField extends JPanel {
+public class NinesquareField extends SudokuField {
 
     Ninesquare ninesquare = new Ninesquare();
-    Graphics2D graphics;
-    private int selectedCol;
-    private int selectedRow;
-    int tileWidth = 30;
-    int tileHeight = 30;
 
-    public NinesquareField() {
+
+    public NinesquareField(Puzzle puzzle) {
+        super(puzzle);
         this.setPreferredSize(new Dimension(270, 270));
         selectedRow = -1;
         selectedCol = -1;
-        this.addMouseListener(new SudokuPanelMouseAdapter());
+       // this.addMouseListener(new SudokuPanelMouseAdapter());
 
     }
 
@@ -121,33 +118,16 @@ public class NinesquareField extends JPanel {
 
     }
 
-    public void inputActionListener(String buttonValue) {
+    public void inputActionListener(int x, int y, int value) {
+
+        selectedCol = x; //Definition
+        selectedRow = y; //Definition
         if (selectedCol != -1 && selectedRow != -1) {
-            ninesquare.setEntry(selectedRow, selectedCol, buttonValue);
+            ninesquare.setEntry(selectedRow, selectedCol, "TEst");
             repaint();
         }
     }
 
-
-    public class EntryActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            inputActionListener(((JButton) e.getSource()).getText());
-        }
-
-    }
-
-    private class SudokuPanelMouseAdapter extends MouseInputAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getButton() == MouseEvent.BUTTON1) {
-
-                selectedRow = e.getY() / tileHeight;
-                selectedCol = e.getX() / tileWidth;
-                e.getComponent().repaint();
-            }
-        }
-    }
 
 
 }

@@ -22,4 +22,8 @@ public abstract class Puzzle {
         this.contentString = contentString;
     }
 
+
+    public abstract Tile getTile(int row, int col);
+
+    public abstract int getColor(int row, int col);
 }

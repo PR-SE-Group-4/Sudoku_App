@@ -8,7 +8,18 @@ public class Loader {
     static File[] files;
 
     static File[] getFiles() /*throws IOException*/ {
-        File path = new File(System.getenv("APPDATA")+"\\SudokuGR04");
+
+        String OS = (System.getProperty("os.name")).toUpperCase();
+        File path;
+        if (OS.contains("WIN")) {
+            path = new File(System.getenv("APPDATA")+"\\SudokuGR04");
+        }
+        else
+        {
+            path = new File(System.getProperty("user.home" + "/Library/Application Support" ));
+
+        }
+
         FileFilter fileFilter = new FileFilter() {
             @Override
             public boolean accept(File dir) {
