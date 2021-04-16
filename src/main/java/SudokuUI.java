@@ -15,9 +15,10 @@ public class SudokuUI implements ActionListener {
     private Puzzle puzzle;
     private static final Font FONT = new Font("Arial", Font.BOLD,20);
 
-    public SudokuUI() {
+    public SudokuUI(Puzzle puzzle) {
 
         this.frame = new JFrame("Sudoku");
+        this.puzzle=puzzle;
 
         final Container container = this.frame.getContentPane();
         container.setLayout(new BorderLayout(1, 5));
@@ -109,11 +110,6 @@ public class SudokuUI implements ActionListener {
         return menuBar;
     }
 
-
-    public static void main(final String[] args) {
-        new SudokuUI();
-
-    }
 
     private  final MouseListener mouseListener = new MouseAdapter() {
         @Override

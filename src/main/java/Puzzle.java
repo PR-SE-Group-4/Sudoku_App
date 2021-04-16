@@ -26,4 +26,6 @@ public abstract class Puzzle {
     public abstract Tile getTile(int row, int col);
 
     public abstract int getColor(int row, int col);
+
+    public abstract void setEntry(int selectedRow, int selectedCol, int entry);
 }

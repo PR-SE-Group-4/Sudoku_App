@@ -2,12 +2,14 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class Loader {
 
-    static File[] files;
+    private static File[] files;
+    private ArrayList<Puzzle> storedPuzzles;
 
-    static File[] getFiles() /*throws IOException*/ {
+    public static File[] getFiles() /*throws IOException*/ {
 
         String OS = (System.getProperty("os.name")).toUpperCase();
         File path;
@@ -16,8 +18,7 @@ public class Loader {
         }
         else
         {
-            path = new File(System.getProperty("user.home" + "/Library/Application Support" ));
-
+            path = new File(System.getProperty("user.home" + "/Library/Application Support/SudokuGR04" ));
         }
 
         FileFilter fileFilter = new FileFilter() {
@@ -38,6 +39,20 @@ public class Loader {
         return files;
     }
 
+    public ArrayList<Puzzle> getStoredPuzzles() {
+        files = getFiles();
+        storedPuzzles = new ArrayList<Puzzle>();
+        System.out.println();
+        for (int j = 0; j <= files.length; j++) {
+            try {
+                storedPuzzles.add(loadPuzzle(j));
+            } catch(Exception e) {
+                System.out.println("EXPECTICOTIDON");}
+        }
+        return storedPuzzles;
+    }
+
+
     public static Ninesquare loadPuzzle(int nrOfFile) throws Exception {
         files = getFiles();
         FileReader fileReader = new FileReader(files[nrOfFile]);
@@ -50,9 +65,9 @@ public class Loader {
 
         int i;
         StringBuilder sb = new StringBuilder();
-        int stage=0;
+        int stage = 0;
         // String parser
-        while ((i = fileReader.read()) != -1)  {
+        while ((i = fileReader.read()) != -1) {
             if ((char) i == ';') {
                 switch (stage) {
                     case 0: // first block: difficulty
@@ -80,7 +95,13 @@ public class Loader {
                 sb.append((char) i);
             }
         }
-        return new Ninesquare(name, difficulty, type, solved, contentString);
+
+        // TODO: die Samurai Rückgabe;
+        if (contentString.length() == 324) {
+            return new Ninesquare(name, difficulty, type, solved, contentString);
+        } else {
+            throw new Exception();
+        }
 
     }
 

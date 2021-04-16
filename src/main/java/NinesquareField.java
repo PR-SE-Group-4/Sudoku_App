@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 
 public class NinesquareField extends SudokuField {
 
-    Ninesquare ninesquare = new Ninesquare();
+
 
 
     public NinesquareField(Puzzle puzzle) {
@@ -65,10 +65,10 @@ public class NinesquareField extends SudokuField {
 
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
-                String input = String.valueOf(ninesquare.getTile(row, col).getEntry());
+                String input = String.valueOf(puzzle.getTile(row, col).getEntry());
 
                 Graphics2D coloredtile = (Graphics2D) g;
-                int square = ninesquare.getColor(row, col);
+                int square = puzzle.getColor(row, col);
 
                 switch (square) {
                     case 0:
@@ -123,7 +123,7 @@ public class NinesquareField extends SudokuField {
         selectedCol = x; //Definition
         selectedRow = y; //Definition
         if (selectedCol != -1 && selectedRow != -1) {
-            ninesquare.setEntry(selectedRow, selectedCol, "TEst");
+            puzzle.setEntry(selectedRow, selectedCol, value);
             repaint();
         }
     }

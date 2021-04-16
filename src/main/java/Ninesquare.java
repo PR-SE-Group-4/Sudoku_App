@@ -45,8 +45,8 @@ public class Ninesquare extends Puzzle {
         return content[row][col].getColor();
     }
 
-    public void setEntry(int row, int col, String entry) {
-        content[row][col].setEntry(Integer.parseInt(entry));
+    public void setEntry(int row, int col, int entry) {
+        content[row][col].setEntry(entry);
     }
 
     public int getInput (int row, int col) { return content[row][col].getEntry(); }

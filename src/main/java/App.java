@@ -8,12 +8,9 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         setup();
+        Puzzle puzzle = Loader.loadPuzzle(0);
+        SudokuUI sudokuUI = new SudokuUI(puzzle);
 
-        new SudokuUI();
-
-        Ninesquare fileOne = Loader.loadPuzzle(0);
-        System.out.print(fileOne);
-        System.out.print(Loader.loadPuzzle(1));
     }
 
     private static void setup() {
