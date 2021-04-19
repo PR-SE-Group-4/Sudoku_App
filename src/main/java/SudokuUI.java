@@ -60,8 +60,8 @@ public class SudokuUI implements ActionListener {
 
         for (int i = 1; i <= 9; i++) {
             JButton b = new JButton(String.valueOf(i));
-           // b.addActionListener(sudokufield.new EntryActionListener());
-                    btnEntry.add(b);
+            b.addActionListener(new SudokuListener(sudokufield));
+            btnEntry.add(b);
         }
 
 

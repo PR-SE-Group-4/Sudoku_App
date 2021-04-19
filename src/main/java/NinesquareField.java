@@ -17,7 +17,8 @@ public class NinesquareField extends SudokuField {
         this.setPreferredSize(new Dimension(270, 270));
         selectedRow = -1;
         selectedCol = -1;
-       // this.addMouseListener(new SudokuPanelMouseAdapter());
+        this.addMouseListener(new SudokuListener(new SudokuField(puzzle)));
+
 
     }
 
@@ -120,8 +121,8 @@ public class NinesquareField extends SudokuField {
 
     public void inputActionListener(int x, int y, int value) {
 
-        selectedCol = x; //Definition
-        selectedRow = y; //Definition
+        selectedCol = x / tileWidth;
+        selectedRow = y / tileHeight;
         if (selectedCol != -1 && selectedRow != -1) {
             puzzle.setEntry(selectedRow, selectedCol, value);
             repaint();

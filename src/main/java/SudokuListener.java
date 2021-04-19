@@ -4,9 +4,9 @@ import java.awt.event.*;
 
 public class SudokuListener extends MouseInputAdapter implements KeyListener, ActionListener {
 
-    int x;
-    int y;
-    int value;
+    static int x;
+    static int y;
+    static int value;
     SudokuField sudokuField;
 
     public SudokuListener(SudokuField sudokuField) {
@@ -18,13 +18,13 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
 
             y = e.getY();
             x = e.getX();
-
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         value = Integer.valueOf(((JButton) e.getSource()).getText());
+
         sudokuField.inputActionListener(x, y, value);
     }
 
