@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Ninesquare extends Puzzle {
     private Tile[][] content;
@@ -48,6 +49,41 @@ public class Ninesquare extends Puzzle {
     public void setEntry(int row, int col, int entry) {
         content[row][col].setEntry(entry);
     }
+
+    @Override
+    public Tile[] getRow(int ninesquare, int row) {
+        Tile [] tiles = new Tile [9];
+        for (int i = 0; i < 9 ; i++) {
+            tiles [i] = content [row][i];
+        }
+        return tiles ;
+    }
+
+    @Override
+    public Tile[] getCol(int ninesquare, int col) {
+        Tile [] tiles = new Tile [9];
+        for (int i = 0; i < 9 ; i++) {
+            tiles [i] = content [i][col];
+        }
+        return tiles ;
+    }
+
+    @Override
+    public Tile[] getArea(int ninesquare, int row, int col) {
+        Tile [] tiles = new Tile [9];
+        int cnt = 0;
+        for (int r = 0; r < 9; r++){
+            for (int c = 0; c < 9; c++) {
+                if (getColor(r,c) == getColor(row, col)) {
+                    tiles[cnt] = content[r][c];
+                    cnt++;
+                    if (cnt >= 9) break;
+                }
+            }
+        }
+        return tiles ;
+    }
+
 
     public int getInput (int row, int col) { return content[row][col].getEntry(); }
 
