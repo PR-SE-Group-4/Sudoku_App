@@ -84,6 +84,39 @@ public class Ninesquare extends Puzzle {
         return tiles ;
     }
 
+    public void checkConflicts(int row, int col){
+        checkConflicts(getRow(0,row));
+        checkConflicts(getCol(0, col));
+        checkConflicts(getArea(0,row, col));
+    }
+
+    private void checkConflicts(Tile[] tiles){
+        tiles = sortTiles(tiles);
+
+        tiles[0].setConflicted(false);
+        for (int i = 0; i < 8; i++) {
+            if (tiles[i].getEntry() > 0 && tiles[i].getEntry() == tiles[i + 1].getEntry()) {
+                tiles[i].setConflicted(true);
+                tiles[i+1].setConflicted(true);
+            } else {
+                tiles[i+1].setConflicted(false);
+            }
+        }
+    }
+
+    private Tile [] sortTiles(Tile [] t){
+        for (int i = 0; i < t.length-1; i++){
+            for (int j = i+1;  j < t.length; j++){
+                if ((t[i].isFilled()) && (t[i].getEntry() > t[j].getEntry())){
+                    Tile temp = t[i];
+                    t[i] = t[j];
+                    t[j] = temp;
+                }
+            }
+        }
+        return t;
+    }
+
 
     public int getInput (int row, int col) { return content[row][col].getEntry(); }
 
