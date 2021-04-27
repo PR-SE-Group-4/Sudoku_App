@@ -7,8 +7,8 @@ public class SudokuField extends JPanel {
     Graphics2D graphics;
     int selectedCol;
     int selectedRow;
-    int tileWidth = 30;
-    int tileHeight = 30;
+    int tileWidth = 40;
+    int tileHeight = 40;
 
 
 

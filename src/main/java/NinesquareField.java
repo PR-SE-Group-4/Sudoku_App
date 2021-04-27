@@ -1,11 +1,6 @@
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.event.MouseInputAdapter;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.geom.GeneralPath;
 
 public class NinesquareField extends SudokuField {
 
@@ -14,7 +9,7 @@ public class NinesquareField extends SudokuField {
 
     public NinesquareField(Puzzle puzzle) {
         super(puzzle);
-        this.setPreferredSize(new Dimension(270, 270));
+        this.setPreferredSize(new Dimension(360, 360));
         selectedRow = -1;
         selectedCol = -1;
         this.addMouseListener(new SudokuListener(new SudokuField(puzzle)));
@@ -26,6 +21,20 @@ public class NinesquareField extends SudokuField {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         graphics = (Graphics2D) g;
+        graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+        graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));
+
+        createComponent(graphics);
+
+    }
+
+    protected void paintComponent(Graphics g, int x, int y) {
+        super.paintComponent(g);
+        graphics = (Graphics2D) g;
+
         graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 
         graphics.fillRect(0, 0, this.getWidth(), this.getHeight());

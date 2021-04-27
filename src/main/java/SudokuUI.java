@@ -1,7 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -24,7 +21,6 @@ public class SudokuUI implements ActionListener {
         container.setLayout(new BorderLayout(1, 5));
 
 
-
         this.sudokufield = new NinesquareField(puzzle);
         this.samuraiField = new SamuraiField(puzzle);
 
@@ -32,43 +28,48 @@ public class SudokuUI implements ActionListener {
         sudokuPanel = new JPanel();
 
         sudokuPanel.setLayout(new FlowLayout());
+        sudokuPanel.setBackground(new Color(120,120,255));
 
-        sudokuPanel.add(sudokufield);
+        sudokuPanel.add(samuraiField);
         sudokuPanel.setLocation(10,10);
 
         container.add(sudokuPanel);
 
 
         // Add Menu
-        this.frame.setJMenuBar(this.SudokuMenu());
+       // this.frame.setJMenuBar(this.SudokuMenu());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(630 , 630);
-        this.frame.setBackground(Color.gray);
+        this.frame.setBackground(new Color (131,111,255));
 
 
-        //Add Button Panel
+        JPanel menupanel = new JPanel();
+        menupanel.setPreferredSize(new Dimension(200, 600));
+        menupanel.setLayout(new GridLayout(6,1, 20, 20));
+        menupanel.setBackground(new Color(120,120,255));
 
-        JPanel btnpanel = new JPanel();
-        JButton solve = new JButton("Lösen");
-        JButton hint = new JButton("Tipp");
-        btnpanel.add(solve);
-        btnpanel.add(hint);
+        JButton load = new JButton("Load");
+        load.setSize(new Dimension(120, 40));
+        load.setBackground(new Color(120,120,255));
+        load.setForeground(Color.WHITE);
+        JButton create = new JButton("Create");
+        JButton solve = new JButton("Solve");
+        JButton hint = new JButton("Hint");
+        JButton help = new JButton("Help");
+        JButton exit = new JButton("Exit");
 
+        menupanel.add(load);
+        menupanel.add(create);
+        menupanel.add(solve);
+        menupanel.add(hint);
+        menupanel.add(help);
+        menupanel.add(exit);
 
-        JPanel btnEntry = new JPanel();
-        btnEntry.setLayout(new BoxLayout(btnEntry, BoxLayout.Y_AXIS));
-
-        for (int i = 1; i <= 9; i++) {
-            JButton b = new JButton(String.valueOf(i));
-            b.addActionListener(new SudokuListener(sudokufield));
-            btnEntry.add(b);
-        }
-
-
-        this.frame.add(btnpanel, BorderLayout.SOUTH);
-        this.frame.add(btnEntry, BorderLayout.EAST);
+        this.frame.add(menupanel, BorderLayout.WEST);
         this.frame.setVisible(true);
-        this.frame.setResizable(false);
+        this.frame.setResizable(true);
+        this.frame.pack();
+
+
     }
 
     public JMenuBar SudokuMenu() {
@@ -83,9 +84,8 @@ public class SudokuUI implements ActionListener {
 
         classic.addActionListener(a -> {
 
-
-
         });
+
         JMenuItem freiform = new JMenuItem("Freiform");
         JMenuItem samurai = new JMenuItem("Samurai");
         JMenuItem close = new JMenuItem("Schließen");

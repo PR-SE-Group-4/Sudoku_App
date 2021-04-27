@@ -10,20 +10,16 @@ public class SamuraiField extends SudokuField {
     NinesquareField ninesquare3;
     NinesquareField ninesquare4;
     NinesquareField ninesquare5;
-    Puzzle puzzle;
-    JPanel panel;
 
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
-        panel = new JPanel();
         ninesquare1 = new NinesquareField(puzzle);
-        panel.add(ninesquare1);
-
-        panel.setSize(270,270);
-        panel.setLayout(null);
-
-
-    //this.addMouseListener(new NinesquareField.SudokuPanelMouseAdapter());
+        ninesquare2 = new NinesquareField(puzzle);
+        ninesquare3 = new NinesquareField(puzzle);
+        ninesquare4 = new NinesquareField(puzzle);
+        ninesquare5 = new NinesquareField(puzzle);
+        this.setPreferredSize(new Dimension(900, 900));
+        this.setBackground(new Color(120,120,255));
 
 
     }
@@ -33,42 +29,19 @@ public class SamuraiField extends SudokuField {
         super.paintComponent(g);
         graphics = (Graphics2D) g;
         graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-
         graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));
+
 
         createComponent(graphics);
 
     }
     public void createComponent(Graphics g) {
 
+        int startx = 0;
+        int starty = 0;
         graphics = (Graphics2D) g;
 
-
-        for (int x = 0; x <= this.getWidth(); x += tileWidth) {
-            if ((x / tileWidth) % 3 == 0) {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(x, 0, x, this.getHeight());
-
-            } else {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(x, 0, x, this.getHeight());
-            }
-        }
-
-        for (int y = 0; y <= this.getHeight(); y += tileHeight) {
-
-            if ((y / tileHeight) % 3 == 0) {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(0, y, this.getWidth(), y);
-
-            } else {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(0, y, this.getWidth(), y);
-
-            }
-        }
 
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
@@ -112,12 +85,66 @@ public class SamuraiField extends SudokuField {
                         break;
                 }
 
-                graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);
+                graphics.fillRect(col * tileWidth  , row * tileHeight , tileWidth , tileHeight);
 
                 if (!input.equals("0")) {
                     graphics.setColor(Color.BLACK);
                     graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
 
+                }
+
+                for (int fieldnumber = 0; fieldnumber < 5; fieldnumber++) {
+
+                    switch (fieldnumber) {
+                        case 0:
+                            startx = 0;
+                            starty = 0;
+                            break;
+                        case 1:
+                            startx = tileWidth * 12;
+                            starty = 0;
+                            break;
+                        case 2:
+                            startx = tileWidth * 6;
+                            starty = tileHeight * 6;
+                            break;
+                        case 3:
+                            startx = 0;
+                            starty = tileHeight * 12;
+                            break;
+                        case 4:
+                            startx = tileWidth * 12;
+                            starty = tileHeight * 12;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    g.setColor(Color.black);
+
+                    for (int x = startx; x <= startx  +  (tileWidth * 9); x += tileWidth) {
+                        if ((x / tileWidth) % 3 == 0) {
+                            graphics.setStroke(new BasicStroke(4));
+                            graphics.drawLine(x, starty, x, tileHeight * 9 + starty);
+
+                        } else {
+                            graphics.setStroke(new BasicStroke(1));
+                            graphics.drawLine(x, starty, x, tileHeight * 9 + starty);
+                        }
+                    }
+
+                    for (int y = starty;  y <= starty + (tileHeight * 9); y += tileHeight) {
+
+                        if ((y / tileHeight) % 3 == 0) {
+                            graphics.setStroke(new BasicStroke(4));
+                            graphics.drawLine(startx, y, tileWidth * 9 + startx, y);
+
+                        } else {
+                            graphics.setStroke(new BasicStroke(1));
+                            graphics.drawLine(startx, y, tileWidth * 9 + startx, y);
+
+                        }
+                    }
                 }
 
             }
