@@ -28,4 +28,10 @@ public abstract class Puzzle {
     public abstract int getColor(int row, int col);
 
     public abstract void setEntry(int selectedRow, int selectedCol, int entry);
+
+    public abstract Tile [] getRow(int ninesquare, int row);
+
+    public abstract Tile [] getCol(int ninesquare, int col);
+
+    public abstract Tile [] getArea(int ninesquare, int row, int col);
 }

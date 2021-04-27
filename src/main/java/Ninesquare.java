@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Ninesquare extends Puzzle {
     private Tile[][] content;
@@ -48,6 +49,74 @@ public class Ninesquare extends Puzzle {
     public void setEntry(int row, int col, int entry) {
         content[row][col].setEntry(entry);
     }
+
+    @Override
+    public Tile[] getRow(int ninesquare, int row) {
+        Tile [] tiles = new Tile [9];
+        for (int i = 0; i < 9 ; i++) {
+            tiles [i] = content [row][i];
+        }
+        return tiles ;
+    }
+
+    @Override
+    public Tile[] getCol(int ninesquare, int col) {
+        Tile [] tiles = new Tile [9];
+        for (int i = 0; i < 9 ; i++) {
+            tiles [i] = content [i][col];
+        }
+        return tiles ;
+    }
+
+    @Override
+    public Tile[] getArea(int ninesquare, int row, int col) {
+        Tile [] tiles = new Tile [9];
+        int cnt = 0;
+        for (int r = 0; r < 9; r++){
+            for (int c = 0; c < 9; c++) {
+                if (getColor(r,c) == getColor(row, col)) {
+                    tiles[cnt] = content[r][c];
+                    cnt++;
+                    if (cnt >= 9) break;
+                }
+            }
+        }
+        return tiles ;
+    }
+
+    public void checkConflicts(int row, int col){
+        checkConflicts(getRow(0,row));
+        checkConflicts(getCol(0, col));
+        checkConflicts(getArea(0,row, col));
+    }
+
+    private void checkConflicts(Tile[] tiles){
+        tiles = sortTiles(tiles);
+
+        tiles[0].setConflicted(false);
+        for (int i = 0; i < 8; i++) {
+            if (tiles[i].getEntry() > 0 && tiles[i].getEntry() == tiles[i + 1].getEntry()) {
+                tiles[i].setConflicted(true);
+                tiles[i+1].setConflicted(true);
+            } else {
+                tiles[i+1].setConflicted(false);
+            }
+        }
+    }
+
+    private Tile [] sortTiles(Tile [] t){
+        for (int i = 0; i < t.length-1; i++){
+            for (int j = i+1;  j < t.length; j++){
+                if ((t[i].isFilled()) && (t[i].getEntry() > t[j].getEntry())){
+                    Tile temp = t[i];
+                    t[i] = t[j];
+                    t[j] = temp;
+                }
+            }
+        }
+        return t;
+    }
+
 
     public int getInput (int row, int col) { return content[row][col].getEntry(); }
 
