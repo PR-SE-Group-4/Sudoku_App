@@ -6,7 +6,7 @@ public class Ninesquare extends Puzzle {
 
     //dummy Konstruktor
     Ninesquare() {
-        super("dummy", Difficulty.EASY, Type.CLASSIC, false, "dummystring");
+        super("dummy", Difficulty.EASY, Type.CLASSIC, false, 0, "dummystring");
         content = new Tile[9][9];
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
@@ -20,8 +20,8 @@ public class Ninesquare extends Puzzle {
     }
 
     // "normal" constructor - gets content as string, builds Tile-array
-    public Ninesquare (String name, Difficulty difficulty, Type type, boolean solved, String contentString) {
-        super(name, difficulty, type, solved, contentString);
+    public Ninesquare (String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {
+        super(name, difficulty, type, solved, timeUsed, contentString);
         //Parser
         content = new Tile[9][9];
         System.out.println(contentString);
@@ -37,21 +37,43 @@ public class Ninesquare extends Puzzle {
         }
     }
 
+    @Override
+    public Tile getTile(int nsqFieldNr, int row, int col) {
+        return getTile(row, col);
+    }
 
+    @Override
     public Tile getTile(int row, int col) {
         return content[row][col];
     }
 
+    @Override
+    public int getColor(int nsqFieldNr, int row, int col) {
+        return getColor(row, col);
+    }
+
+    @Override
     public int getColor(int row, int col) {
         return content[row][col].getColor();
     }
 
+    @Override
+    public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
+        setEntry(selectedRow, selectedCol, entry);
+    }
+
+    @Override
     public void setEntry(int row, int col, int entry) {
         content[row][col].setEntry(entry);
     }
 
     @Override
-    public Tile[] getRow(int ninesquare, int row) {
+    public Tile[] getRow(int nsqFieldNr, int row) {
+        return getRow(row);
+    }
+
+    @Override
+    public Tile[] getRow(int row) {
         Tile [] tiles = new Tile [9];
         for (int i = 0; i < 9 ; i++) {
             tiles [i] = content [row][i];
@@ -60,7 +82,12 @@ public class Ninesquare extends Puzzle {
     }
 
     @Override
-    public Tile[] getCol(int ninesquare, int col) {
+    public Tile[] getCol(int nsqFieldNr, int col) {
+        return getCol(col);
+    }
+
+    @Override
+    public Tile[] getCol(int col) {
         Tile [] tiles = new Tile [9];
         for (int i = 0; i < 9 ; i++) {
             tiles [i] = content [i][col];
@@ -70,6 +97,11 @@ public class Ninesquare extends Puzzle {
 
     @Override
     public Tile[] getArea(int ninesquare, int row, int col) {
+        return getArea(row, col);
+    }
+
+    @Override
+    public Tile[] getArea(int row, int col) {
         Tile [] tiles = new Tile [9];
         int cnt = 0;
         for (int r = 0; r < 9; r++){
@@ -116,9 +148,6 @@ public class Ninesquare extends Puzzle {
         }
         return t;
     }
-
-
-    public int getInput (int row, int col) { return content[row][col].getEntry(); }
 
     @Override
     public String toString() {

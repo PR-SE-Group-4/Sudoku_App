@@ -53,7 +53,7 @@ public class Loader {
     }
 
 
-    public static Ninesquare loadPuzzle(int nrOfFile) throws Exception {
+    public static Puzzle loadPuzzle(int nrOfFile) throws Exception {
         files = getFiles();
         FileReader fileReader = new FileReader(files[nrOfFile]);
 
@@ -61,6 +61,7 @@ public class Loader {
         Difficulty difficulty = null;
         Type type = null;
         boolean solved = true;
+        int timeUsed = 0;
         String contentString = "";
 
         int i;
@@ -72,20 +73,27 @@ public class Loader {
                 switch (stage) {
                     case 0: // first block: difficulty
                         difficulty = Difficulty.valueOf(sb.toString());
+                        System.out.println(difficulty);
                         break;
                     case 1: // second: Type of Puzzle
                         type = Type.valueOf(sb.toString());
+                        System.out.println(type);
                         break;
                     case 2: // third: solved
                         if (sb.toString() == "true")
                             solved = true;
                         else
                             solved = false;
+                        System.out.println(solved);
                         break;
-                    case 3: //fourth: contentstring
+                    case 3: //fourth: timeUsed
+                        timeUsed = Integer.parseInt(sb.toString());
+                        System.out.println(timeUsed);
+                        break;
+                    case 4: // fifth: ContentString
                         contentString = sb.toString();
+                        System.out.println(contentString);
                         break;
-
                     default:
                         throw new Exception();
                 }
@@ -96,10 +104,12 @@ public class Loader {
             }
         }
 
-        // TODO: die Samurai Rückgabe;
         if (contentString.length() == 324) {
-            return new Ninesquare(name, difficulty, type, solved, contentString);
+            return new Ninesquare(name, difficulty, type, solved, timeUsed, contentString);
+        } else if (contentString.length() == 1624) {
+            return new Samurai(name, difficulty, type, solved, timeUsed, contentString);
         } else {
+            System.out.println(contentString.length());
             throw new Exception();
         }
 
