@@ -8,6 +8,8 @@ public abstract class Puzzle {
     private String contentString;
 
 
+
+
     public Puzzle() {
         this.name = "dummy";
         this.difficulty = Difficulty.EASY;
@@ -41,6 +43,10 @@ public abstract class Puzzle {
     public abstract Tile [] getCol(int col);
 
     public abstract Tile [] getArea(int nsqFieldNr, int row, int col);
-
     public abstract Tile [] getArea(int row, int col);
+
+    public Type getType() {
+        return type;
+    }
+
 }

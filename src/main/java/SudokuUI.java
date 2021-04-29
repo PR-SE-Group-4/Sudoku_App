@@ -6,8 +6,7 @@ public class SudokuUI implements ActionListener {
 
     private JFrame frame;
     private Ninesquare ninesquare;
-    private NinesquareField sudokufield;
-    private SamuraiField samuraiField;
+    private SudokuField sudokufield;
     private JPanel sudokuPanel;
     private Puzzle puzzle;
     private static final Font FONT = new Font("Arial", Font.BOLD,20);
@@ -20,9 +19,12 @@ public class SudokuUI implements ActionListener {
         final Container container = this.frame.getContentPane();
         container.setLayout(new BorderLayout(1, 5));
 
+        if (puzzle.getType() == Type.SAMURAI) {
+            this.sudokufield = new SamuraiField(puzzle);
+        } else if (puzzle.getType() == Type.CLASSIC) {
+            this.sudokufield = new NinesquareField(puzzle);
+        }
 
-        this.sudokufield = new NinesquareField(puzzle);
-        this.samuraiField = new SamuraiField(puzzle);
 
 
         sudokuPanel = new JPanel();
@@ -30,7 +32,7 @@ public class SudokuUI implements ActionListener {
         sudokuPanel.setLayout(new FlowLayout());
         sudokuPanel.setBackground(new Color(120,120,255));
 
-        sudokuPanel.add(samuraiField);
+        sudokuPanel.add(sudokufield);
         sudokuPanel.setLocation(10,10);
 
         container.add(sudokuPanel);
@@ -90,10 +92,9 @@ public class SudokuUI implements ActionListener {
         JMenuItem samurai = new JMenuItem("Samurai");
         JMenuItem close = new JMenuItem("Schließen");
 
-        samurai.addActionListener(a -> {
-            SamuraiField samuraiField = new SamuraiField(puzzle);
 
-        });
+
+
 
         game.add(newgame);
         game.add(load);

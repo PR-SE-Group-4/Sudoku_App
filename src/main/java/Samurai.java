@@ -7,7 +7,6 @@ public class Samurai extends Puzzle{
         super(name, difficulty, type, solved, timeUsed, contentString);
         //Parser
         ninesquares = new Ninesquare[5];
-        System.out.println(contentString);
         String partString;
         for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) {
             partString = contentString.substring(0+nsqFieldNr*325, 324+nsqFieldNr*325);

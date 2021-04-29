@@ -9,7 +9,8 @@ public class App {
 
         setup();
         Puzzle puzzle = Loader.loadPuzzle(1);
- //       SudokuUI sudokuUI = new SudokuUI(puzzle);
+
+        SudokuUI sudokuUI = new SudokuUI(puzzle);
         System.out.println(puzzle);
     }
 
