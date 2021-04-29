@@ -1,11 +1,11 @@
 public abstract class Puzzle {
 
-    private final String name;
-    private final Difficulty difficulty;
-    private final Type type;
-    private boolean solved;
-    private int timeUsed;
-    private String contentString;
+    protected final String name;
+    protected final Difficulty difficulty;
+    protected final Type type;
+    protected boolean solved;
+    protected int timeUsed;
+    protected String contentString;
 
 
 
@@ -45,8 +45,12 @@ public abstract class Puzzle {
     public abstract Tile [] getArea(int nsqFieldNr, int row, int col);
     public abstract Tile [] getArea(int row, int col);
 
+    public int getTimeUsed() { return timeUsed; }
+
     public Type getType() {
         return type;
     }
+
+    public abstract String export();
 
 }

@@ -118,6 +118,20 @@ public class Samurai extends Puzzle{
         return new Tile[0];
     }
 
+    @Override
+    public String export() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(difficulty).append(";").append(type).append(";");
+        sb.append(solved).append(";").append(String.format("%06d", timeUsed)).append(";");
+        for (Ninesquare i : ninesquares) {
+            sb.append(i.exportContentString());
+            sb.append("x");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append(";");
+        return sb.toString();
+
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();

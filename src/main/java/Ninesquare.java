@@ -163,11 +163,18 @@ public class Ninesquare extends Puzzle {
 
     public String export() {
         StringBuilder sb = new StringBuilder();
+        sb.append(difficulty).append(";").append(type).append(";");
+        sb.append(solved).append(";").append(String.format("%06d", timeUsed)).append(";");
+        sb.append(exportContentString());
+        sb.append(";");
+        return sb.toString();
+    }
+    public String exportContentString() {
+        StringBuilder sb = new StringBuilder();
         for (Tile[] i : content) {
             for (Tile j : i) {
                 sb.append(j.export()).append("-");
             }
-            //    sb.append("_");
         }
         return sb.toString();
     }
