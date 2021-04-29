@@ -13,11 +13,6 @@ public class SamuraiField extends SudokuField {
 
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
-        ninesquare1 = new NinesquareField(puzzle);
-        ninesquare2 = new NinesquareField(puzzle);
-        ninesquare3 = new NinesquareField(puzzle);
-        ninesquare4 = new NinesquareField(puzzle);
-        ninesquare5 = new NinesquareField(puzzle);
         this.setPreferredSize(new Dimension(900, 900));
         this.setBackground(new Color(120,120,255));
 
@@ -43,12 +38,39 @@ public class SamuraiField extends SudokuField {
         graphics = (Graphics2D) g;
 
 
+        for (int fieldnumber = 0; fieldnumber < 5; fieldnumber++) {
+
+            switch (fieldnumber) {
+                case 0:
+                    startx = 0;
+                    starty = 0;
+                    break;
+                case 1:
+                    startx = tileWidth * 12;
+                    starty = 0;
+                    break;
+                case 2:
+                    startx = tileWidth * 6;
+                    starty = tileHeight * 6;
+                    break;
+                case 3:
+                    startx = 0;
+                    starty = tileHeight * 12;
+                    break;
+                case 4:
+                    startx = tileWidth * 12;
+                    starty = tileHeight * 12;
+                    break;
+                default:
+                    break;
+            }
+
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
-                String input = String.valueOf(puzzle.getTile(row, col).getEntry());
+                String input = String.valueOf(puzzle.getTile(fieldnumber, row, col).getEntry());
 
                 Graphics2D coloredtile = (Graphics2D) g;
-                int square = puzzle.getColor(row, col);
+                int square = puzzle.getColor(fieldnumber, row, col);
 
                 switch (square) {
                     case 0:
@@ -93,32 +115,7 @@ public class SamuraiField extends SudokuField {
 
                 }
 
-                for (int fieldnumber = 0; fieldnumber < 5; fieldnumber++) {
 
-                    switch (fieldnumber) {
-                        case 0:
-                            startx = 0;
-                            starty = 0;
-                            break;
-                        case 1:
-                            startx = tileWidth * 12;
-                            starty = 0;
-                            break;
-                        case 2:
-                            startx = tileWidth * 6;
-                            starty = tileHeight * 6;
-                            break;
-                        case 3:
-                            startx = 0;
-                            starty = tileHeight * 12;
-                            break;
-                        case 4:
-                            startx = tileWidth * 12;
-                            starty = tileHeight * 12;
-                            break;
-                        default:
-                            break;
-                    }
 
                     g.setColor(Color.black);
 
