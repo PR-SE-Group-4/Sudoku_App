@@ -1,6 +1,9 @@
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class SudokuListener extends MouseInputAdapter implements KeyListener, ActionListener {
 
@@ -23,7 +26,12 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        value = Integer.valueOf(((JButton) e.getSource()).getText());
+        BufferedReader num = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            value = Integer.parseInt(num.readLine());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
 
         sudokuField.inputActionListener(x, y, value);
     }

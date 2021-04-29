@@ -107,11 +107,11 @@ public class SamuraiField extends SudokuField {
                         break;
                 }
 
-                graphics.fillRect(col * tileWidth  , row * tileHeight , tileWidth , tileHeight);
+                graphics.fillRect(startx + col * tileWidth , starty + row * tileHeight, tileWidth , tileHeight);
 
                 if (!input.equals("0")) {
                     graphics.setColor(Color.BLACK);
-                    graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
+                    graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
 
                 }
 
