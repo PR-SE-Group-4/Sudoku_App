@@ -8,7 +8,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         setup();
-        Puzzle puzzle = Loader.loadPuzzle(1);
+        Puzzle puzzle = Loader.loadPuzzle(0);
 
         SudokuUI sudokuUI = new SudokuUI(puzzle);
         System.out.println(puzzle);
