@@ -28,22 +28,18 @@ public abstract class Puzzle {
     }
 
     public abstract Tile getTile(int nsqFieldNr, int row, int col);
-    public abstract Tile getTile(int row, int col);
 
     public abstract int getColor(int nsqFieldNr, int row, int col);
-    public abstract int getColor(int row, int col);
 
     public abstract void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry);
-    public abstract void setEntry(int selectedRow, int selectedCol, int entry);
+
+    public abstract void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol);
 
     public abstract Tile [] getRow(int nsqFieldNr, int row);
-    public abstract Tile [] getRow(int row);
 
     public abstract Tile [] getCol(int nsqFieldNr, int col);
-    public abstract Tile [] getCol(int col);
 
     public abstract Tile [] getArea(int nsqFieldNr, int row, int col);
-    public abstract Tile [] getArea(int row, int col);
 
     public int getTimeUsed() { return timeUsed; }
 

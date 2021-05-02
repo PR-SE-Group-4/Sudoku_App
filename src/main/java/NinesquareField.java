@@ -78,7 +78,7 @@ public class NinesquareField extends SudokuField {
                 String input = String.valueOf(puzzle.getTile(99, row, col).getEntry());
 
                 Graphics2D coloredtile = (Graphics2D) g;
-                int square = puzzle.getColor(row, col);
+                int square = puzzle.getColor(99,row, col);
 
                 switch (square) {
                     case 0:
@@ -133,7 +133,7 @@ public class NinesquareField extends SudokuField {
         selectedCol = x / tileWidth;
         selectedRow = y / tileHeight;
         if (selectedCol != -1 && selectedRow != -1) {
-            puzzle.setEntry(selectedRow, selectedCol, value);
+            puzzle.setEntry(99,selectedRow, selectedCol, value);
             repaint();
         }
     }

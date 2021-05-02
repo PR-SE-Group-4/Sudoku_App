@@ -17,13 +17,7 @@ public class Samurai extends Puzzle{
 
     @Override
     public Tile getTile(int nsqFieldNr, int row, int col) {
-        return ninesquares[nsqFieldNr].getTile(row, col);
-    }
-
-    //TODO ALTLAST
-    @Override
-    public Tile getTile(int row, int col) {
-        return null;
+        return ninesquares[nsqFieldNr].getTile(99, row, col);
     }
 
     @Override
@@ -31,16 +25,15 @@ public class Samurai extends Puzzle{
         return ninesquares[nsqFieldNr].getColor(99, row, col);
     }
 
-    //TODO ALTLAST
-    @Override
-    public int getColor(int row, int col) {
-        return 0;
-    }
-
     @Override
     public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
         ninesquares[nsqFieldNr].setEntry(99, selectedRow, selectedCol, entry);
         fillOverlap(nsqFieldNr, selectedRow, selectedCol, entry);
+    }
+
+    @Override
+    public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
+        ninesquares[nsqFieldNr].deleteEntry(99, selectedRow, selectedCol);
     }
 
     // SAMURAI EXCLUSIVE: adds entry to another ninesquare involved
@@ -80,20 +73,9 @@ public class Samurai extends Puzzle{
         }
     }
 
-    //TODO ALTLAST
-    @Override
-    public void setEntry(int selectedRow, int selectedCol, int entry) {
-    }
-
     @Override
     public Tile[] getRow(int nsqFieldNr, int row) {
         return ninesquares[nsqFieldNr].getRow(99, row);
-    }
-
-    //TODO ALTLAST
-    @Override
-    public Tile[] getRow(int row) {
-        return new Tile[0];
     }
 
     @Override
@@ -101,21 +83,9 @@ public class Samurai extends Puzzle{
         return ninesquares[nsqFieldNr].getCol(99, col);
     }
 
-    //TODO ALTLAST
-    @Override
-    public Tile[] getCol(int col) {
-        return new Tile[0];
-    }
-
     @Override
     public Tile[] getArea(int nsqFieldNr, int row, int col) {
         return ninesquares[nsqFieldNr].getArea(99, row, col);
-    }
-
-    //TODO ALTLAST
-    @Override
-    public Tile[] getArea(int row, int col) {
-        return new Tile[0];
     }
 
     @Override
@@ -141,8 +111,6 @@ public class Samurai extends Puzzle{
         }
         return sb.toString();
     }
-
-    //TODO: checkConflicts, sortTiles,
 
 
 
