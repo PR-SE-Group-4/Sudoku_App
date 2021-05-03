@@ -77,7 +77,7 @@ public class Ninesquare extends Puzzle {
     }
 
     @Override
-    public Tile[] getArea(int ninesquare, int row, int col) {
+    public Tile[] getArea(int nsqFieldNr, int row, int col) {
         Tile [] tiles = new Tile [9];
         int cnt = 0;
         for (int r = 0; r < 9; r++){
@@ -94,13 +94,25 @@ public class Ninesquare extends Puzzle {
 
 
     private void checkConflicts(int row, int col){
+        System.out.println ("Check Conflicts: " + row + "--" + col);
         checkConflicts(getRow(0,row));
         checkConflicts(getCol(0, col));
         checkConflicts(getArea(0,row, col));
     }
 
     private void checkConflicts(Tile[] tiles){
+        System.out.println(" ");
+        System.out.println("UnsortedTiles: ");
+        for (Tile t: tiles){
+            System.out.print(t.getEntry() + " ");
+        }
+        System.out.println(" ");
+
         tiles = sortTiles(tiles);
+        System.out.println("sorted Tiles: ");
+        for (Tile t: tiles){
+            System.out.print(t.getEntry() + " ");
+        }
 
         tiles[0].setConflicted(false);
         for (int i = 0; i < 8; i++) {
@@ -116,7 +128,7 @@ public class Ninesquare extends Puzzle {
     private Tile [] sortTiles(Tile [] t){
         for (int i = 0; i < t.length-1; i++){
             for (int j = i+1;  j < t.length; j++){
-                if ((t[i].isFilled()) && (t[i].getEntry() > t[j].getEntry())){
+                if (t[i].getEntry() > t[j].getEntry()){
                     Tile temp = t[i];
                     t[i] = t[j];
                     t[j] = temp;
