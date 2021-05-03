@@ -34,6 +34,7 @@ public class Samurai extends Puzzle{
     @Override
     public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
         ninesquares[nsqFieldNr].deleteEntry(99, selectedRow, selectedCol);
+        clearOverlap(nsqFieldNr, selectedRow, selectedCol);
     }
 
     // SAMURAI EXCLUSIVE: adds entry to another ninesquare involved
@@ -70,6 +71,43 @@ public class Samurai extends Puzzle{
                 selectedRow < 3 &&
                 selectedCol < 3) { // lower right 9sq, upper left corner
             ninesquares[0].setEntry(99, selectedRow+6, selectedCol+6, entry);
+        }
+    }
+
+    // SAMURAI EXCLUSIVE: deletes entry from another ninesquare involved
+    private void clearOverlap(int nsqFieldNr, int selectedRow, int selectedCol){
+        if (nsqFieldNr == 0 &&
+                selectedRow >= 6 &&
+                selectedCol >= 6) { // upper left 9sq, lower right corner
+            ninesquares[2].deleteEntry(99, selectedRow-6, selectedCol-6);
+        } else if (nsqFieldNr == 1 &&
+                selectedRow >= 6 &&
+                selectedCol < 3) {  // upper right 9sq, lower left corner
+            ninesquares[2].deleteEntry(99, selectedRow-6, selectedCol+6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow < 3 &&
+                selectedCol < 3) { // central 9sq, upper left corner
+            ninesquares[0].deleteEntry(99, selectedRow+6, selectedCol+6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow < 3 &&
+                selectedCol >= 6) { // central 9sq, upper right corner
+            ninesquares[1].deleteEntry(99, selectedRow+6, selectedCol-6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow >= 6 &&
+                selectedCol < 3) { // central 9sq, lower left corner
+            ninesquares[3].deleteEntry(99, selectedRow-6, selectedCol+6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow >= 6 &&
+                selectedCol >= 6) { // central 9sq, lower right corner
+            ninesquares[4].deleteEntry(99, selectedRow-6, selectedCol-6);
+        } else if (nsqFieldNr == 3 &&
+                selectedRow < 3 &&
+                selectedCol >= 6) { // lower left 9sq, upper right corner
+            ninesquares[2].deleteEntry(99, selectedRow+6, selectedCol-6);
+        } else if (nsqFieldNr == 4 &&
+                selectedRow < 3 &&
+                selectedCol < 3) { // lower right 9sq, upper left corner
+            ninesquares[0].deleteEntry(99, selectedRow+6, selectedCol+6);
         }
     }
 
