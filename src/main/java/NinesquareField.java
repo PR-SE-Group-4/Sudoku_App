@@ -133,7 +133,7 @@ public class NinesquareField extends SudokuField {
         selectedCol = x / tileWidth;
         selectedRow = y / tileHeight;
         if (selectedCol != -1 && selectedRow != -1) {
-            puzzle.setEntry(selectedRow, selectedCol, value);
+            puzzle.setEntry(99, selectedRow, selectedCol, value);
             repaint();
         }
     }
