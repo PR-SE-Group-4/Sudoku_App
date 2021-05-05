@@ -1,6 +1,6 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+package app;
+
+import model.Puzzle;
 
 
 public class App {
@@ -10,7 +10,7 @@ public class App {
         Loader.setup();
         Puzzle puzzle = Loader.loadPuzzle(0);
 
-        SudokuUI sudokuUI = new SudokuUI(puzzle);
+        view.SudokuUI sudokuUI = new view.SudokuUI(puzzle);
         System.out.println(puzzle);
         System.out.println(puzzle.export());
     }

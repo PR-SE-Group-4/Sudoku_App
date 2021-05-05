@@ -1,3 +1,5 @@
+package model;
+
 public class Tile {
     private final boolean changeable;
     private boolean filled;

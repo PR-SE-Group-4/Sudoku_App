@@ -1,3 +1,9 @@
+package view;
+
+import model.Type;
+import model.Ninesquare;
+import model.Puzzle;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -92,7 +98,7 @@ public class SudokuUI implements ActionListener {
         });
 
         JMenuItem freiform = new JMenuItem("Freiform");
-        JMenuItem samurai = new JMenuItem("Samurai");
+        JMenuItem samurai = new JMenuItem("model.Samurai");
         JMenuItem close = new JMenuItem("Schließen");
 
 

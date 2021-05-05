@@ -1,4 +1,7 @@
-import javax.swing.*;
+package view;
+
+import model.Puzzle;
+
 import java.awt.*;
 
 

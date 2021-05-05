@@ -1,3 +1,5 @@
+package model;
+
 public class Samurai extends Puzzle{
 
     private Ninesquare[] ninesquares;

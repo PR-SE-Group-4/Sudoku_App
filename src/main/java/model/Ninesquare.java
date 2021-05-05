@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package model;
 
 public class Ninesquare extends Puzzle {
     private Tile[][] content;
@@ -19,7 +19,7 @@ public class Ninesquare extends Puzzle {
         }
     }
 
-    // "normal" constructor - gets content as string, builds Tile-array
+    // "normal" constructor - gets content as string, builds model.Tile-array
     public Ninesquare (String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {
         super(name, difficulty, type, solved, timeUsed, contentString);
         //Parser

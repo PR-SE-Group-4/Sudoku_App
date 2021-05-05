@@ -1,3 +1,7 @@
+package app;
+
+import model.*;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -111,7 +115,7 @@ public class Loader {
                         difficulty = Difficulty.valueOf(sb.toString());
                         System.out.println(difficulty);
                         break;
-                    case 1: // second: Type of Puzzle
+                    case 1: // second: model.Type of model.Puzzle
                         type = Type.valueOf(sb.toString());
                         System.out.println(type);
                         break;
@@ -152,7 +156,7 @@ public class Loader {
     }
 
     // ---------------------------------------------------------
-    // -- save a Puzzle to disc after playing ------------------
+    // -- save a model.Puzzle to disc after playing ------------------
     // ---------------------------------------------------------
 
     // TODO

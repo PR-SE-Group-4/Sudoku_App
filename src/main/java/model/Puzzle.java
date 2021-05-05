@@ -1,3 +1,5 @@
+package model;
+
 public abstract class Puzzle {
 
     protected final String name;

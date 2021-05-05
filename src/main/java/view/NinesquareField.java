@@ -1,6 +1,8 @@
+package view;
+
+import model.Puzzle;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 
 public class NinesquareField extends SudokuField {
 

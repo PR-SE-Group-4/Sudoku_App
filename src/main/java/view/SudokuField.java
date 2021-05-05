@@ -1,14 +1,18 @@
+package view;
+
+import model.Puzzle;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SudokuField extends JPanel {
 
-    Puzzle puzzle;
-    Graphics2D graphics;
-    int selectedCol;
-    int selectedRow;
-    int tileWidth = 40;
-    int tileHeight = 40;
+    protected Puzzle puzzle;
+    protected Graphics2D graphics;
+    protected int selectedCol;
+    protected int selectedRow;
+    protected int tileWidth = 40;
+    protected int tileHeight = 40;
 
 
 
