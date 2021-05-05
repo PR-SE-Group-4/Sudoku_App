@@ -39,41 +39,27 @@ public class Ninesquare extends Puzzle {
 
     @Override
     public Tile getTile(int nsqFieldNr, int row, int col) {
-        return getTile(row, col);
-    }
-
-    @Override
-    public Tile getTile(int row, int col) {
         return content[row][col];
     }
 
     @Override
-    public int getColor(int nsqFieldNr, int row, int col) {
-        return getColor(row, col);
-    }
-
-    @Override
-    public int getColor(int row, int col) {
-        return content[row][col].getColor();
+    public int getColor(int nsqFieldNr, int row, int col) {return content[row][col].getColor();
     }
 
     @Override
     public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
-        setEntry(selectedRow, selectedCol, entry);
+        content[selectedRow][selectedCol].setEntry(entry);
+        checkConflicts (selectedRow, selectedCol);
     }
 
     @Override
-    public void setEntry(int row, int col, int entry) {
-        content[row][col].setEntry(entry);
+    public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
+        content[selectedRow][selectedCol].empty();
+        checkConflicts(selectedRow, selectedCol);
     }
 
     @Override
     public Tile[] getRow(int nsqFieldNr, int row) {
-        return getRow(row);
-    }
-
-    @Override
-    public Tile[] getRow(int row) {
         Tile [] tiles = new Tile [9];
         for (int i = 0; i < 9 ; i++) {
             tiles [i] = content [row][i];
@@ -83,11 +69,6 @@ public class Ninesquare extends Puzzle {
 
     @Override
     public Tile[] getCol(int nsqFieldNr, int col) {
-        return getCol(col);
-    }
-
-    @Override
-    public Tile[] getCol(int col) {
         Tile [] tiles = new Tile [9];
         for (int i = 0; i < 9 ; i++) {
             tiles [i] = content [i][col];
@@ -96,17 +77,12 @@ public class Ninesquare extends Puzzle {
     }
 
     @Override
-    public Tile[] getArea(int ninesquare, int row, int col) {
-        return getArea(row, col);
-    }
-
-    @Override
-    public Tile[] getArea(int row, int col) {
+    public Tile[] getArea(int nsqFieldNr, int row, int col) {
         Tile [] tiles = new Tile [9];
         int cnt = 0;
         for (int r = 0; r < 9; r++){
             for (int c = 0; c < 9; c++) {
-                if (getColor(r,c) == getColor(row, col)) {
+                if (getColor(99,r,c) == getColor(99,row, col)) {
                     tiles[cnt] = content[r][c];
                     cnt++;
                     if (cnt >= 9) break;
@@ -116,14 +92,27 @@ public class Ninesquare extends Puzzle {
         return tiles ;
     }
 
-    public void checkConflicts(int row, int col){
+
+    private void checkConflicts(int row, int col){
+        System.out.println ("Check Conflicts: " + row + "--" + col);
         checkConflicts(getRow(0,row));
         checkConflicts(getCol(0, col));
         checkConflicts(getArea(0,row, col));
     }
 
     private void checkConflicts(Tile[] tiles){
+        System.out.println(" ");
+        System.out.println("UnsortedTiles: ");
+        for (Tile t: tiles){
+            System.out.print(t.getEntry() + " ");
+        }
+        System.out.println(" ");
+
         tiles = sortTiles(tiles);
+        System.out.println("sorted Tiles: ");
+        for (Tile t: tiles){
+            System.out.print(t.getEntry() + " ");
+        }
 
         tiles[0].setConflicted(false);
         for (int i = 0; i < 8; i++) {
@@ -139,7 +128,7 @@ public class Ninesquare extends Puzzle {
     private Tile [] sortTiles(Tile [] t){
         for (int i = 0; i < t.length-1; i++){
             for (int j = i+1;  j < t.length; j++){
-                if ((t[i].isFilled()) && (t[i].getEntry() > t[j].getEntry())){
+                if (t[i].getEntry() > t[j].getEntry()){
                     Tile temp = t[i];
                     t[i] = t[j];
                     t[j] = temp;
@@ -163,11 +152,18 @@ public class Ninesquare extends Puzzle {
 
     public String export() {
         StringBuilder sb = new StringBuilder();
+        sb.append(difficulty).append(";").append(type).append(";");
+        sb.append(solved).append(";").append(String.format("%06d", timeUsed)).append(";");
+        sb.append(exportContentString());
+        sb.append(";");
+        return sb.toString();
+    }
+    public String exportContentString() {
+        StringBuilder sb = new StringBuilder();
         for (Tile[] i : content) {
             for (Tile j : i) {
                 sb.append(j.export()).append("-");
             }
-            //    sb.append("_");
         }
         return sb.toString();
     }

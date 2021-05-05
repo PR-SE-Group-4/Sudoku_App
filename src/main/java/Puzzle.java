@@ -1,11 +1,11 @@
 public abstract class Puzzle {
 
-    private final String name;
-    private final Difficulty difficulty;
-    private final Type type;
-    private boolean solved;
-    private int timeUsed;
-    private String contentString;
+    protected final String name;
+    protected final Difficulty difficulty;
+    protected final Type type;
+    protected boolean solved;
+    protected int timeUsed;
+    protected String contentString;
 
 
 
@@ -28,25 +28,25 @@ public abstract class Puzzle {
     }
 
     public abstract Tile getTile(int nsqFieldNr, int row, int col);
-    public abstract Tile getTile(int row, int col);
 
     public abstract int getColor(int nsqFieldNr, int row, int col);
-    public abstract int getColor(int row, int col);
 
     public abstract void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry);
-    public abstract void setEntry(int selectedRow, int selectedCol, int entry);
+
+    public abstract void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol);
 
     public abstract Tile [] getRow(int nsqFieldNr, int row);
-    public abstract Tile [] getRow(int row);
 
     public abstract Tile [] getCol(int nsqFieldNr, int col);
-    public abstract Tile [] getCol(int col);
 
     public abstract Tile [] getArea(int nsqFieldNr, int row, int col);
-    public abstract Tile [] getArea(int row, int col);
+
+    public int getTimeUsed() { return timeUsed; }
 
     public Type getType() {
         return type;
     }
+
+    public abstract String export();
 
 }

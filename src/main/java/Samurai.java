@@ -17,13 +17,7 @@ public class Samurai extends Puzzle{
 
     @Override
     public Tile getTile(int nsqFieldNr, int row, int col) {
-        return ninesquares[nsqFieldNr].getTile(row, col);
-    }
-
-    //TODO ALTLAST
-    @Override
-    public Tile getTile(int row, int col) {
-        return null;
+        return ninesquares[nsqFieldNr].getTile(99, row, col);
     }
 
     @Override
@@ -31,16 +25,16 @@ public class Samurai extends Puzzle{
         return ninesquares[nsqFieldNr].getColor(99, row, col);
     }
 
-    //TODO ALTLAST
-    @Override
-    public int getColor(int row, int col) {
-        return 0;
-    }
-
     @Override
     public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
         ninesquares[nsqFieldNr].setEntry(99, selectedRow, selectedCol, entry);
         fillOverlap(nsqFieldNr, selectedRow, selectedCol, entry);
+    }
+
+    @Override
+    public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
+        ninesquares[nsqFieldNr].deleteEntry(99, selectedRow, selectedCol);
+        clearOverlap(nsqFieldNr, selectedRow, selectedCol);
     }
 
     // SAMURAI EXCLUSIVE: adds entry to another ninesquare involved
@@ -80,9 +74,41 @@ public class Samurai extends Puzzle{
         }
     }
 
-    //TODO ALTLAST
-    @Override
-    public void setEntry(int selectedRow, int selectedCol, int entry) {
+    // SAMURAI EXCLUSIVE: deletes entry from another ninesquare involved
+    private void clearOverlap(int nsqFieldNr, int selectedRow, int selectedCol){
+        if (nsqFieldNr == 0 &&
+                selectedRow >= 6 &&
+                selectedCol >= 6) { // upper left 9sq, lower right corner
+            ninesquares[2].deleteEntry(99, selectedRow-6, selectedCol-6);
+        } else if (nsqFieldNr == 1 &&
+                selectedRow >= 6 &&
+                selectedCol < 3) {  // upper right 9sq, lower left corner
+            ninesquares[2].deleteEntry(99, selectedRow-6, selectedCol+6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow < 3 &&
+                selectedCol < 3) { // central 9sq, upper left corner
+            ninesquares[0].deleteEntry(99, selectedRow+6, selectedCol+6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow < 3 &&
+                selectedCol >= 6) { // central 9sq, upper right corner
+            ninesquares[1].deleteEntry(99, selectedRow+6, selectedCol-6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow >= 6 &&
+                selectedCol < 3) { // central 9sq, lower left corner
+            ninesquares[3].deleteEntry(99, selectedRow-6, selectedCol+6);
+        } else if (nsqFieldNr == 2 &&
+                selectedRow >= 6 &&
+                selectedCol >= 6) { // central 9sq, lower right corner
+            ninesquares[4].deleteEntry(99, selectedRow-6, selectedCol-6);
+        } else if (nsqFieldNr == 3 &&
+                selectedRow < 3 &&
+                selectedCol >= 6) { // lower left 9sq, upper right corner
+            ninesquares[2].deleteEntry(99, selectedRow+6, selectedCol-6);
+        } else if (nsqFieldNr == 4 &&
+                selectedRow < 3 &&
+                selectedCol < 3) { // lower right 9sq, upper left corner
+            ninesquares[0].deleteEntry(99, selectedRow+6, selectedCol+6);
+        }
     }
 
     @Override
@@ -90,21 +116,9 @@ public class Samurai extends Puzzle{
         return ninesquares[nsqFieldNr].getRow(99, row);
     }
 
-    //TODO ALTLAST
-    @Override
-    public Tile[] getRow(int row) {
-        return new Tile[0];
-    }
-
     @Override
     public Tile[] getCol(int nsqFieldNr, int col) {
         return ninesquares[nsqFieldNr].getCol(99, col);
-    }
-
-    //TODO ALTLAST
-    @Override
-    public Tile[] getCol(int col) {
-        return new Tile[0];
     }
 
     @Override
@@ -112,12 +126,20 @@ public class Samurai extends Puzzle{
         return ninesquares[nsqFieldNr].getArea(99, row, col);
     }
 
-    //TODO ALTLAST
     @Override
-    public Tile[] getArea(int row, int col) {
-        return new Tile[0];
-    }
+    public String export() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(difficulty).append(";").append(type).append(";");
+        sb.append(solved).append(";").append(String.format("%06d", timeUsed)).append(";");
+        for (Ninesquare i : ninesquares) {
+            sb.append(i.exportContentString());
+            sb.append("x");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append(";");
+        return sb.toString();
 
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -127,8 +149,6 @@ public class Samurai extends Puzzle{
         }
         return sb.toString();
     }
-
-    //TODO: checkConflicts, sortTiles,
 
 
 
