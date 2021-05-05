@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class SudokuUI implements ActionListener {
 
     private JFrame frame;
@@ -25,8 +26,6 @@ public class SudokuUI implements ActionListener {
             this.sudokufield = new NinesquareField(puzzle);
         }
 
-
-
         sudokuPanel = new JPanel();
 
         sudokuPanel.setLayout(new FlowLayout());
@@ -34,8 +33,9 @@ public class SudokuUI implements ActionListener {
 
         sudokuPanel.add(sudokufield);
         sudokuPanel.setLocation(10,10);
-
+        this.frame.setFocusable(true);
         container.add(sudokuPanel);
+
 
 
         // Add Menu
@@ -59,6 +59,8 @@ public class SudokuUI implements ActionListener {
         JButton help = new JButton("Help");
         JButton exit = new JButton("Exit");
 
+
+
         menupanel.add(load);
         menupanel.add(create);
         menupanel.add(solve);
@@ -70,6 +72,7 @@ public class SudokuUI implements ActionListener {
         this.frame.setVisible(true);
         this.frame.setResizable(true);
         this.frame.pack();
+
 
 
     }

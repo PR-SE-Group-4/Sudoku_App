@@ -14,8 +14,8 @@ public class SudokuField extends JPanel {
 
     public SudokuField(Puzzle puzzle) {
         this.puzzle = puzzle;
-        selectedCol = 0;
-        selectedRow = 0;
+        selectedCol = -1;
+        selectedRow = -1;
 
     }
 
