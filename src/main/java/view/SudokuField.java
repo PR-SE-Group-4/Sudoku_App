@@ -11,8 +11,8 @@ public class SudokuField extends JPanel {
     protected Graphics2D graphics;
     protected int selectedCol;
     protected int selectedRow;
-    protected int tileWidth = 40;
-    protected int tileHeight = 40;
+    protected int tileWidth = 50;
+    protected int tileHeight = 50;
 
 
 
@@ -24,6 +24,7 @@ public class SudokuField extends JPanel {
     }
 
     public void inputActionListener(int x, int y, int value) {
+
 
     }
 }

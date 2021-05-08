@@ -75,6 +75,8 @@ public class Samurai extends Puzzle{
             ninesquares[0].setEntry(99, selectedRow+6, selectedCol+6, entry);
         }
     }
+    
+
 
     // SAMURAI EXCLUSIVE: deletes entry from another ninesquare involved
     private void clearOverlap(int nsqFieldNr, int selectedRow, int selectedCol){

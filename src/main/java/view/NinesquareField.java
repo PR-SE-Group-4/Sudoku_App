@@ -2,6 +2,7 @@ package view;
 
 import model.Puzzle;
 
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class NinesquareField extends SudokuField {
@@ -11,10 +12,10 @@ public class NinesquareField extends SudokuField {
 
     public NinesquareField(Puzzle puzzle) {
         super(puzzle);
-        this.setPreferredSize(new Dimension(360, 360));
+        this.setPreferredSize(new Dimension(tileWidth * 9, tileHeight * 9));
+//        this.setPreferredSize(new Dimension((int) (super.getParent().getBounds().width*0.9), (int) (super.getParent().getBounds().height*0.9)));
         selectedRow = -1;
         selectedCol = -1;
-        this.addMouseListener(new SudokuListener(new SudokuField(puzzle)));
 
 
     }
@@ -132,11 +133,11 @@ public class NinesquareField extends SudokuField {
 
     public void inputActionListener(int x, int y, int value) {
 
+        System.out.println( x + " - " + y + " - " + value);
         selectedCol = x / tileWidth;
         selectedRow = y / tileHeight;
         if (selectedCol != -1 && selectedRow != -1) {
             puzzle.setEntry(99, selectedRow, selectedCol, value);
-            repaint();
         }
     }
 

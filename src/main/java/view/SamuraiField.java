@@ -8,15 +8,9 @@ import java.awt.*;
 
 public class SamuraiField extends SudokuField {
 
-    NinesquareField ninesquare1;
-    NinesquareField ninesquare2;
-    NinesquareField ninesquare3;
-    NinesquareField ninesquare4;
-    NinesquareField ninesquare5;
-
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
-        this.setPreferredSize(new Dimension(900, 900));
+        this.setPreferredSize(new Dimension(super.tileWidth * 21, super.tileHeight * 21));
         this.setBackground(new Color(120,120,255));
 
 
@@ -148,6 +142,77 @@ public class SamuraiField extends SudokuField {
                 }
 
             }
+        }
+
+    }
+
+    public void inputActionListener(int x, int y, int value) {
+
+        setSelectedRowCol(x, y);
+        if (selectedCol != -1 && selectedRow != -1) {
+            System.out.println("field: " + getFieldNr(x,y) + " value " + value + " row " + selectedRow + " col " + selectedCol);
+            puzzle.setEntry( getFieldNr(x, y), selectedRow, selectedCol, value);
+        }
+    }
+
+    public int getFieldNr(int x, int y) {
+        int fieldnr = 99;
+
+        if (x <= getWidth()/7*3 && y <= getHeight()/7*3) {
+            fieldnr = 0;
+        }
+        else if (getWidth()/7*4 < x && x <= getWidth() && y <= getHeight()/7*3) {
+            fieldnr = 1;
+        }
+
+        else if (getWidth()/7*2 < x && x <= getWidth()/7*5 && y >= getHeight()/7*2 && y <= getHeight()/7*5) {
+            fieldnr = 2;
+
+        }
+
+        else if (x < getWidth()/7*3 && y <= getHeight() && y >= getHeight()/7*4) {
+            fieldnr = 3;
+
+        }
+
+        else if (x > getWidth()/7*4 && x < getWidth() && y <= getHeight() && y >= getHeight()/7*4) {
+            fieldnr = 4;
+
+        }
+
+        return fieldnr;
+
+    }
+
+    public void setSelectedRowCol(int x, int y) {
+
+        int fieldnr = getFieldNr(x,y);
+
+        switch (fieldnr) {
+            case 0:
+                selectedCol = x / tileWidth;
+                selectedRow = y / tileHeight;
+
+                break;
+            case 1:
+                selectedCol = (x - getWidth()/7*4) / tileWidth;
+                selectedRow = y / tileHeight;
+                break;
+            case 2:
+                selectedCol = (x - getWidth()/7*2) / tileWidth;
+                selectedRow = (y - getHeight()/7*2) / tileHeight;
+                break;
+            case 3:
+                selectedCol =  x / tileWidth;
+                selectedRow = (y - getHeight()/7*4) / tileHeight;
+                break;
+            case 4:
+                selectedCol = (x - getWidth()/7*4) / tileWidth;
+                selectedRow = (y - getHeight()/7*4) / tileHeight;
+                break;
+
+            default:
+                break;
         }
 
     }

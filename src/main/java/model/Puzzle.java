@@ -29,6 +29,7 @@ public abstract class Puzzle {
         this.contentString = contentString;
     }
 
+
     public abstract Tile getTile(int nsqFieldNr, int row, int col);
 
     public abstract int getColor(int nsqFieldNr, int row, int col);
