@@ -94,25 +94,14 @@ public class Ninesquare extends Puzzle {
 
 
     private void checkConflicts(int row, int col){
-        System.out.println ("Check Conflicts: " + row + "--" + col);
         checkConflicts(getRow(0,row));
         checkConflicts(getCol(0, col));
         checkConflicts(getArea(0,row, col));
     }
 
     private void checkConflicts(Tile[] tiles){
-        System.out.println(" ");
-        System.out.println("UnsortedTiles: ");
-        for (Tile t: tiles){
-            System.out.print(t.getEntry() + " ");
-        }
-        System.out.println(" ");
 
         tiles = sortTiles(tiles);
-        System.out.println("sorted Tiles: ");
-        for (Tile t: tiles){
-            System.out.print(t.getEntry() + " ");
-        }
 
         tiles[0].setConflicted(false);
         for (int i = 0; i < 8; i++) {
