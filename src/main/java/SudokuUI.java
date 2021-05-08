@@ -5,11 +5,14 @@ import java.awt.event.*;
 public class SudokuUI implements ActionListener {
 
     private JFrame frame;
-    private Ninesquare ninesquare;
     private SudokuField sudokufield;
     private JPanel sudokuPanel;
     private Puzzle puzzle;
     private static final Font FONT = new Font("Arial", Font.BOLD,20);
+
+    public SudokuField getSudokufield() {
+        return sudokufield;
+    }
 
     public SudokuUI(Puzzle puzzle) {
 
