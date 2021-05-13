@@ -11,8 +11,6 @@ public class SamuraiField extends SudokuField {
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
         this.setPreferredSize(new Dimension(super.tileWidth * 21, super.tileHeight * 21));
-        this.setBackground(new Color(120,120,255));
-
 
     }
     @Override
@@ -20,7 +18,7 @@ public class SamuraiField extends SudokuField {
 
         super.paintComponent(g);
         graphics = (Graphics2D) g;
-        graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+        graphics.setColor(new Color (175,210,245));
         graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         createComponent(graphics);
@@ -68,7 +66,7 @@ public class SamuraiField extends SudokuField {
                 int square = puzzle.getColor(fieldnumber, row, col);
 
                 coloredtile.setColor(getTileColor(square));
-
+                graphics.setFont(gameFont);
                 graphics.fillRect(startx + col * tileWidth , starty + row * tileHeight, tileWidth , tileHeight);
 
                 if(!showConflicts && !input.equals("0")) {
@@ -89,7 +87,9 @@ public class SamuraiField extends SudokuField {
                     }
                 }
 
-                    g.setColor(Color.black);
+                    g.setColor(new Color (175,210,245));
+                   //   g.setColor(Color.black);
+
 
                     for (int x = startx; x <= startx  +  (tileWidth * 9); x += tileWidth) {
                         if ((x / tileWidth) % 3 == 0) {

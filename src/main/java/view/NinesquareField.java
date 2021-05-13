@@ -84,7 +84,7 @@ public class NinesquareField extends SudokuField {
                 int square = puzzle.getColor(99, row, col);
 
                 coloredtile.setColor(getTileColor(square));
-
+                graphics.setFont(gameFont);
                 graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);
 
                 if(!showConflicts && !input.equals("0")) {

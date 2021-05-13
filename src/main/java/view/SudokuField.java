@@ -11,9 +11,10 @@ public class SudokuField extends JPanel {
     protected Graphics2D graphics;
     protected int selectedCol;
     protected int selectedRow;
-    protected int tileWidth = 50;
-    protected int tileHeight = 50;
+    protected int tileWidth = 40;
+    protected int tileHeight = 40;
     protected boolean showConflicts;
+    protected Font gameFont;
 
 
 
@@ -22,6 +23,8 @@ public class SudokuField extends JPanel {
         selectedCol = -1;
         selectedRow = -1;
         showConflicts = false;
+        gameFont = new Font("Verdana", Font.BOLD, 16);
+
 
     }
 
