@@ -76,8 +76,9 @@ public class SamuraiField extends SudokuField {
                 } else if (showConflicts && !input.equals(("0"))){
 
                     boolean conflicted = puzzle.getTile(fieldnumber, row, col).isConflicted();
+                    boolean overlapConflicted = overlapConflicted(fieldnumber, row, col);
 
-                    if (conflicted){
+                    if (conflicted || overlapConflicted ){
                         graphics.setColor(Color.RED);
                         graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
 
@@ -190,5 +191,19 @@ public class SamuraiField extends SudokuField {
                 break;
         }
 
+    }
+
+    private boolean overlapConflicted(int nsqFieldNr, int row, int col) {
+        if (nsqFieldNr == 2 && row < 3 && col < 3) {
+            return puzzle.getTile(0, row + 6, col + 6).isConflicted();
+        } else if (nsqFieldNr == 2 && row < 3 && col > 5){
+            return puzzle.getTile(1, row+6, col-6).isConflicted();
+        } else if (nsqFieldNr == 3 && row < 3 && col > 5) {
+            return puzzle.getTile(2, row + 6, col - 6).isConflicted();
+        } else if (nsqFieldNr == 4 && row < 3 && col < 3) {
+            return puzzle.getTile(2, row + 6, col + 6).isConflicted();
+        } else {
+            return false;
+        }
     }
 }
