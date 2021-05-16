@@ -49,13 +49,13 @@ public class Ninesquare extends Puzzle {
     @Override
     public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
         content[selectedRow][selectedCol].setEntry(entry);
-        checkConflicts (selectedRow, selectedCol);
+        checkConflicts ();
     }
 
     @Override
     public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
         content[selectedRow][selectedCol].empty();
-        checkConflicts(selectedRow, selectedCol);
+        checkConflicts();
     }
 
     @Override
@@ -92,24 +92,51 @@ public class Ninesquare extends Puzzle {
         return tiles ;
     }
 
+    public Tile [] getArea(int color){
+        Tile [] tiles = new Tile [9];
+        int cnt = 0;
+        for (int r = 0; r < 9; r++){
+            for (int c = 0; c < 9; c++) {
+                if (getColor(99,r,c) == color) {
+                    tiles[cnt] = content[r][c];
+                    cnt++;
+                    if (cnt >= 9) break;
+                }
+            }
+        }
+        return tiles ;
+    }
 
-    private void checkConflicts(int row, int col){
-        checkConflicts(getRow(0,row));
-        checkConflicts(getCol(0, col));
-        checkConflicts(getArea(0,row, col));
+    private void checkConflicts() {
+        //set all tiles to be not conflicted
+        for (Tile[] t : content) {
+            for (Tile tile : t) {
+                tile.setConflicted(false);
+            }
+        }
+        Tile[] tiles = new Tile[9];
+
+        //check conflicts in all rows, cols and areas
+        for (int i = 0; i < 9; i++) {
+            tiles = getRow(99, i);
+            checkConflicts(tiles);
+
+            tiles = getCol(99, i);
+            checkConflicts(tiles);
+
+            tiles = getArea(i+1);
+            checkConflicts(tiles);
+        }
     }
 
     private void checkConflicts(Tile[] tiles){
 
         tiles = sortTiles(tiles);
 
-        tiles[0].setConflicted(false);
         for (int i = 0; i < 8; i++) {
             if (tiles[i].getEntry() > 0 && tiles[i].getEntry() == tiles[i + 1].getEntry()) {
                 tiles[i].setConflicted(true);
-                tiles[i+1].setConflicted(true);
-            } else {
-                tiles[i+1].setConflicted(false);
+                tiles[i + 1].setConflicted(true);
             }
         }
     }
