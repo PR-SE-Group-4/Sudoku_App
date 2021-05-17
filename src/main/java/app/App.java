@@ -12,10 +12,8 @@ public class App {
         Puzzle puzzle = Loader.loadPuzzle(1);
 
         view.SudokuUI sudokuUI = new view.SudokuUI(puzzle);
-        System.out.println(puzzle);
-        System.out.println(puzzle.export());
 
-        Solver.getCandidates((Ninesquare) puzzle);
+        // Solver.solveNinesquare((Ninesquare) puzzle);
     }
 
 

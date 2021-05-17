@@ -92,12 +92,12 @@ public class Ninesquare extends Puzzle {
         return tiles ;
     }
 
-    public Tile [] getArea(int color){
+    public Tile [] getArea(int nsqFieldNr, int color){
         Tile [] tiles = new Tile [9];
         int cnt = 0;
         for (int r = 0; r < 9; r++){
             for (int c = 0; c < 9; c++) {
-                if (getColor(99,r,c) == color) {
+                if (getColor(nsqFieldNr,r,c) == color) {
                     tiles[cnt] = content[r][c];
                     cnt++;
                     if (cnt >= 9) break;
@@ -124,7 +124,7 @@ public class Ninesquare extends Puzzle {
             tiles = getCol(99, i);
             checkConflicts(tiles);
 
-            tiles = getArea(i+1);
+            tiles = getArea(99, i+1);
             checkConflicts(tiles);
         }
     }
@@ -152,6 +152,15 @@ public class Ninesquare extends Puzzle {
             }
         }
         return t;
+    }
+
+    public boolean isSolved() {
+        for (Tile[] x : content) {
+            for (Tile y : x) {
+                if (!y.isFilled()) return false;
+            }
+        }
+        return true;
     }
 
     @Override

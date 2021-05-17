@@ -3,21 +3,37 @@ package app;
 import model.Ninesquare;
 import model.Tile;
 
-public  class Solver {
+import java.util.LinkedList;
 
-    //boolean[row][col][pillar / value]
-    static boolean[][][] candidateCube = new boolean[9][9][9]; // mit false initialisiert: false bedeutet "ist Kandidat"
 
-    static boolean[][][] getCandidates(Ninesquare toSolve) {
+public class Solver {
 
-/*        for (boolean[][] i : candidateCube) {
-            for (boolean[] j : i) {
-                for (boolean k : j) {
-                    System.out.print(k);
-                }
-            }
+    //------
+    static class Candidate {
+        int row;
+        int col;
+        int entry;
+
+        Candidate(int row, int col, int entry) {
+            this.row = row;
+            this.col = col;
+            this.entry = entry;
         }
-*/
+
+        @Override
+        public String toString() {
+            return row + ", " + col + ", " + entry;
+        }
+    }
+
+
+
+
+    static LinkedList<Candidate> getCandidates(Ninesquare toSolve) {
+
+        //boolean[row][col][pillar / entry]
+        boolean[][][] candidateCube = new boolean[9][9][9]; // mit false initialisiert: false bedeutet "ist Kandidat"
+
         for (int row = 0; row < 9; row++) {                       // alle Zeilen des zu lösenden Ninesquare durchlaufen
             for (int col =0; col < 9; col++) {                    // alle Spalten
                 Tile currTile = toSolve.getTile(99, row, col);    // das aktuell für Elimination vorgesehene Tile
@@ -51,8 +67,8 @@ public  class Solver {
             }
         }
 
-        // Solver-Auswertungsdrucke:
-
+        // Kandidatenliste erstellen
+        LinkedList<Candidate> candidates = new LinkedList<Candidate>();
         int falseCounter;
         int trigger = 0;
         // Single-Pillars: im Pillar folgender r/c ist genau 1 false:
@@ -66,7 +82,8 @@ public  class Solver {
                     }
                 }
                 if (falseCounter == 1) {
-                    System.out.println("Folgender Pillar: " + trigger + ", in row " + r + ", col " + c);
+                    System.out.println("Folgender Pillar: " + (trigger + 1) + ", in Row " + r + ", Col " + c);
+                    candidates.add(new Candidate(r, c, trigger+1));
                 }
             }
         }
@@ -82,7 +99,8 @@ public  class Solver {
                     }
                 }
                 if (falseCounter == 1) {
-                    System.out.println("Folgende Row: " + trigger + ", in col " + c + ", Pillar " + p);
+                    System.out.println("Folgende Row: " + trigger + ", in Col " + c + ", Pillar " + (p+1));
+                    candidates.add(new Candidate(trigger, c, p+1));
                 }
             }
         }
@@ -98,14 +116,29 @@ public  class Solver {
                     }
                 }
                 if (falseCounter == 1) {
-                    System.out.println("Folgende Col: " + trigger + ", in Piller " + p + ", Row " + r);
+                    System.out.println("Folgende Col: " + trigger + ", in Pillar " + (p+1) + ", Row " + r);
+                    candidates.add(new Candidate(r, trigger, p+1));
                 }
             }
         }
 
-
-
-        return candidateCube;
+        for (Candidate candidate : candidates) {
+            System.out.println(candidate);
+        }
+        return candidates;
     }
+
+
+    // --------------------------------------------
+    public static void solveNinesquare(Ninesquare toSolve) {
+        while (!toSolve.isSolved()){
+            LinkedList<Candidate> candidates = getCandidates(toSolve);
+            for (Candidate c : candidates) {
+                toSolve.setEntry(99, c.row, c.col, c.entry);
+            }
+        }
+
+    }
+
 
 }
