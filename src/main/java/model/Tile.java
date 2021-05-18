@@ -68,6 +68,7 @@ public class Tile {
     public void setEntry(int entry) {
         if (this.changeable) {
             this.entry = entry;
+            this.filled = true;
         }
     }
 

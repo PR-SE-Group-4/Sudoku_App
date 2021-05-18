@@ -13,7 +13,8 @@ public class App {
 
         view.SudokuUI sudokuUI = new view.SudokuUI(puzzle);
 
-        // Solver.solveNinesquare((Ninesquare) puzzle);
+        Solver.solve(puzzle);
+
     }
 
 

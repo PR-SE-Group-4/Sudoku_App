@@ -52,4 +52,6 @@ public abstract class Puzzle {
 
     public abstract String export();
 
+    public abstract boolean isSolved();
+
 }

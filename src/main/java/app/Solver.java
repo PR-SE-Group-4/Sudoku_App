@@ -1,6 +1,8 @@
 package app;
 
 import model.Ninesquare;
+import model.Puzzle;
+import model.Samurai;
 import model.Tile;
 
 import java.util.LinkedList;
@@ -129,16 +131,35 @@ public class Solver {
     }
 
 
+
     // --------------------------------------------
     public static void solveNinesquare(Ninesquare toSolve) {
-        while (!toSolve.isSolved()){
-            LinkedList<Candidate> candidates = getCandidates(toSolve);
+        LinkedList<Candidate> candidates = new LinkedList<Candidate>();
+        candidates.add(new Candidate(0,0,0));
+        while (!toSolve.isSolved() && !candidates.isEmpty()){
+           candidates = getCandidates(toSolve);
             for (Candidate c : candidates) {
                 toSolve.setEntry(99, c.row, c.col, c.entry);
             }
         }
 
     }
+
+    public static void solveSamurai(Samurai toSolve) {
+        //TODO;
+    }
+
+    public static void solve(Puzzle toSolve) {
+        if (Ninesquare.class.isInstance(toSolve)) {
+            Solver.solveNinesquare((Ninesquare) toSolve);
+
+        } else if (Samurai.class.isInstance(toSolve)) {
+            Solver.solveSamurai((Samurai) toSolve);
+        }
+        System.out.println(toSolve);
+    }
+
+
 
 
 }

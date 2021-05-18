@@ -145,6 +145,14 @@ public class Samurai extends Puzzle{
 
     }
 
+    @Override
+    public boolean isSolved() {
+        for (Ninesquare i : ninesquares) {
+            if (!i.isSolved()) return false;
+        }
+        return true;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 5; i++) {
