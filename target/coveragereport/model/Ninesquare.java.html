@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ninesquare.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Sudoku_App$Junittests.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Ninesquare.java</span></div><h1>Ninesquare.java</h1><pre class="source lang-java linenums">package model;
+
+public class Ninesquare extends Puzzle {
+    private Tile[][] content;
+
+
+    //dummy Konstruktor
+    Ninesquare() {
+<span class="nc" id="L9">        super(&quot;dummy&quot;, Difficulty.EASY, Type.CLASSIC, false, 0, &quot;dummystring&quot;);</span>
+<span class="nc" id="L10">        content = new Tile[9][9];</span>
+<span class="nc bnc" id="L11" title="All 2 branches missed.">        for (int row = 0; row &lt;= 8; row++) {</span>
+<span class="nc bnc" id="L12" title="All 2 branches missed.">            for (int col = 0; col &lt;= 8; col++) {</span>
+<span class="nc bnc" id="L13" title="All 2 branches missed.">                if ((row*9+col)%7 != 0) {</span>
+<span class="nc" id="L14">                    content[row][col] = new Tile( (col/3+1)+(row/3)*3,  (row*3+col+row/3)%9+1, false );</span>
+                } else {
+<span class="nc" id="L16">                    content[row][col] = new Tile((col / 3 + 1) + (row / 3) * 3 );</span>
+                }
+            }
+        }
+<span class="nc" id="L20">    }</span>
+
+    // &quot;normal&quot; constructor - gets content as string, builds model.Tile-array
+    public Ninesquare (String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {
+<span class="fc" id="L24">        super(name, difficulty, type, solved, timeUsed, contentString);</span>
+        //Parser
+<span class="fc" id="L26">        content = new Tile[9][9];</span>
+<span class="fc" id="L27">        System.out.println(contentString);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (int row = 0; row &lt; 9 ; row++) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            for (int col = 0; col &lt; 9; col++) {</span>
+<span class="fc" id="L30">                content[row][col] = new Tile(</span>
+<span class="fc" id="L31">                        contentString.charAt(row*36 + col*4)-48,</span>
+<span class="fc" id="L32">                        contentString.charAt(row*36 + col*4 + 2)-48,</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">                        (contentString.charAt(row*36 + col*4 + 1) == 'U')</span>
+                );
+            }
+
+        }
+<span class="fc" id="L38">    }</span>
+
+    @Override
+    public Tile getTile(int nsqFieldNr, int row, int col) {
+<span class="fc" id="L42">        return content[row][col];</span>
+    }
+
+    @Override
+<span class="fc" id="L46">    public int getColor(int nsqFieldNr, int row, int col) {return content[row][col].getColor();</span>
+    }
+
+    @Override
+    public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
+<span class="fc" id="L51">        content[selectedRow][selectedCol].setEntry(entry);</span>
+<span class="fc" id="L52">        checkConflicts ();</span>
+<span class="fc" id="L53">    }</span>
+
+    @Override
+    public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
+<span class="fc" id="L57">        content[selectedRow][selectedCol].empty();</span>
+<span class="fc" id="L58">        checkConflicts();</span>
+<span class="fc" id="L59">    }</span>
+
+    @Override
+    public Tile[] getRow(int nsqFieldNr, int row) {
+<span class="fc" id="L63">        Tile [] tiles = new Tile [9];</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        for (int i = 0; i &lt; 9 ; i++) {</span>
+<span class="fc" id="L65">            tiles [i] = content [row][i];</span>
+        }
+<span class="fc" id="L67">        return tiles ;</span>
+    }
+
+    @Override
+    public Tile[] getCol(int nsqFieldNr, int col) {
+<span class="fc" id="L72">        Tile [] tiles = new Tile [9];</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (int i = 0; i &lt; 9 ; i++) {</span>
+<span class="fc" id="L74">            tiles [i] = content [i][col];</span>
+        }
+<span class="fc" id="L76">        return tiles ;</span>
+    }
+
+    @Override
+    public Tile[] getArea(int nsqFieldNr, int row, int col) {
+<span class="fc" id="L81">        Tile [] tiles = new Tile [9];</span>
+<span class="fc" id="L82">        int cnt = 0;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        for (int r = 0; r &lt; 9; r++){</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">            for (int c = 0; c &lt; 9; c++) {</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                if (getColor(99,r,c) == getColor(99,row, col)) {</span>
+<span class="fc" id="L86">                    tiles[cnt] = content[r][c];</span>
+<span class="fc" id="L87">                    cnt++;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                    if (cnt &gt;= 9) break;</span>
+                }
+            }
+        }
+<span class="fc" id="L92">        return tiles ;</span>
+    }
+
+    public Tile [] getArea(int nsqFieldNr, int color){
+<span class="fc" id="L96">        Tile [] tiles = new Tile [9];</span>
+<span class="fc" id="L97">        int cnt = 0;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        for (int r = 0; r &lt; 9; r++){</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            for (int c = 0; c &lt; 9; c++) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">                if (getColor(nsqFieldNr,r,c) == color) {</span>
+<span class="fc" id="L101">                    tiles[cnt] = content[r][c];</span>
+<span class="fc" id="L102">                    cnt++;</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">                    if (cnt &gt;= 9) break;</span>
+                }
+            }
+        }
+<span class="fc" id="L107">        return tiles ;</span>
+    }
+
+    private void checkConflicts() {
+        //set all tiles to be not conflicted
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        for (Tile[] t : content) {</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">            for (Tile tile : t) {</span>
+<span class="fc" id="L114">                tile.setConflicted(false);</span>
+            }
+        }
+<span class="fc" id="L117">        Tile[] tiles = new Tile[9];</span>
+
+        //check conflicts in all rows, cols and areas
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (int i = 0; i &lt; 9; i++) {</span>
+<span class="fc" id="L121">            tiles = getRow(99, i);</span>
+<span class="fc" id="L122">            checkConflicts(tiles);</span>
+
+<span class="fc" id="L124">            tiles = getCol(99, i);</span>
+<span class="fc" id="L125">            checkConflicts(tiles);</span>
+
+<span class="fc" id="L127">            tiles = getArea(99, i+1);</span>
+<span class="fc" id="L128">            checkConflicts(tiles);</span>
+        }
+<span class="fc" id="L130">    }</span>
+
+    private void checkConflicts(Tile[] tiles){
+
+<span class="fc" id="L134">        tiles = sortTiles(tiles);</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        for (int i = 0; i &lt; 8; i++) {</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">            if (tiles[i].getEntry() &gt; 0 &amp;&amp; tiles[i].getEntry() == tiles[i + 1].getEntry()) {</span>
+<span class="fc" id="L138">                tiles[i].setConflicted(true);</span>
+<span class="fc" id="L139">                tiles[i + 1].setConflicted(true);</span>
+            }
+        }
+<span class="fc" id="L142">    }</span>
+
+    private Tile [] sortTiles(Tile [] t){
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        for (int i = 0; i &lt; t.length-1; i++){</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            for (int j = i+1;  j &lt; t.length; j++){</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">                if (t[i].getEntry() &gt; t[j].getEntry()){</span>
+<span class="fc" id="L148">                    Tile temp = t[i];</span>
+<span class="fc" id="L149">                    t[i] = t[j];</span>
+<span class="fc" id="L150">                    t[j] = temp;</span>
+                }
+            }
+        }
+<span class="fc" id="L154">        return t;</span>
+    }
+
+    public boolean isSolved() {
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        for (Tile[] x : content) {</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">            for (Tile y : x) {</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">                if (!y.isFilled()) return false;</span>
+            }
+        }
+<span class="fc" id="L163">        solved = true;</span>
+<span class="fc" id="L164">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L169">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        for (Tile[] i : content) {</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            for (Tile j : i) {</span>
+<span class="fc" id="L172">                sb.append(j).append(&quot; &quot;);</span>
+            }
+<span class="fc" id="L174">            sb.append(&quot;\n&quot;);</span>
+        }
+<span class="fc" id="L176">        return sb.toString();</span>
+    }
+
+    public String export() {
+<span class="fc" id="L180">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L181">        sb.append(difficulty).append(&quot;;&quot;).append(type).append(&quot;;&quot;);</span>
+<span class="fc" id="L182">        sb.append(solved).append(&quot;;&quot;).append(String.format(&quot;%06d&quot;, timeUsed)).append(&quot;;&quot;);</span>
+<span class="fc" id="L183">        sb.append(exportContentString());</span>
+<span class="fc" id="L184">        sb.append(&quot;;&quot;);</span>
+<span class="fc" id="L185">        return sb.toString();</span>
+    }
+    public String exportContentString() {
+<span class="fc" id="L188">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        for (Tile[] i : content) {</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">            for (Tile j : i) {</span>
+<span class="fc" id="L191">                sb.append(j.export()).append(&quot;-&quot;);</span>
+            }
+        }
+<span class="fc" id="L194">        return sb.toString();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

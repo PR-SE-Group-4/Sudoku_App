@@ -72,7 +72,7 @@ public class Samurai extends Puzzle{
         } else if (nsqFieldNr == 4 &&
                 selectedRow < 3 &&
                 selectedCol < 3) { // lower right 9sq, upper left corner
-            ninesquares[0].setEntry(99, selectedRow+6, selectedCol+6, entry);
+            ninesquares[2].setEntry(99, selectedRow+6, selectedCol+6, entry);
         }
     }
     
@@ -111,7 +111,7 @@ public class Samurai extends Puzzle{
         } else if (nsqFieldNr == 4 &&
                 selectedRow < 3 &&
                 selectedCol < 3) { // lower right 9sq, upper left corner
-            ninesquares[0].deleteEntry(99, selectedRow+6, selectedCol+6);
+            ninesquares[2].deleteEntry(99, selectedRow+6, selectedCol+6);
         }
     }
 
@@ -150,6 +150,7 @@ public class Samurai extends Puzzle{
         for (Ninesquare i : ninesquares) {
             if (!i.isSolved()) return false;
         }
+        solved = true;
         return true;
     }
 

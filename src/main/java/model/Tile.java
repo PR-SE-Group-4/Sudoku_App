@@ -21,7 +21,7 @@ public class Tile {
         this.filled = false;
     }
 
-    public boolean fill(int entry) {
+    /*public boolean fill(int entry) {
         if (!changeable) {
             return false;
         } else {
@@ -29,7 +29,7 @@ public class Tile {
             this.filled = true;
             return true;
         }
-    }
+    }*/
 
     public boolean empty() {
         if(!changeable) {

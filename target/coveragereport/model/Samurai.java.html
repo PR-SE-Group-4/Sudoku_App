@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Samurai.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Sudoku_App$Junittests.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Samurai.java</span></div><h1>Samurai.java</h1><pre class="source lang-java linenums">package model;
+
+public class Samurai extends Puzzle{
+
+    private Ninesquare[] ninesquares;
+
+    // constructor
+    public Samurai (String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString){
+<span class="fc" id="L9">        super(name, difficulty, type, solved, timeUsed, contentString);</span>
+        //Parser
+<span class="fc" id="L11">        ninesquares = new Ninesquare[5];</span>
+        String partString;
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        for (int nsqFieldNr = 0; nsqFieldNr &lt; 5; nsqFieldNr++) {</span>
+<span class="fc" id="L14">            partString = contentString.substring(0+nsqFieldNr*325, 324+nsqFieldNr*325);</span>
+<span class="fc" id="L15">            ninesquares[nsqFieldNr] = new Ninesquare(name + nsqFieldNr, difficulty, Type.CLASSIC, false, 0, partString);</span>
+        }
+<span class="fc" id="L17">    }</span>
+
+
+    @Override
+    public Tile getTile(int nsqFieldNr, int row, int col) {
+<span class="fc" id="L22">        return ninesquares[nsqFieldNr].getTile(99, row, col);</span>
+    }
+
+    @Override
+    public int getColor(int nsqFieldNr, int row, int col) {
+<span class="fc" id="L27">        return ninesquares[nsqFieldNr].getColor(99, row, col);</span>
+    }
+
+    @Override
+    public void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
+<span class="fc" id="L32">        ninesquares[nsqFieldNr].setEntry(99, selectedRow, selectedCol, entry);</span>
+<span class="fc" id="L33">        fillOverlap(nsqFieldNr, selectedRow, selectedCol, entry);</span>
+<span class="fc" id="L34">    }</span>
+
+    @Override
+    public void deleteEntry(int nsqFieldNr, int selectedRow, int selectedCol) {
+<span class="fc" id="L38">        ninesquares[nsqFieldNr].deleteEntry(99, selectedRow, selectedCol);</span>
+<span class="fc" id="L39">        clearOverlap(nsqFieldNr, selectedRow, selectedCol);</span>
+<span class="fc" id="L40">    }</span>
+
+    // SAMURAI EXCLUSIVE: adds entry to another ninesquare involved
+    private void fillOverlap(int nsqFieldNr, int selectedRow, int selectedCol, int entry) {
+<span class="pc bpc" id="L44" title="1 of 6 branches missed.">        if (nsqFieldNr == 0 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &gt;= 6) { // upper left 9sq, lower right corner
+<span class="fc" id="L47">            ninesquares[2].setEntry(99, selectedRow-6, selectedCol-6, entry);</span>
+<span class="pc bpc" id="L48" title="2 of 6 branches missed.">        } else if (nsqFieldNr == 1 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &lt; 3) {  // upper right 9sq, lower left corner
+<span class="fc" id="L51">            ninesquares[2].setEntry(99, selectedRow-6, selectedCol+6, entry);</span>
+<span class="fc bfc" id="L52" title="All 6 branches covered.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &lt; 3) { // central 9sq, upper left corner
+<span class="fc" id="L55">            ninesquares[0].setEntry(99, selectedRow+6, selectedCol+6, entry);</span>
+<span class="pc bpc" id="L56" title="1 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &gt;= 6) { // central 9sq, upper right corner
+<span class="fc" id="L59">            ninesquares[1].setEntry(99, selectedRow+6, selectedCol-6, entry);</span>
+<span class="pc bpc" id="L60" title="1 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &lt; 3) { // central 9sq, lower left corner
+<span class="fc" id="L63">            ninesquares[3].setEntry(99, selectedRow-6, selectedCol+6, entry);</span>
+<span class="pc bpc" id="L64" title="2 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &gt;= 6) { // central 9sq, lower right corner
+<span class="fc" id="L67">            ninesquares[4].setEntry(99, selectedRow-6, selectedCol-6, entry);</span>
+<span class="pc bpc" id="L68" title="2 of 6 branches missed.">        } else if (nsqFieldNr == 3 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &gt;= 6) { // lower left 9sq, upper right corner
+<span class="fc" id="L71">            ninesquares[2].setEntry(99, selectedRow+6, selectedCol-6, entry);</span>
+<span class="pc bpc" id="L72" title="2 of 6 branches missed.">        } else if (nsqFieldNr == 4 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &lt; 3) { // lower right 9sq, upper left corner
+<span class="fc" id="L75">            ninesquares[2].setEntry(99, selectedRow+6, selectedCol+6, entry);</span>
+        }
+<span class="fc" id="L77">    }</span>
+    
+
+
+    // SAMURAI EXCLUSIVE: deletes entry from another ninesquare involved
+    private void clearOverlap(int nsqFieldNr, int selectedRow, int selectedCol){
+<span class="pc bpc" id="L83" title="2 of 6 branches missed.">        if (nsqFieldNr == 0 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &gt;= 6) { // upper left 9sq, lower right corner
+<span class="fc" id="L86">            ninesquares[2].deleteEntry(99, selectedRow-6, selectedCol-6);</span>
+<span class="pc bpc" id="L87" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 1 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &lt; 3) {  // upper right 9sq, lower left corner
+<span class="nc" id="L90">            ninesquares[2].deleteEntry(99, selectedRow-6, selectedCol+6);</span>
+<span class="pc bpc" id="L91" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &lt; 3) { // central 9sq, upper left corner
+<span class="nc" id="L94">            ninesquares[0].deleteEntry(99, selectedRow+6, selectedCol+6);</span>
+<span class="pc bpc" id="L95" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &gt;= 6) { // central 9sq, upper right corner
+<span class="nc" id="L98">            ninesquares[1].deleteEntry(99, selectedRow+6, selectedCol-6);</span>
+<span class="pc bpc" id="L99" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &lt; 3) { // central 9sq, lower left corner
+<span class="nc" id="L102">            ninesquares[3].deleteEntry(99, selectedRow-6, selectedCol+6);</span>
+<span class="pc bpc" id="L103" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 2 &amp;&amp;</span>
+                selectedRow &gt;= 6 &amp;&amp;
+                selectedCol &gt;= 6) { // central 9sq, lower right corner
+<span class="nc" id="L106">            ninesquares[4].deleteEntry(99, selectedRow-6, selectedCol-6);</span>
+<span class="pc bpc" id="L107" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 3 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &gt;= 6) { // lower left 9sq, upper right corner
+<span class="nc" id="L110">            ninesquares[2].deleteEntry(99, selectedRow+6, selectedCol-6);</span>
+<span class="pc bpc" id="L111" title="5 of 6 branches missed.">        } else if (nsqFieldNr == 4 &amp;&amp;</span>
+                selectedRow &lt; 3 &amp;&amp;
+                selectedCol &lt; 3) { // lower right 9sq, upper left corner
+<span class="nc" id="L114">            ninesquares[2].deleteEntry(99, selectedRow+6, selectedCol+6);</span>
+        }
+<span class="fc" id="L116">    }</span>
+
+    @Override
+    public Tile[] getRow(int nsqFieldNr, int row) {
+<span class="fc" id="L120">        return ninesquares[nsqFieldNr].getRow(99, row);</span>
+    }
+
+    @Override
+    public Tile[] getCol(int nsqFieldNr, int col) {
+<span class="fc" id="L125">        return ninesquares[nsqFieldNr].getCol(99, col);</span>
+    }
+
+    @Override
+    public Tile[] getArea(int nsqFieldNr, int row, int col) {
+<span class="fc" id="L130">        return ninesquares[nsqFieldNr].getArea(99, row, col);</span>
+    }
+
+    @Override
+    public String export() {
+<span class="fc" id="L135">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L136">        sb.append(difficulty).append(&quot;;&quot;).append(type).append(&quot;;&quot;);</span>
+<span class="fc" id="L137">        sb.append(solved).append(&quot;;&quot;).append(String.format(&quot;%06d&quot;, timeUsed)).append(&quot;;&quot;);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        for (Ninesquare i : ninesquares) {</span>
+<span class="fc" id="L139">            sb.append(i.exportContentString());</span>
+<span class="fc" id="L140">            sb.append(&quot;x&quot;);</span>
+        }
+<span class="fc" id="L142">        sb.deleteCharAt(sb.length() - 1);</span>
+<span class="fc" id="L143">        sb.append(&quot;;&quot;);</span>
+<span class="fc" id="L144">        return sb.toString();</span>
+
+    }
+
+    @Override
+    public boolean isSolved() {
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        for (Ninesquare i : ninesquares) {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (!i.isSolved()) return false;</span>
+        }
+<span class="fc" id="L153">        solved = true;</span>
+<span class="fc" id="L154">        return true;</span>
+    }
+
+    public String toString() {
+<span class="fc" id="L158">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        for (int i = 0; i &lt; 5; i++) {</span>
+<span class="fc" id="L160">            sb.append(ninesquares[i]);</span>
+<span class="fc" id="L161">            sb.append(&quot;\n&quot;);</span>
+        }
+<span class="fc" id="L163">        return sb.toString();</span>
+    }
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

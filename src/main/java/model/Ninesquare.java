@@ -160,6 +160,7 @@ public class Ninesquare extends Puzzle {
                 if (!y.isFilled()) return false;
             }
         }
+        solved = true;
         return true;
     }
 
