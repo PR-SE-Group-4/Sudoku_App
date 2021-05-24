@@ -5,6 +5,7 @@ import model.Puzzle;
 import model.Samurai;
 import model.Tile;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 
@@ -12,11 +13,13 @@ public class Solver {
 
     //------
     static class Candidate {
+        int nsqFieldNr;
         int row;
         int col;
         int entry;
 
-        Candidate(int row, int col, int entry) {
+        Candidate(int nsqFieldNr, int row, int col, int entry) {
+            this.nsqFieldNr = nsqFieldNr;
             this.row = row;
             this.col = col;
             this.entry = entry;
@@ -70,7 +73,7 @@ public class Solver {
         }
 
         // Kandidatenliste erstellen
-        LinkedList<Candidate> candidates = new LinkedList<Candidate>();
+        LinkedList<Candidate> candidates = new LinkedList<>();
         int falseCounter;
         int trigger = 0;
         // Single-Pillars: im Pillar folgender r/c ist genau 1 false:
@@ -85,7 +88,8 @@ public class Solver {
                 }
                 if (falseCounter == 1) {
                     System.out.println("Folgender Pillar: " + (trigger + 1) + ", in Row " + r + ", Col " + c);
-                    candidates.add(new Candidate(r, c, trigger+1));
+
+                    candidates.add(new Candidate(99, r, c, trigger+1));
                 }
             }
         }
@@ -102,7 +106,7 @@ public class Solver {
                 }
                 if (falseCounter == 1) {
                     System.out.println("Folgende Row: " + trigger + ", in Col " + c + ", Pillar " + (p+1));
-                    candidates.add(new Candidate(trigger, c, p+1));
+                    candidates.add(new Candidate(99, trigger, c, p+1));
                 }
             }
         }
@@ -119,7 +123,7 @@ public class Solver {
                 }
                 if (falseCounter == 1) {
                     System.out.println("Folgende Col: " + trigger + ", in Pillar " + (p+1) + ", Row " + r);
-                    candidates.add(new Candidate(r, trigger, p+1));
+                    candidates.add(new Candidate(99, r, trigger, p+1));
                 }
             }
         }
@@ -134,8 +138,8 @@ public class Solver {
 
     // --------------------------------------------
     public static void solveNinesquare(Ninesquare toSolve) {
-        LinkedList<Candidate> candidates = new LinkedList<Candidate>();
-        candidates.add(new Candidate(0,0,0));
+        LinkedList<Candidate> candidates = new LinkedList<>();
+        candidates.add(new Candidate(99, 0,0,0));
         while (!toSolve.isSolved() && !candidates.isEmpty()){
            candidates = getCandidates(toSolve);
             for (Candidate c : candidates) {
@@ -157,6 +161,19 @@ public class Solver {
             Solver.solveSamurai((Samurai) toSolve);
         }
         System.out.println(toSolve);
+    }
+
+    public static Candidate getHint(Puzzle toSolve) {
+        if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
+            Ninesquare ts = (Ninesquare) toSolve;
+            LinkedList<Candidate> candidates = getCandidates(ts);
+            return candidates.get(0);
+
+
+        } else if (Samurai.class.isInstance(toSolve)) {             // TODO Samurai
+            return new Candidate(0,0,0,0);
+        }
+        return new Candidate(0,0,0,0);
     }
 
 

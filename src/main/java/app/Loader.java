@@ -16,14 +16,14 @@ public class Loader {
 
     public static void setup() {
         //creates filesave dir if not present
-        //creates two puzzles if not present
+        //creates four puzzles if not present
         File appdir = new File(System.getenv("APPDATA")+"\\SudokuGR04");
         appdir.mkdir();
         try {
             File presaved00 = new File(appdir + "\\supereasy.txt");
             presaved00.createNewFile();
             FileWriter presaved00wr = new FileWriter(presaved00);
-            presaved00wr.write("EASY;CLASSIC;false;000000;1U0-1O0-1O3-2O4-2O5-2O6-3O7-3U0-3O9-1O4-1O5-1O6-2O7-2O8-2U0-3O1-3O2-3O3-1O7-1O8-1O9-2U0-2O2-2O3-3O4-3O5-3O6-4O2-4U0-4O4-5O5-5O6-5O7-6O8-6O9-6U0-4O5-4O6-4O7-5O8-5O9-5O1-6U0-6O3-6O4-4O8-4O9-4O1-5O2-5U0-5O4-6O5-6O6-6O7-7O3-7O4-7U0-8O6-8O7-8O8-9O9-9O1-9O2-7U0-7O7-7O8-8O9-8O1-8O2-9O3-9U0-9O5-7O9-7O1-7O2-8O3-8O4-8U0-9O6-9O7-9O8-;");
+            presaved00wr.write("EASY;CLASSIC;false;000000;1U0-1U0-1O3-2O4-2O5-2O6-3O7-3U0-3O9-1O4-1O5-1O6-2O7-2O8-2U0-3O1-3O2-3O3-1O7-1O8-1O9-2U0-2O2-2O3-3O4-3O5-3O6-4O2-4U0-4O4-5O5-5O6-5O7-6O8-6O9-6U0-4O5-4O6-4O7-5O8-5O9-5O1-6U0-6O3-6O4-4O8-4O9-4O1-5O2-5U0-5O4-6O5-6O6-6O7-7O3-7O4-7U0-8O6-8O7-8O8-9O9-9O1-9O2-7U0-7O7-7O8-8O9-8O1-8O2-9O3-9U0-9O5-7O9-7O1-7O2-8O3-8O4-8U0-9O6-9O7-9O8-;");
             presaved00wr.close();
             File presaved01 = new File(appdir + "\\medium01.txt");
             presaved01.createNewFile();
@@ -38,7 +38,7 @@ public class Loader {
             File presaved03 = new File(appdir + "\\freeform01.txt");
             presaved03.createNewFile();
             FileWriter presaved03wr = new FileWriter(presaved03);
-            presaved03wr.write("HARD;CLASSIC;false;000000;1O5-2U0-2O3-2U0-3U0-3O1-3O7-3U0-3U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-4O3-1O8-1U0-1O4-2O6-2U0-2O7-3U0-4U0-4U0-1O1-1U0-8U0-9U0-9O6-9U0-4U0-4U0-4U0-1U0-8U0-8U0-9O3-9U0-9O9-4U0-4U0-5U0-8U0-8U0-8U0-9U0-9O8-9U0-4U0-5U0-5O9-8U0-8U0-7U0-6O5-6U0-6O3-5O4-5U0-5O1-8O3-7U0-7U0-7U0-6U0-6U0-6U0-5U0-5U0-7U0-7U0-7O5-7O8-7U0-6U0-6O1-6U0-5O7-;");
+            presaved03wr.write("HARD;FREEFORM;false;000000;1O5-2U0-2O3-2U0-3U0-3O1-3O7-3U0-3U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-4O3-1O8-1U0-1O4-2O6-2U0-2O7-3U0-4U0-4U0-1O1-1U0-8U0-9U0-9O6-9U0-4U0-4U0-4U0-1U0-8U0-8U0-9O3-9U0-9O9-4U0-4U0-5U0-8U0-8U0-8U0-9U0-9O8-9U0-4U0-5U0-5O9-8U0-8U0-7U0-6O5-6U0-6O3-5O4-5U0-5O1-8O3-7U0-7U0-7U0-6U0-6U0-6U0-5U0-5U0-7U0-7U0-7O5-7O8-7U0-6U0-6O1-6U0-5O7-;");
             presaved03wr.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,11 +83,11 @@ public class Loader {
         files = getFiles();
         storedPuzzles = new ArrayList<Puzzle>();
         System.out.println();
-        for (int j = 0; j <= files.length; j++) {
+        for (int j = 0; j < files.length; j++) {
             try {
                 storedPuzzles.add(loadPuzzle(j));
             } catch(Exception e) {
-                System.out.println("EXPECTICOTIDON");}
+                System.out.println("Error in getting Puzzles");}
         }
         return storedPuzzles;
     }

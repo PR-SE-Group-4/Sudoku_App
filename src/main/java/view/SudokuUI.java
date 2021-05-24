@@ -75,7 +75,7 @@ public class SudokuUI implements ActionListener {
 
         if (puzzle.getType() == Type.SAMURAI) {
             this.sudokufield = new SamuraiField(puzzle);
-        } else if (puzzle.getType() == Type.CLASSIC) {
+        } else if (puzzle.getType() == Type.CLASSIC || puzzle.getType() == Type.FREEFORM) {
             this.sudokufield = new NinesquareField(puzzle);
         }
 
