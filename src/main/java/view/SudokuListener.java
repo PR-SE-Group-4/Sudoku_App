@@ -8,7 +8,6 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
 
     static int x;
     static int y;
-    static int value;
     SudokuField sudokuField;
 
 
@@ -26,6 +25,7 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
             y = e.getY();
             x = e.getX();
             System.out.println("CLICKED" + "X: " + x  + " y: " + y);
+            sudokuField.setSelectedRowCol(x, y);
             e.getComponent().repaint();
         }
     }
