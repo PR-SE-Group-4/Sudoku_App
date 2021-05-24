@@ -12,7 +12,7 @@ public class NinesquareField extends SudokuField {
 
     public NinesquareField(Puzzle puzzle) {
         super(puzzle);
-        this.setPreferredSize(new Dimension(tileWidth * 9, tileHeight * 9));
+        this.setPreferredSize(new Dimension(tileWidth * 9 , tileHeight * 9 ));
 //        this.setPreferredSize(new Dimension((int) (super.getParent().getBounds().width*0.9), (int) (super.getParent().getBounds().height*0.9)));
         selectedRow = -1;
         selectedCol = -1;
@@ -76,6 +76,7 @@ public class NinesquareField extends SudokuField {
             }
         }
 
+
         for (int row = 0; row <=8; row++){
             for (int col = 0; col <= 8; col++) {
                 String input = String.valueOf(puzzle.getTile(99, row, col).getEntry());
@@ -104,17 +105,43 @@ public class NinesquareField extends SudokuField {
             }
 
         }
+
+        if (selectedCol != -1 && selectedRow != -1) {
+        if(puzzle.getTile(99, selectedRow, selectedCol).isChangeable() == true) {
+
+                graphics.setColor(Color.blue);
+               // graphics.fillRect(selectedCol * tileWidth + 1, selectedRow * tileHeight + 1, tileWidth - 1, tileHeight - 1);
+
+            graphics.setStroke(new BasicStroke(3));
+
+                graphics.drawLine(selectedCol * tileWidth , selectedRow * tileHeight , selectedCol * tileWidth , selectedRow * tileHeight + tileHeight);
+                graphics.drawLine(selectedCol * tileWidth + tileWidth, selectedRow * tileHeight, selectedCol * tileWidth + tileWidth, selectedRow * tileHeight + tileHeight);
+                graphics.drawLine(selectedCol * tileWidth , selectedRow * tileHeight  , selectedCol * tileWidth + tileWidth, selectedRow * tileHeight );
+                graphics.drawLine(selectedCol * tileWidth , selectedRow * tileHeight + tileHeight, selectedCol * tileWidth + tileWidth, selectedRow * tileHeight + tileHeight);
+
+            }
+        }
+
+
     }
 
 
     public void inputActionListener(int x, int y, int value) {
 
         System.out.println( x + " - " + y + " - " + value);
-        selectedCol = x / tileWidth;
-        selectedRow = y / tileHeight;
-        if (selectedCol != -1 && selectedRow != -1) {
+        setSelectedRowCol(x,y);
+
+        if (selectedCol != -1 && selectedRow != -1 && value != -1) {
             puzzle.setEntry(99, selectedRow, selectedCol, value);
         }
+        selectedRow = -1;
+        selectedRow = -1;
+    }
+    public void setSelectedRowCol(int x, int y) {
+
+        selectedCol = x / tileWidth;
+        selectedRow = y / tileHeight;
+
     }
 
 

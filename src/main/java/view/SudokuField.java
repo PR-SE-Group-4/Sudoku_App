@@ -11,6 +11,7 @@ public class SudokuField extends JPanel {
     protected Graphics2D graphics;
     protected int selectedCol;
     protected int selectedRow;
+    protected int selectedField;
     protected int tileWidth = 40;
     protected int tileHeight = 40;
     protected boolean showConflicts;
@@ -33,23 +34,23 @@ public class SudokuField extends JPanel {
             case 0:
                 return Color.BLACK;
             case 1:
-                return Color.GREEN;
+                return new Color(223,255,224); //green
             case 2:
-                return Color.GRAY;
+                return new Color(203,203,203); //grey
             case 3:
-                return Color.blue;
+                return new Color(198, 226,247); //blue
             case 4:
-                return Color.red;
+                return new Color(255,159,159); //red
             case 5:
-                return Color.yellow;
+                return new Color(254,255,195); //yellow
             case 6:
-                return Color.magenta;
+                return new Color(252,200,238); //pink
             case 7:
-                return Color.pink;
+                return new Color(168,238,238); //cyan
             case 8:
-                return Color.CYAN;
+                return new Color(255,221,124); //orange
             case 9:
-                return Color.ORANGE;
+                return new Color(203,176,243); //purple
             default:
                 break;
         }
@@ -64,8 +65,7 @@ public class SudokuField extends JPanel {
         this.showConflicts = showConflicts;
     }
 
-    public void inputActionListener(int x, int y, int value) {
+    public void inputActionListener(int x, int y, int value) {    }
 
-
-    }
+    public void setSelectedRowCol(int x, int y) {    }
 }

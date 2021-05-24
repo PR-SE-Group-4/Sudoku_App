@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Loader {
 
     private static File[] files;
-    private ArrayList<Puzzle> storedPuzzles;
+    private static ArrayList<Puzzle> storedPuzzles;
 
     // -------------------------------------------
     // -- setup game for first use --------------
@@ -79,7 +79,7 @@ public class Loader {
         return files;
     }
 
-    public ArrayList<Puzzle> getStoredPuzzles() {
+    public static ArrayList<Puzzle> getStoredPuzzles() {
         files = getFiles();
         storedPuzzles = new ArrayList<Puzzle>();
         System.out.println();

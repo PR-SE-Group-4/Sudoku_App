@@ -46,9 +46,18 @@ public abstract class Puzzle {
 
     public int getTimeUsed() { return timeUsed; }
 
+    public void setTimeUsed(int timeUsed) {
+        this.timeUsed = timeUsed;
+    }
+
     public Type getType() {
         return type;
     }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
 
     public abstract String export();
 

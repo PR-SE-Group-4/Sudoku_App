@@ -89,8 +89,6 @@ public class SamuraiField extends SudokuField {
                 }
 
                     g.setColor(new Color (175,210,245));
-                   //   g.setColor(Color.black);
-
 
                     for (int x = startx; x <= startx  +  (tileWidth * 9); x += tileWidth) {
                         if ((x / tileWidth) % 3 == 0) {
@@ -118,7 +116,19 @@ public class SamuraiField extends SudokuField {
                 }
 
             }
+
+            if (selectedField == fieldnumber) {
+
+                if (selectedRow != -1 && selectedCol != -1) {
+                    if (puzzle.getTile(selectedField, selectedRow, selectedCol).isChangeable() == true) {
+
+                        graphics.setColor(new Color(122, 197, 205));
+                        graphics.fillRect(startx + (selectedCol * tileWidth) + 1, starty + selectedRow * tileHeight + 1, tileWidth - 1, tileHeight - 1);
+                    }
+                }
+            }
         }
+
 
     }
 
@@ -128,6 +138,9 @@ public class SamuraiField extends SudokuField {
         if (selectedCol != -1 && selectedRow != -1) {
             System.out.println("field: " + getFieldNr(x,y) + " value " + value + " row " + selectedRow + " col " + selectedCol);
             puzzle.setEntry( getFieldNr(x, y), selectedRow, selectedCol, value);
+
+            selectedCol = -1;
+            selectedRow = -1;
         }
     }
 
@@ -162,9 +175,9 @@ public class SamuraiField extends SudokuField {
 
     public void setSelectedRowCol(int x, int y) {
 
-        int fieldnr = getFieldNr(x,y);
+        selectedField = getFieldNr(x,y);
 
-        switch (fieldnr) {
+        switch (selectedField) {
             case 0:
                 selectedCol = x / tileWidth;
                 selectedRow = y / tileHeight;
