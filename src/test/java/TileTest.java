@@ -18,13 +18,6 @@ class TileTest {
         t2 = new Tile (1, 5, false);
     }
 
-   /* @Test
-    void fill() {
-        assertFalse(t2.fill(2));
-        assertTrue(t1.fill(1));
-        assertEquals(t1.getEntry(), 1);
-    }*/
-
     @Test
     void empty() {
         assertFalse(t2.empty());

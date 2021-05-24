@@ -21,16 +21,6 @@ public class Tile {
         this.filled = false;
     }
 
-    /*public boolean fill(int entry) {
-        if (!changeable) {
-            return false;
-        } else {
-            this.entry = entry;
-            this.filled = true;
-            return true;
-        }
-    }*/
-
     public boolean empty() {
         if(!changeable) {
             return false;
