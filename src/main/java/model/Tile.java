@@ -6,6 +6,9 @@ public class Tile {
     private boolean conflicted = false;
     private final int color;
     private int entry;
+    private boolean hint = false;
+
+
 
     public Tile(int color, int entry, boolean changeable) {
         this.color = color;
@@ -61,6 +64,10 @@ public class Tile {
             this.filled = true;
         }
     }
+
+    public boolean isHint() { return hint;   }
+
+    public void setHint(boolean hint) {this.hint = hint;}
 
     @Override
     public String toString() {

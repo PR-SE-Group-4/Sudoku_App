@@ -80,6 +80,7 @@ public class NinesquareField extends SudokuField {
         for (int row = 0; row <=8; row++){
             for (int col = 0; col <= 8; col++) {
                 String input = String.valueOf(puzzle.getTile(99, row, col).getEntry());
+                boolean hint = puzzle.getTile(99, row, col).isHint();
 
                 Graphics2D coloredtile = (Graphics2D) g;
                 int square = puzzle.getColor(99, row, col);
@@ -88,10 +89,10 @@ public class NinesquareField extends SudokuField {
                 graphics.setFont(gameFont);
                 graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);
 
-                if(!showConflicts && !input.equals("0")) {
+                if(!showConflicts && !input.equals("0") && !hint) {
                     graphics.setColor(Color.BLACK);
                     graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
-                } else if (showConflicts && !input.equals(("0"))){
+                } else if (showConflicts && !input.equals("0") && !hint){
                     boolean conflicted = puzzle.getTile(99, row, col).isConflicted();
                     if (conflicted){
                         graphics.setColor(Color.RED);
@@ -100,6 +101,10 @@ public class NinesquareField extends SudokuField {
                         graphics.setColor(Color.BLACK);
                         graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
                     }
+                } else if (hint){
+                    graphics.setColor(Color.GREEN);
+                    graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
+                    puzzle.getTile(99,row, col).setHint(false);
                 }
 
             }

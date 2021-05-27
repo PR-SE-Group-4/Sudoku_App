@@ -61,6 +61,7 @@ public class SamuraiField extends SudokuField {
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
                 String input = String.valueOf(puzzle.getTile(fieldnumber, row, col).getEntry());
+                boolean hint = puzzle.getTile(fieldnumber,row,col).isHint();
 
                 Graphics2D coloredtile = (Graphics2D) g;
                 int square = puzzle.getColor(fieldnumber, row, col);
@@ -69,11 +70,11 @@ public class SamuraiField extends SudokuField {
                 graphics.setFont(gameFont);
                 graphics.fillRect(startx + col * tileWidth , starty + row * tileHeight, tileWidth , tileHeight);
 
-                if(!showConflicts && !input.equals("0")) {
+                if(!showConflicts && !input.equals("0") && !hint) {
                     graphics.setColor(Color.BLACK);
                     graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
 
-                } else if (showConflicts && !input.equals(("0"))){
+                } else if (showConflicts && !input.equals("0") && !hint){
 
                     boolean conflicted = puzzle.getTile(fieldnumber, row, col).isConflicted();
                     boolean overlapConflicted = overlapConflicted(fieldnumber, row, col);
@@ -86,6 +87,10 @@ public class SamuraiField extends SudokuField {
                         graphics.setColor(Color.BLACK);
                         graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
                     }
+                } else if (hint){
+                    graphics.setColor(Color.GREEN);
+                    graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
+                    puzzle.getTile(fieldnumber,row, col).setHint(false);
                 }
 
                     g.setColor(new Color (175,210,245));

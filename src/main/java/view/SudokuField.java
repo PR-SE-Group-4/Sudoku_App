@@ -1,11 +1,12 @@
 package view;
 
+import app.Solver;
 import model.Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SudokuField extends JPanel {
+public abstract class SudokuField extends JPanel {
 
     protected Puzzle puzzle;
     protected Graphics2D graphics;
@@ -65,7 +66,7 @@ public class SudokuField extends JPanel {
         this.showConflicts = showConflicts;
     }
 
-    public void inputActionListener(int x, int y, int value) {    }
+    public abstract void inputActionListener(int x, int y, int value);
 
-    public void setSelectedRowCol(int x, int y) {    }
+    public abstract void setSelectedRowCol(int x, int y);
 }

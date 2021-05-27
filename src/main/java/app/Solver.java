@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Solver {
 
     //------
-    static class Candidate {
+    public static class Candidate {
         int nsqFieldNr;
         int row;
         int col;
@@ -23,6 +23,22 @@ public class Solver {
             this.row = row;
             this.col = col;
             this.entry = entry;
+        }
+
+        public int getNsqFieldNr() {
+            return nsqFieldNr;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public int getCol() {
+            return col;
+        }
+
+        public int getEntry() {
+            return entry;
         }
 
         @Override

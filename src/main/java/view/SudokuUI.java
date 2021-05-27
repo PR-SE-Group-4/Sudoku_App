@@ -32,10 +32,6 @@ public class SudokuUI implements ActionListener {
     private Font buttonFont;
 
 
-    public SudokuField getSudokufield() {
-        return sudokufield;
-    }
-
     public SudokuUI(Puzzle puzzle) {
 
         this.frame = new JFrame("Sudoku");
@@ -251,6 +247,10 @@ public class SudokuUI implements ActionListener {
         hint.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Solver.Candidate candidate = Solver.getHint(puzzle);
+                System.out.println("HINT: " + candidate.getEntry() + " " + candidate.getRow() + " " + candidate.getCol());
+                puzzle.setEntry(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol(), candidate.getEntry());
+                puzzle.getTile(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol()).setHint(true);
                 sudokufield.repaint();
             }
         });
@@ -309,6 +309,7 @@ public class SudokuUI implements ActionListener {
                     } else {
                         sudokufield.setShowConflicts(false);
                     }
+                    sudokufield.repaint();
 
                     System.out.println("Checked? " + sudokufield.showConflicts);
                 }
