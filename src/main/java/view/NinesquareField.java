@@ -12,6 +12,8 @@ public class NinesquareField extends SudokuField {
 
     public NinesquareField(Puzzle puzzle) {
         super(puzzle);
+        tileWidth = 70;
+        tileHeight = 70;
         this.setPreferredSize(new Dimension(tileWidth * 9 , tileHeight * 9 ));
 //        this.setPreferredSize(new Dimension((int) (super.getParent().getBounds().width*0.9), (int) (super.getParent().getBounds().height*0.9)));
         selectedRow = -1;
@@ -87,6 +89,9 @@ public class NinesquareField extends SudokuField {
 
                 coloredtile.setColor(getTileColor(square));
                 graphics.setFont(gameFont);
+                if (puzzle.getTile(99, row, col).isChangeable() == false) {
+                    graphics.setFont(gameFont2);
+                }
                 graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);
 
                 if(!showConflicts && !input.equals("0") && !hint) {
@@ -114,15 +119,15 @@ public class NinesquareField extends SudokuField {
         if (selectedCol != -1 && selectedRow != -1) {
         if(puzzle.getTile(99, selectedRow, selectedCol).isChangeable() == true) {
 
-                graphics.setColor(Color.blue);
-               // graphics.fillRect(selectedCol * tileWidth + 1, selectedRow * tileHeight + 1, tileWidth - 1, tileHeight - 1);
+            graphics.setColor(Color.blue);
 
             graphics.setStroke(new BasicStroke(3));
+            int i = 2;
 
-                graphics.drawLine(selectedCol * tileWidth , selectedRow * tileHeight , selectedCol * tileWidth , selectedRow * tileHeight + tileHeight);
-                graphics.drawLine(selectedCol * tileWidth + tileWidth, selectedRow * tileHeight, selectedCol * tileWidth + tileWidth, selectedRow * tileHeight + tileHeight);
-                graphics.drawLine(selectedCol * tileWidth , selectedRow * tileHeight  , selectedCol * tileWidth + tileWidth, selectedRow * tileHeight );
-                graphics.drawLine(selectedCol * tileWidth , selectedRow * tileHeight + tileHeight, selectedCol * tileWidth + tileWidth, selectedRow * tileHeight + tileHeight);
+            graphics.drawLine(selectedCol * tileWidth + i , selectedRow * tileHeight + i , selectedCol * tileWidth + i, selectedRow * tileHeight + tileHeight - i);
+            graphics.drawLine(selectedCol * tileWidth + tileWidth - i, selectedRow * tileHeight + i, selectedCol * tileWidth + tileWidth - i, selectedRow * tileHeight + tileHeight -i);
+            graphics.drawLine(selectedCol * tileWidth + i, selectedRow * tileHeight  + i, selectedCol * tileWidth + tileWidth -i, selectedRow * tileHeight + i );
+            graphics.drawLine(selectedCol * tileWidth + i , selectedRow * tileHeight + tileHeight - i, selectedCol * tileWidth + tileWidth -i, selectedRow * tileHeight + tileHeight -i);
 
             }
         }

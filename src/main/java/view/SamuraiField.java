@@ -10,6 +10,8 @@ public class SamuraiField extends SudokuField {
 
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
+        tileWidth = 40;
+        tileHeight = 40;
         this.setPreferredSize(new Dimension(super.tileWidth * 21, super.tileHeight * 21));
 
     }
@@ -127,8 +129,19 @@ public class SamuraiField extends SudokuField {
                 if (selectedRow != -1 && selectedCol != -1) {
                     if (puzzle.getTile(selectedField, selectedRow, selectedCol).isChangeable() == true) {
 
-                        graphics.setColor(new Color(122, 197, 205));
-                        graphics.fillRect(startx + (selectedCol * tileWidth) + 1, starty + selectedRow * tileHeight + 1, tileWidth - 1, tileHeight - 1);
+                        graphics.setColor(Color.blue);
+
+                        graphics.setStroke(new BasicStroke(3));
+                        int i = 3;
+
+                        graphics.drawLine(startx + selectedCol * tileWidth + i  , starty + selectedRow * tileHeight + i , startx +selectedCol * tileWidth + i , starty +selectedRow * tileHeight + tileHeight - i );
+                        graphics.drawLine(startx +selectedCol * tileWidth + tileWidth - i , starty +selectedRow * tileHeight+ i , startx +selectedCol * tileWidth + tileWidth- i , starty +selectedRow * tileHeight + tileHeight - i );
+                        graphics.drawLine(startx +selectedCol * tileWidth + i , starty +selectedRow * tileHeight + i  , startx +selectedCol * tileWidth + tileWidth- i , starty +selectedRow * tileHeight + i  );
+                        graphics.drawLine(startx +selectedCol * tileWidth + i , starty +selectedRow * tileHeight + tileHeight-i , startx +selectedCol * tileWidth + tileWidth- i , starty + selectedRow * tileHeight + tileHeight - i );
+
+                        System.out.println(selectedField);
+                        System.out.println("Marked");
+
                     }
                 }
             }
@@ -141,7 +154,7 @@ public class SamuraiField extends SudokuField {
 
         setSelectedRowCol(x, y);
         if (selectedCol != -1 && selectedRow != -1) {
-            System.out.println("field: " + getFieldNr(x,y) + " value " + value + " row " + selectedRow + " col " + selectedCol);
+            System.out.println("fields: " + getFieldNr(x,y) + " value " + value + " row " + selectedRow + " col " + selectedCol);
             puzzle.setEntry( getFieldNr(x, y), selectedRow, selectedCol, value);
 
             selectedCol = -1;
@@ -152,14 +165,14 @@ public class SamuraiField extends SudokuField {
     public int getFieldNr(int x, int y) {
         int fieldnr = 99;
 
-        if (x <= getWidth()/7*3 && y <= getHeight()/7*3) {
+        if (x <= getWidth()/7*3 && y <= getHeight()/7*2 || x <= getWidth()/7*2 && y <= getHeight()/7*3) {
             fieldnr = 0;
         }
-        else if (getWidth()/7*4 < x && x <= getWidth() && y <= getHeight()/7*3) {
+        else if ( getWidth()/7*4 < x && x <= getWidth() &&  y <= getHeight()/7*2 || getWidth()/7*5 < x && x <= getWidth() && y <= getHeight()/7*3) {
             fieldnr = 1;
         }
 
-        else if (getWidth()/7*2 < x && x <= getWidth()/7*5 && y >= getHeight()/7*2 && y <= getHeight()/7*5) {
+        else if (getWidth()/7*2 < x && x <= getWidth()/7*5 && y >= getHeight()/7*2 && y <= getHeight()/7*4 || getWidth()/7*3 < x && x < getWidth()/7*4 && getHeight()/7*4 < y && getHeight()/7*5 > y) {
             fieldnr = 2;
 
         }
