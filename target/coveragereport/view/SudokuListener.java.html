@@ -8,24 +8,24 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
 
     static int x;
     static int y;
-    static int value;
     SudokuField sudokuField;
 
 
-<span class="nc" id="L15">    public SudokuListener(SudokuField sudokuField) {</span>
+<span class="nc" id="L14">    public SudokuListener(SudokuField sudokuField) {</span>
 
-<span class="nc" id="L17">        this.sudokuField = sudokuField;</span>
-<span class="nc" id="L18">        x = -1;</span>
-<span class="nc" id="L19">        y = -1;</span>
-<span class="nc" id="L20">    }</span>
+<span class="nc" id="L16">        this.sudokuField = sudokuField;</span>
+<span class="nc" id="L17">        x = -1;</span>
+<span class="nc" id="L18">        y = -1;</span>
+<span class="nc" id="L19">    }</span>
 
 
     public void mouseClicked(MouseEvent e) {
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (e.getButton() == MouseEvent.BUTTON1) {</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (e.getButton() == MouseEvent.BUTTON1) {</span>
 
-<span class="nc" id="L26">            y = e.getY();</span>
-<span class="nc" id="L27">            x = e.getX();</span>
-<span class="nc" id="L28">            System.out.println(&quot;CLICKED&quot; + &quot;X: &quot; + x  + &quot; y: &quot; + y);</span>
+<span class="nc" id="L25">            y = e.getY();</span>
+<span class="nc" id="L26">            x = e.getX();</span>
+<span class="nc" id="L27">            System.out.println(&quot;CLICKED&quot; + &quot;X: &quot; + x  + &quot; y: &quot; + y);</span>
+<span class="nc" id="L28">            sudokuField.setSelectedRowCol(x, y);</span>
 <span class="nc" id="L29">            e.getComponent().repaint();</span>
         }
 <span class="nc" id="L31">    }</span>

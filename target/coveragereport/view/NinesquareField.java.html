@@ -12,110 +12,147 @@ public class NinesquareField extends SudokuField {
 
     public NinesquareField(Puzzle puzzle) {
 <span class="nc" id="L14">        super(puzzle);</span>
-<span class="nc" id="L15">        this.setPreferredSize(new Dimension(tileWidth * 9, tileHeight * 9));</span>
+<span class="nc" id="L15">        tileWidth = 70;</span>
+<span class="nc" id="L16">        tileHeight = 70;</span>
+<span class="nc" id="L17">        this.setPreferredSize(new Dimension(tileWidth * 9 , tileHeight * 9 ));</span>
 //        this.setPreferredSize(new Dimension((int) (super.getParent().getBounds().width*0.9), (int) (super.getParent().getBounds().height*0.9)));
-<span class="nc" id="L17">        selectedRow = -1;</span>
-<span class="nc" id="L18">        selectedCol = -1;</span>
+<span class="nc" id="L19">        selectedRow = -1;</span>
+<span class="nc" id="L20">        selectedCol = -1;</span>
 
 
-<span class="nc" id="L21">    }</span>
+<span class="nc" id="L23">    }</span>
 
     @Override
     protected void paintComponent(Graphics g) {
-<span class="nc" id="L25">        super.paintComponent(g);</span>
-<span class="nc" id="L26">        graphics = (Graphics2D) g;</span>
-<span class="nc" id="L27">        graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));</span>
+<span class="nc" id="L27">        super.paintComponent(g);</span>
+<span class="nc" id="L28">        graphics = (Graphics2D) g;</span>
+<span class="nc" id="L29">        graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));</span>
 
-<span class="nc" id="L29">        graphics.fillRect(0, 0, this.getWidth(), this.getHeight());</span>
+<span class="nc" id="L31">        graphics.fillRect(0, 0, this.getWidth(), this.getHeight());</span>
 
-<span class="nc" id="L31">        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));</span>
+<span class="nc" id="L33">        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));</span>
 
-<span class="nc" id="L33">        createComponent(graphics);</span>
+<span class="nc" id="L35">        createComponent(graphics);</span>
 
-<span class="nc" id="L35">    }</span>
+<span class="nc" id="L37">    }</span>
 
     protected void paintComponent(Graphics g, int x, int y) {
-<span class="nc" id="L38">        super.paintComponent(g);</span>
-<span class="nc" id="L39">        graphics = (Graphics2D) g;</span>
+<span class="nc" id="L40">        super.paintComponent(g);</span>
+<span class="nc" id="L41">        graphics = (Graphics2D) g;</span>
 
-<span class="nc" id="L41">        graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));</span>
+<span class="nc" id="L43">        graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));</span>
 
-<span class="nc" id="L43">        graphics.fillRect(0, 0, this.getWidth(), this.getHeight());</span>
+<span class="nc" id="L45">        graphics.fillRect(0, 0, this.getWidth(), this.getHeight());</span>
 
-<span class="nc" id="L45">        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));</span>
+<span class="nc" id="L47">        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));</span>
 
-<span class="nc" id="L47">        createComponent(graphics);</span>
+<span class="nc" id="L49">        createComponent(graphics);</span>
 
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L51">    }</span>
     public void createComponent(Graphics g) {
 
-<span class="nc" id="L52">        graphics = (Graphics2D) g;</span>
+<span class="nc" id="L54">        graphics = (Graphics2D) g;</span>
 
 
-<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (int x = 0; x &lt;= this.getWidth(); x += tileWidth) {</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">            if ((x / tileWidth) % 3 == 0) {</span>
-<span class="nc" id="L57">                graphics.setStroke(new BasicStroke(2));</span>
-<span class="nc" id="L58">                graphics.drawLine(x, 0, x, this.getHeight());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int x = 0; x &lt;= this.getWidth(); x += tileWidth) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            if ((x / tileWidth) % 3 == 0) {</span>
+<span class="nc" id="L59">                graphics.setStroke(new BasicStroke(2));</span>
+<span class="nc" id="L60">                graphics.drawLine(x, 0, x, this.getHeight());</span>
 
             } else {
-<span class="nc" id="L61">                graphics.setStroke(new BasicStroke(2));</span>
-<span class="nc" id="L62">                graphics.drawLine(x, 0, x, this.getHeight());</span>
+<span class="nc" id="L63">                graphics.setStroke(new BasicStroke(2));</span>
+<span class="nc" id="L64">                graphics.drawLine(x, 0, x, this.getHeight());</span>
             }
         }
 
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (int y = 0; y &lt;= this.getHeight(); y += tileHeight) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (int y = 0; y &lt;= this.getHeight(); y += tileHeight) {</span>
 
-<span class="nc bnc" id="L68" title="All 2 branches missed.">            if ((y / tileHeight) % 3 == 0) {</span>
-<span class="nc" id="L69">                graphics.setStroke(new BasicStroke(2));</span>
-<span class="nc" id="L70">                graphics.drawLine(0, y, this.getWidth(), y);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if ((y / tileHeight) % 3 == 0) {</span>
+<span class="nc" id="L71">                graphics.setStroke(new BasicStroke(2));</span>
+<span class="nc" id="L72">                graphics.drawLine(0, y, this.getWidth(), y);</span>
 
             } else {
-<span class="nc" id="L73">                graphics.setStroke(new BasicStroke(2));</span>
-<span class="nc" id="L74">                graphics.drawLine(0, y, this.getWidth(), y);</span>
+<span class="nc" id="L75">                graphics.setStroke(new BasicStroke(2));</span>
+<span class="nc" id="L76">                graphics.drawLine(0, y, this.getWidth(), y);</span>
 
             }
         }
 
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (int row = 0; row &lt;=8; row++){</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">            for (int col = 0; col &lt;= 8; col++) {</span>
-<span class="nc" id="L81">                String input = String.valueOf(puzzle.getTile(99, row, col).getEntry());</span>
 
-<span class="nc" id="L83">                Graphics2D coloredtile = (Graphics2D) g;</span>
-<span class="nc" id="L84">                int square = puzzle.getColor(99, row, col);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (int row = 0; row &lt;=8; row++){</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            for (int col = 0; col &lt;= 8; col++) {</span>
+<span class="nc" id="L84">                String input = String.valueOf(puzzle.getTile(99, row, col).getEntry());</span>
+<span class="nc" id="L85">                boolean hint = puzzle.getTile(99, row, col).isHint();</span>
 
-<span class="nc" id="L86">                coloredtile.setColor(getTileColor(square));</span>
-<span class="nc" id="L87">                graphics.setFont(gameFont);</span>
-<span class="nc" id="L88">                graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);</span>
+<span class="nc" id="L87">                Graphics2D coloredtile = (Graphics2D) g;</span>
+<span class="nc" id="L88">                int square = puzzle.getColor(99, row, col);</span>
 
-<span class="nc bnc" id="L90" title="All 4 branches missed.">                if(!showConflicts &amp;&amp; !input.equals(&quot;0&quot;)) {</span>
-<span class="nc" id="L91">                    graphics.setColor(Color.BLACK);</span>
-<span class="nc" id="L92">                    graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
-<span class="nc bnc" id="L93" title="All 4 branches missed.">                } else if (showConflicts &amp;&amp; !input.equals((&quot;0&quot;))){</span>
-<span class="nc" id="L94">                    boolean conflicted = puzzle.getTile(99, row, col).isConflicted();</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">                    if (conflicted){</span>
-<span class="nc" id="L96">                        graphics.setColor(Color.RED);</span>
-<span class="nc" id="L97">                        graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
+<span class="nc" id="L90">                coloredtile.setColor(getTileColor(square));</span>
+<span class="nc" id="L91">                graphics.setFont(gameFont);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                if (puzzle.getTile(99, row, col).isChangeable() == false) {</span>
+<span class="nc" id="L93">                    graphics.setFont(gameFont2);</span>
+                }
+<span class="nc" id="L95">                graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);</span>
+
+<span class="nc bnc" id="L97" title="All 6 branches missed.">                if(!showConflicts &amp;&amp; !input.equals(&quot;0&quot;) &amp;&amp; !hint) {</span>
+<span class="nc" id="L98">                    graphics.setColor(Color.BLACK);</span>
+<span class="nc" id="L99">                    graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
+<span class="nc bnc" id="L100" title="All 6 branches missed.">                } else if (showConflicts &amp;&amp; !input.equals(&quot;0&quot;) &amp;&amp; !hint){</span>
+<span class="nc" id="L101">                    boolean conflicted = puzzle.getTile(99, row, col).isConflicted();</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                    if (conflicted){</span>
+<span class="nc" id="L103">                        graphics.setColor(Color.RED);</span>
+<span class="nc" id="L104">                        graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
                     } else {
-<span class="nc" id="L99">                        graphics.setColor(Color.BLACK);</span>
-<span class="nc" id="L100">                        graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
+<span class="nc" id="L106">                        graphics.setColor(Color.BLACK);</span>
+<span class="nc" id="L107">                        graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
                     }
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                } else if (hint){</span>
+<span class="nc" id="L110">                    graphics.setColor(Color.GREEN);</span>
+<span class="nc" id="L111">                    graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);</span>
+<span class="nc" id="L112">                    puzzle.getTile(99,row, col).setHint(false);</span>
                 }
 
             }
 
         }
-<span class="nc" id="L107">    }</span>
+
+<span class="nc bnc" id="L119" title="All 4 branches missed.">        if (selectedCol != -1 &amp;&amp; selectedRow != -1) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if(puzzle.getTile(99, selectedRow, selectedCol).isChangeable() == true) {</span>
+
+<span class="nc" id="L122">            graphics.setColor(Color.blue);</span>
+
+<span class="nc" id="L124">            graphics.setStroke(new BasicStroke(3));</span>
+<span class="nc" id="L125">            int i = 2;</span>
+
+<span class="nc" id="L127">            graphics.drawLine(selectedCol * tileWidth + i , selectedRow * tileHeight + i , selectedCol * tileWidth + i, selectedRow * tileHeight + tileHeight - i);</span>
+<span class="nc" id="L128">            graphics.drawLine(selectedCol * tileWidth + tileWidth - i, selectedRow * tileHeight + i, selectedCol * tileWidth + tileWidth - i, selectedRow * tileHeight + tileHeight -i);</span>
+<span class="nc" id="L129">            graphics.drawLine(selectedCol * tileWidth + i, selectedRow * tileHeight  + i, selectedCol * tileWidth + tileWidth -i, selectedRow * tileHeight + i );</span>
+<span class="nc" id="L130">            graphics.drawLine(selectedCol * tileWidth + i , selectedRow * tileHeight + tileHeight - i, selectedCol * tileWidth + tileWidth -i, selectedRow * tileHeight + tileHeight -i);</span>
+
+            }
+        }
+
+
+<span class="nc" id="L136">    }</span>
 
 
     public void inputActionListener(int x, int y, int value) {
 
-<span class="nc" id="L112">        System.out.println( x + &quot; - &quot; + y + &quot; - &quot; + value);</span>
-<span class="nc" id="L113">        selectedCol = x / tileWidth;</span>
-<span class="nc" id="L114">        selectedRow = y / tileHeight;</span>
-<span class="nc bnc" id="L115" title="All 4 branches missed.">        if (selectedCol != -1 &amp;&amp; selectedRow != -1) {</span>
-<span class="nc" id="L116">            puzzle.setEntry(99, selectedRow, selectedCol, value);</span>
+<span class="nc" id="L141">        System.out.println( x + &quot; - &quot; + y + &quot; - &quot; + value);</span>
+<span class="nc" id="L142">        setSelectedRowCol(x,y);</span>
+
+<span class="nc bnc" id="L144" title="All 6 branches missed.">        if (selectedCol != -1 &amp;&amp; selectedRow != -1 &amp;&amp; value != -1) {</span>
+<span class="nc" id="L145">            puzzle.setEntry(99, selectedRow, selectedCol, value);</span>
         }
-<span class="nc" id="L118">    }</span>
+<span class="nc" id="L147">        selectedRow = -1;</span>
+<span class="nc" id="L148">        selectedRow = -1;</span>
+<span class="nc" id="L149">    }</span>
+    public void setSelectedRowCol(int x, int y) {
+
+<span class="nc" id="L152">        selectedCol = x / tileWidth;</span>
+<span class="nc" id="L153">        selectedRow = y / tileHeight;</span>
+
+<span class="nc" id="L155">    }</span>
 
 
 

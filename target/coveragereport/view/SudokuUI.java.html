@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SudokuUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Sudoku_App$Junittests.exec</a> &gt; <a href="index.source.html" class="el_package">view</a> &gt; <span class="el_source">SudokuUI.java</span></div><h1>SudokuUI.java</h1><pre class="source lang-java linenums">package view;
 
 import app.Loader;
+import app.Solver;
 import model.Type;
-import model.Ninesquare;
 import model.Puzzle;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.rmi.activation.ActivationInstantiator;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.Timer;
+import javax.swing.plaf.ColorUIResource;
+import java.util.TimerTask;
 
 
 public class SudokuUI implements ActionListener {
@@ -23,247 +28,468 @@ public class SudokuUI implements ActionListener {
     private SudokuField sudokufield;
     private JPanel sudokuPanel;
     private JPanel infoPanel;
+    private JLabel timerHeader;
+    private JLabel timerField;
     final Container container;
     private Puzzle puzzle;
     private Color color;
+    private Timer timer;
+    private int timeUsed;
+    private SudokuListener listener;
 
-    public SudokuField getSudokufield() {
-<span class="nc" id="L31">        return sudokufield;</span>
-    }
-
-<span class="nc" id="L34">    public SudokuUI(Puzzle puzzle) {</span>
-
-<span class="nc" id="L36">        this.frame = new JFrame(&quot;Sudoku&quot;);</span>
-<span class="nc" id="L37">        this.puzzle=puzzle;</span>
-<span class="nc" id="L38">        color = new Color (175,210,245);</span>
-
-<span class="nc" id="L40">        container = this.frame.getContentPane();</span>
-
-<span class="nc" id="L42">        sudokuPanel = new JPanel(new BorderLayout(10,10));</span>
-<span class="nc" id="L43">        infoPanel = new JPanel(new FlowLayout());</span>
-
-<span class="nc" id="L45">        JLabel startImage = new JLabel(new ImageIcon(&quot;src/main/java/ressources/logo.png&quot;));</span>
-
-<span class="nc" id="L47">        sudokuPanel.add(startImage);</span>
-<span class="nc" id="L48">        sudokuPanel.setBackground(color);</span>
-
-     /*   ImageIcon backgroundImage = new ImageIcon(&quot;src/main/java/ressources/background.jpg&quot;);
-        BackgroundPanel background = new JLabel();
-        background.setIcon(backgroundImage);
-        sudokuPanel.add(background);
-      */
-
-<span class="nc" id="L56">        container.add(sudokuPanel);</span>
-
-<span class="nc" id="L58">        createMenu();</span>
-
-<span class="nc" id="L60">        this.frame.setBackground(color);</span>
-<span class="nc" id="L61">        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
-<span class="nc" id="L62">        this.frame.setFocusable(true);</span>
-<span class="nc" id="L63">        this.frame.isFocused();</span>
-<span class="nc" id="L64">        this.frame.requestFocusInWindow();</span>
-<span class="nc" id="L65">        this.frame.requestFocus();</span>
-<span class="nc" id="L66">        this.frame.setResizable(true);</span>
-<span class="nc" id="L67">        this.frame.pack();</span>
-<span class="nc" id="L68">        this.frame.setVisible(true);</span>
+<span class="nc" id="L40">    public SudokuUI(Puzzle puzzle) throws IOException {</span>
 
 
-<span class="nc" id="L71">    }</span>
+<span class="nc" id="L43">        this.frame = new JFrame(&quot;Sudoku&quot;);</span>
+<span class="nc" id="L44">        this.puzzle=puzzle;</span>
+<span class="nc" id="L45">        color = new Color (175,210,245);</span>
+
+<span class="nc" id="L47">        container = this.frame.getContentPane();</span>
+
+<span class="nc" id="L49">        sudokuPanel = new JPanel(new BorderLayout(10,10));</span>
+<span class="nc" id="L50">        infoPanel = new JPanel(new FlowLayout());</span>
+
+<span class="nc" id="L52">        JLabel startImage = new JLabel(new ImageIcon(&quot;src/main/java/ressources/logo.png&quot;));</span>
+
+<span class="nc" id="L54">        UIManager UI=new UIManager();</span>
+<span class="nc" id="L55">        UI.put(&quot;OptionPane.background&quot;,new ColorUIResource(175,210,245));</span>
+<span class="nc" id="L56">        UI.put(&quot;Panel.background&quot;,new ColorUIResource(175,210,245));</span>
+
+<span class="nc" id="L58">        sudokuPanel.add(startImage);</span>
+<span class="nc" id="L59">        sudokuPanel.setBackground(color);</span>
+
+<span class="nc" id="L61">        container.add(sudokuPanel);</span>
+<span class="nc" id="L62">        timerHeader = new JLabel(&quot;Time&quot;);</span>
+<span class="nc" id="L63">        timerField = new JLabel(&quot;0&quot;);</span>
+
+
+<span class="nc" id="L66">        createMenu();</span>
+
+<span class="nc" id="L68">        this.frame.setBackground(color);</span>
+<span class="nc" id="L69">        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L70">        this.frame.setFocusable(true);</span>
+<span class="nc" id="L71">        this.frame.isFocused();</span>
+<span class="nc" id="L72">        this.frame.requestFocusInWindow();</span>
+<span class="nc" id="L73">        this.frame.requestFocus();</span>
+<span class="nc" id="L74">        this.frame.setResizable(true);</span>
+<span class="nc" id="L75">        this.frame.pack();</span>
+<span class="nc" id="L76">        this.frame.setVisible(true);</span>
+
+
+<span class="nc" id="L79">    }</span>
+
 
     public void createGame() {
 
-<span class="nc" id="L75">        sudokuPanel.removeAll();</span>
+<span class="nc" id="L84">        sudokuPanel.removeAll();</span>
 
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (puzzle.getType() == Type.SAMURAI) {</span>
-<span class="nc" id="L78">            this.sudokufield = new SamuraiField(puzzle);</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        } else if (puzzle.getType() == Type.CLASSIC) {</span>
-<span class="nc" id="L80">            this.sudokufield = new NinesquareField(puzzle);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (sudokufield != null) {</span>
+<span class="nc" id="L87">            this.sudokufield = null;</span>
+<span class="nc" id="L88">            this.frame.removeKeyListener(listener);</span>
+
         }
 
-<span class="nc" id="L83">        sudokuPanel.add(sudokufield);</span>
-<span class="nc" id="L84">        SudokuListener listener = new SudokuListener(sudokufield);</span>
-<span class="nc" id="L85">        sudokufield.addMouseListener(listener);</span>
-<span class="nc" id="L86">        this.frame.addKeyListener(listener);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (puzzle.getType() == Type.SAMURAI) {</span>
+<span class="nc" id="L93">            this.sudokufield = new SamuraiField(puzzle);</span>
+<span class="nc" id="L94">            System.out.println(&quot;Samurai Puzzle&quot;);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        } else if (puzzle.getType() == Type.CLASSIC || puzzle.getType() == Type.FREEFORM) {</span>
+<span class="nc" id="L96">            this.sudokufield = new NinesquareField(puzzle);</span>
+        }
 
-<span class="nc" id="L88">        sudokuPanel.setLayout(new FlowLayout());</span>
-<span class="nc" id="L89">        createInfoPanel();</span>
-<span class="nc" id="L90">        this.frame.pack();</span>
+<span class="nc" id="L99">        sudokuPanel.add(sudokufield);</span>
 
-<span class="nc" id="L92">    }</span>
+<span class="nc" id="L101">        listener = new SudokuListener(sudokufield);</span>
+<span class="nc" id="L102">        sudokufield.addMouseListener(listener);</span>
+<span class="nc" id="L103">        this.frame.addKeyListener(listener);</span>
 
-    public void createMenu(){
+<span class="nc" id="L105">        sudokuPanel.setLayout(new FlowLayout());</span>
+<span class="nc" id="L106">        createInfoPanel();</span>
+<span class="nc" id="L107">        this.frame.pack();</span>
 
-<span class="nc" id="L96">        JPanel menupanel = new JPanel();</span>
-<span class="nc" id="L97">        menupanel.setPreferredSize(new Dimension(200, 600));</span>
-<span class="nc" id="L98">        menupanel.setLayout(new GridLayout(6,1, 0, 0));</span>
-<span class="nc" id="L99">        menupanel.setBackground(color);</span>
+<span class="nc" id="L109">    }</span>
 
-<span class="nc" id="L101">        JButton load = new JButton(&quot;Load&quot;);</span>
-<span class="nc" id="L102">        JButton create = new JButton(&quot;Create&quot;);</span>
-<span class="nc" id="L103">        JButton solve = new JButton(&quot;Solve&quot;);</span>
-<span class="nc" id="L104">        JButton hint = new JButton(&quot;Hint&quot;);</span>
-<span class="nc" id="L105">        JButton help = new JButton(&quot;Help&quot;);</span>
-<span class="nc" id="L106">        JButton exit = new JButton(&quot;Exit&quot;);</span>
+    public void createMenu() throws IOException {
 
-       // load.setIcon(new ImageIcon(&quot;src/main/java/ressources/buttonbackground.png&quot;));
+<span class="nc" id="L113">        JPanel menupanel = new JPanel();</span>
+<span class="nc" id="L114">        menupanel.setPreferredSize(new Dimension(100, 600));</span>
+<span class="nc" id="L115">        menupanel.setMinimumSize(new Dimension(100, 500));</span>
+<span class="nc" id="L116">        menupanel.setLayout(new GridLayout(10,1, 0, 0));</span>
+<span class="nc" id="L117">        menupanel.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="nc" id="L118">        menupanel.setBorder(BorderFactory.createMatteBorder(0,0,0,2, Color.BLACK));</span>
+<span class="nc" id="L119">        menupanel.setBackground(color);</span>
 
-<span class="nc" id="L110">        load.addActionListener(new ActionListener() {</span>
+
+<span class="nc" id="L122">        JLabel load = new JLabel();</span>
+<span class="nc" id="L123">        load.setName(&quot;load&quot;);</span>
+<span class="nc" id="L124">        load.setToolTipText(&quot;Load&quot;);</span>
+<span class="nc" id="L125">        load.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L126">        JLabel create = new JLabel();</span>
+<span class="nc" id="L127">        create.setName(&quot;create&quot;);</span>
+<span class="nc" id="L128">        create.setToolTipText(&quot;Create&quot;);</span>
+<span class="nc" id="L129">        create.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L130">        JLabel save = new JLabel();</span>
+<span class="nc" id="L131">        save.setName(&quot;save&quot;);</span>
+<span class="nc" id="L132">        save.setToolTipText(&quot;Save&quot;);</span>
+<span class="nc" id="L133">        save.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L134">        JLabel solve = new JLabel();</span>
+<span class="nc" id="L135">        solve.setName(&quot;solve&quot;);</span>
+<span class="nc" id="L136">        solve.setToolTipText(&quot;Solve&quot;);</span>
+<span class="nc" id="L137">        solve.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L138">        JLabel hint = new JLabel();</span>
+<span class="nc" id="L139">        hint.setName(&quot;hint&quot;);</span>
+<span class="nc" id="L140">        hint.setToolTipText(&quot;Hint&quot;);</span>
+<span class="nc" id="L141">        hint.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L142">        JLabel help = new JLabel();</span>
+<span class="nc" id="L143">        help.setName(&quot;help&quot;);</span>
+<span class="nc" id="L144">        help.setToolTipText(&quot;Help&quot;);</span>
+<span class="nc" id="L145">        help.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L146">        JLabel exit = new JLabel();</span>
+<span class="nc" id="L147">        exit.setName(&quot;exit&quot;);</span>
+<span class="nc" id="L148">        exit.setToolTipText(&quot;Exit&quot;);</span>
+<span class="nc" id="L149">        exit.setHorizontalAlignment(SwingConstants.CENTER);</span>
+
+<span class="nc" id="L151">        addIcon(load);</span>
+<span class="nc" id="L152">        addIcon(create);</span>
+<span class="nc" id="L153">        addIcon(save);</span>
+<span class="nc" id="L154">        addIcon(solve);</span>
+<span class="nc" id="L155">        addIcon(hint);</span>
+<span class="nc" id="L156">        addIcon(help);</span>
+<span class="nc" id="L157">        addIcon(exit);</span>
+
+<span class="nc" id="L159">        timerHeader.setFont(new Font(&quot;Verdana&quot;, Font.BOLD, 26));</span>
+<span class="nc" id="L160">        timerField.setFont(new Font(&quot;Verdana&quot;, Font.BOLD, 28));</span>
+<span class="nc" id="L161">        timerHeader.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L162">        timerField.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L163">        timerField.setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.BLACK));</span>
+
+<span class="nc" id="L165">        menupanel.add(timerHeader);</span>
+<span class="nc" id="L166">        menupanel.add(timerField);</span>
+<span class="nc" id="L167">        menupanel.add(load);</span>
+<span class="nc" id="L168">        menupanel.add(create);</span>
+<span class="nc" id="L169">        menupanel.add(save);</span>
+<span class="nc" id="L170">        menupanel.add(solve);</span>
+<span class="nc" id="L171">        menupanel.add(hint);</span>
+<span class="nc" id="L172">        menupanel.add(help);</span>
+<span class="nc" id="L173">        menupanel.add(exit);</span>
+
+
+
+<span class="nc" id="L177">        load.addMouseListener(new MouseAdapter() {</span>
             @Override
-            public void actionPerformed(ActionEvent e) {
-<span class="nc" id="L113">                JFileChooser fc = new JFileChooser();</span>
+            public void mouseClicked(MouseEvent e) {
 
-<span class="nc" id="L115">                fc.showOpenDialog(null);</span>
-<span class="nc" id="L116">            }</span>
+<span class="nc" id="L181">                ArrayList&lt;Puzzle&gt; loadedPuzzles = Loader.getStoredPuzzles();</span>
+<span class="nc" id="L182">                ArrayList&lt;String&gt; namedPuzzles = new ArrayList&lt;&gt;();</span>
+
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                for (Puzzle p : loadedPuzzles) {</span>
+<span class="nc" id="L186">                    String type = p.getType().toString();</span>
+<span class="nc" id="L187">                    String difficulty = p.getDifficulty().toString();</span>
+<span class="nc" id="L188">                    String dropdowntext = &quot;- Difficulty: &quot; + difficulty + &quot; | &quot; + &quot; Type: &quot; + type;</span>
+<span class="nc" id="L189">                    namedPuzzles.add(dropdowntext);</span>
+<span class="nc" id="L190">                }</span>
+<span class="nc" id="L191">                Object[] selectionValues = namedPuzzles.toArray();</span>
+
+<span class="nc" id="L193">                Object selected = JOptionPane.showInputDialog(null, &quot;Choose a puzzle?&quot;,</span>
+<span class="nc" id="L194">                        &quot;Load a Game&quot;, JOptionPane.QUESTION_MESSAGE, null, selectionValues, 1);</span>
+
+<span class="nc" id="L196">                int index = namedPuzzles.indexOf(selected);</span>
+
+<span class="nc" id="L198">                System.out.println(index);</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">                if ( index &gt;= 0){</span>
+
+
+                    try {
+
+<span class="nc" id="L204">                        puzzle = Loader.loadPuzzle(namedPuzzles.indexOf(selected));</span>
+<span class="nc" id="L205">                    } catch (Exception exception) {</span>
+<span class="nc" id="L206">                        exception.printStackTrace();</span>
+<span class="nc" id="L207">                    }</span>
+<span class="nc" id="L208">                    createGame();</span>
+                }
+<span class="nc" id="L210">            }</span>
+
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L215">                createHover(load);</span>
+
+<span class="nc" id="L217">            }</span>
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L221">                addIcon(load);</span>
+<span class="nc" id="L222">            }</span>
         });
 
-<span class="nc" id="L119">        create.addActionListener(new ActionListener() {</span>
+<span class="nc" id="L225">        create.addMouseListener(new MouseAdapter() {</span>
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L228">                Object[] options = {&quot;Classic&quot;, &quot;Samurai&quot;, &quot;Freiform&quot;};</span>
 
-<span class="nc" id="L123">                Object[] options = {&quot;Classic&quot;, &quot;Samurai&quot;, &quot;Freiform&quot;};</span>
-
-<span class="nc" id="L125">                int selected = JOptionPane.showOptionDialog(null,</span>
+<span class="nc" id="L230">                int selected = JOptionPane.showOptionDialog(null,</span>
                         &quot;Welches Spiel möchten Sie starten?&quot;,
                         &quot;Spiel starten&quot;,
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.INFORMATION_MESSAGE,
                         null, options, options[0]);
-<span class="nc" id="L131">                System.out.println(&quot;Spieleart: &quot; + selected);</span>
+<span class="nc" id="L236">                System.out.println(&quot;Spieleart: &quot; + selected);</span>
 
-<span class="nc bnc" id="L133" title="All 2 branches missed.">                if (selected == 0) {</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                if (selected == 0) {</span>
                     try {
-<span class="nc" id="L135">                        puzzle = Loader.loadPuzzle(1);</span>
-<span class="nc" id="L136">                    } catch (Exception exception) {</span>
-<span class="nc" id="L137">                        exception.printStackTrace();</span>
-<span class="nc" id="L138">                    }</span>
+<span class="nc" id="L240">                        puzzle = Loader.loadPuzzle(1);</span>
+<span class="nc" id="L241">                        createGame();</span>
+<span class="nc" id="L242">                    } catch (Exception exception) {</span>
+<span class="nc" id="L243">                        exception.printStackTrace();</span>
+<span class="nc" id="L244">                    }</span>
                 }
-<span class="nc bnc" id="L140" title="All 2 branches missed.">                else if (selected == 1) {</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">                else if (selected == 1) {</span>
                     try {
-<span class="nc" id="L142">                        puzzle = Loader.loadPuzzle(2);</span>
-<span class="nc" id="L143">                    } catch (Exception exception) {</span>
-<span class="nc" id="L144">                        exception.printStackTrace();</span>
-<span class="nc" id="L145">                    }</span>
+<span class="nc" id="L248">                        puzzle = Loader.loadPuzzle(2);</span>
+<span class="nc" id="L249">                        createGame();</span>
+<span class="nc" id="L250">                    } catch (Exception exception) {</span>
+<span class="nc" id="L251">                        exception.printStackTrace();</span>
+<span class="nc" id="L252">                    }</span>
                 }
-<span class="nc bnc" id="L147" title="All 2 branches missed.">                else if (selected == 2) {</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">                else if (selected == 2) {</span>
                     try {
-<span class="nc" id="L149">                        puzzle = Loader.loadPuzzle(0);</span>
-<span class="nc" id="L150">                    } catch (Exception exception) {</span>
-<span class="nc" id="L151">                        exception.printStackTrace();</span>
-<span class="nc" id="L152">                    }</span>
+<span class="nc" id="L256">                        puzzle = Loader.loadPuzzle(0);</span>
+<span class="nc" id="L257">                        createGame();</span>
+<span class="nc" id="L258">                    } catch (Exception exception) {</span>
+<span class="nc" id="L259">                        exception.printStackTrace();</span>
+<span class="nc" id="L260">                    }</span>
                 }
-<span class="nc" id="L154">                createGame();</span>
 
-<span class="nc" id="L156">            }</span>
+<span class="nc" id="L263">            }</span>
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L267">                createHover(create);</span>
+<span class="nc" id="L268">            }</span>
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L272">                addIcon(create);</span>
+<span class="nc" id="L273">            }</span>
         });
 
-<span class="nc" id="L159">        solve.addActionListener(new ActionListener() {</span>
+<span class="nc" id="L276">        save.addMouseListener(new MouseAdapter() {</span>
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
 
-<span class="nc" id="L163">            }</span>
+<span class="nc" id="L280">                Object[] options = {&quot;Save&quot;, &quot;Save &amp; Exit&quot;, &quot;Cancel&quot;};</span>
+
+<span class="nc" id="L282">                int selected = JOptionPane.showOptionDialog(null,</span>
+                        &quot;Save the game?&quot;,
+                        &quot;Save&quot;,
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null, options, options[0]);
+
+<span class="nc bnc" id="L289" title="All 2 branches missed.">                if (selected == 0) {</span>
+                    try {
+                        //Save the Game
+                        // Send playing time to puzzle
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                else if (selected == 1) {</span>
+                    try {
+                        // Send playing time to puzzle
+<span class="nc" id="L300">                        System.exit(0);</span>
+
+<span class="nc" id="L302">                    } catch (Exception exception) {</span>
+<span class="nc" id="L303">                        exception.printStackTrace();</span>
+<span class="nc" id="L304">                    }</span>
+                }
+<span class="nc bnc" id="L306" title="All 2 branches missed.">                else if (selected == 2) {</span>
+                    try {
+
+                        // Do nothing
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }
+
+<span class="nc" id="L315">            }</span>
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L319">                createHover(save);</span>
+<span class="nc" id="L320">            }</span>
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L324">                addIcon(save);</span>
+<span class="nc" id="L325">            }</span>
         });
 
-<span class="nc" id="L166">        hint.addActionListener(new ActionListener() {</span>
+<span class="nc" id="L328">        solve.addMouseListener(new MouseAdapter() {</span>
             @Override
-            public void actionPerformed(ActionEvent e) {
-<span class="nc" id="L169">                sudokufield.repaint();</span>
-<span class="nc" id="L170">            }</span>
+            public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L331">                Solver.solve(puzzle);</span>
+<span class="nc" id="L332">                sudokufield.repaint();</span>
+<span class="nc" id="L333">            }</span>
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L337">                createHover(solve);</span>
+<span class="nc" id="L338">            }</span>
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L342">                addIcon(solve);</span>
+<span class="nc" id="L343">            }</span>
         });
 
-<span class="nc" id="L173">        help.addActionListener(new ActionListener() {</span>
+<span class="nc" id="L346">        hint.addMouseListener(new MouseAdapter() {</span>
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
 
-<span class="nc" id="L177">                JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L350">                Solver.Candidate candidate = Solver.getHint(puzzle);</span>
+<span class="nc" id="L351">                puzzle.setEntry(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol(), candidate.getEntry());</span>
+<span class="nc" id="L352">                puzzle.getTile(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol()).setHint(true);</span>
+<span class="nc" id="L353">                sudokufield.repaint();</span>
+<span class="nc" id="L354">            }</span>
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L358">                createHover(hint);</span>
+<span class="nc" id="L359">            }</span>
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L363">                addIcon(hint);</span>
+<span class="nc" id="L364">            }</span>
+        });
+
+
+<span class="nc" id="L368">        help.addMouseListener(new MouseAdapter() {</span>
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+<span class="nc" id="L372">                JOptionPane.showMessageDialog(null,</span>
                         &quot;Hier kommt der Hilfetext zur Unterstützung für Anfänger&quot;,
                         &quot;Sudoku Help&quot;,3);
+<span class="nc" id="L375">            }</span>
 
-<span class="nc" id="L181">            }</span>
-        });
-
-<span class="nc" id="L184">        exit.addActionListener(new ActionListener() {</span>
             @Override
-            public void actionPerformed(ActionEvent e) {
-<span class="nc" id="L187">                System.exit(0);</span>
-<span class="nc" id="L188">            }</span>
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L379">                createHover(help);</span>
+<span class="nc" id="L380">            }</span>
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L384">               addIcon(help);</span>
+<span class="nc" id="L385">            }</span>
         });
 
-<span class="nc" id="L191">        load.setFocusable(false);</span>
-<span class="nc" id="L192">        create.setFocusable(false);</span>
-<span class="nc" id="L193">        solve.setFocusable(false);</span>
-<span class="nc" id="L194">        hint.setFocusable(false);</span>
-<span class="nc" id="L195">        help.setFocusable(false);</span>
-<span class="nc" id="L196">        exit.setFocusable(false);</span>
+<span class="nc" id="L388">        exit.addMouseListener(new MouseAdapter() {</span>
+            @Override
+            public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L391">                System.exit(0);</span>
+<span class="nc" id="L392">            }</span>
 
-<span class="nc" id="L198">        menupanel.add(load);</span>
-<span class="nc" id="L199">        menupanel.add(create);</span>
-<span class="nc" id="L200">        menupanel.add(solve);</span>
-<span class="nc" id="L201">        menupanel.add(hint);</span>
-<span class="nc" id="L202">        menupanel.add(help);</span>
-<span class="nc" id="L203">        menupanel.add(exit);</span>
+            @Override
+            public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L396">                createHover(exit);</span>
+<span class="nc" id="L397">            }</span>
 
-<span class="nc" id="L205">        this.frame.add(menupanel, BorderLayout.WEST);</span>
+            @Override
+            public void mouseExited(MouseEvent e) {
+<span class="nc" id="L401">                addIcon(exit);</span>
+<span class="nc" id="L402">            }</span>
+        });
 
-<span class="nc" id="L207">    }</span>
+<span class="nc" id="L405">        load.setFocusable(false);</span>
+<span class="nc" id="L406">        create.setFocusable(false);</span>
+<span class="nc" id="L407">        solve.setFocusable(false);</span>
+<span class="nc" id="L408">        hint.setFocusable(false);</span>
+<span class="nc" id="L409">        help.setFocusable(false);</span>
+<span class="nc" id="L410">        exit.setFocusable(false);</span>
+
+<span class="nc" id="L412">        menupanel.add(load);</span>
+<span class="nc" id="L413">        menupanel.add(create);</span>
+<span class="nc" id="L414">        menupanel.add(save);</span>
+<span class="nc" id="L415">        menupanel.add(solve);</span>
+<span class="nc" id="L416">        menupanel.add(hint);</span>
+<span class="nc" id="L417">        menupanel.add(help);</span>
+<span class="nc" id="L418">        menupanel.add(exit);</span>
+
+<span class="nc" id="L420">        this.frame.add(menupanel, BorderLayout.WEST);</span>
+
+<span class="nc" id="L422">    }</span>
+
+    public void createHover (JLabel label) {
+<span class="nc" id="L425">        label.setIcon(new ImageIcon(new ImageIcon(&quot;src/main/java/ressources/btn&quot; + label.getName() + &quot;.png&quot;).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT)));</span>
+<span class="nc" id="L426">    }</span>
+
+    public void addIcon (JLabel label) {
+<span class="nc" id="L429">        label.setIcon(new ImageIcon(new ImageIcon(&quot;src/main/java/ressources/btn&quot; + label.getName() + &quot;.png&quot;).getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));</span>
+
+<span class="nc" id="L431">    }</span>
 
     public void createInfoPanel() {
 
-<span class="nc" id="L211">        infoPanel.removeAll();</span>
-<span class="nc" id="L212">        infoPanel.setBackground(color);</span>
+<span class="nc" id="L435">        infoPanel.removeAll();</span>
+<span class="nc" id="L436">        infoPanel.setBackground(color);</span>
 
-<span class="nc" id="L214">        JCheckBox showConflicts = new JCheckBox(&quot;Show Conflicts?&quot;);</span>
-<span class="nc" id="L215">        showConflicts.setFocusable(false);</span>
+<span class="nc" id="L438">        JCheckBox showConflicts = new JCheckBox(&quot;Show Conflicts?&quot;);</span>
+<span class="nc" id="L439">        showConflicts.setFocusable(false);</span>
+<span class="nc" id="L440">        showConflicts.setBackground(color);</span>
 
-<span class="nc" id="L217">            showConflicts.addActionListener(new ActionListener() {</span>
+<span class="nc" id="L442">            showConflicts.addActionListener(new ActionListener() {</span>
                 @Override
                 public void actionPerformed(ActionEvent e) {
-<span class="nc bnc" id="L220" title="All 2 branches missed.">                    if (((JCheckBox) e.getSource()).isSelected()) {</span>
-<span class="nc" id="L221">                        sudokufield.setShowConflicts(true);</span>
+<span class="nc bnc" id="L445" title="All 2 branches missed.">                    if (((JCheckBox) e.getSource()).isSelected()) {</span>
+<span class="nc" id="L446">                        sudokufield.setShowConflicts(true);</span>
                     } else {
-<span class="nc" id="L223">                        sudokufield.setShowConflicts(false);</span>
+<span class="nc" id="L448">                        sudokufield.setShowConflicts(false);</span>
                     }
 
-<span class="nc" id="L226">                    System.out.println(&quot;Checked? &quot; + sudokufield.showConflicts);</span>
-<span class="nc" id="L227">                }</span>
+<span class="nc" id="L451">                    System.out.println(&quot;Checked? &quot; + sudokufield.showConflicts);</span>
+<span class="nc" id="L452">                }</span>
             });
 
-<span class="nc" id="L230">        infoPanel.add(showConflicts);</span>
+<span class="nc" id="L455">            startTimer();</span>
 
-<span class="nc" id="L232">        JLabel timer3 = new JLabel();</span>
-<span class="nc" id="L233">        JLabel timer = new JLabel(String.valueOf(puzzle.getTimeUsed()));</span>
-<span class="nc" id="L234">        DateFormat dateFormat = new SimpleDateFormat(&quot;hh:mm:ss&quot;);</span>
-<span class="nc" id="L235">        Timer timer2 = new Timer(0, new ActionListener() {</span>
+<span class="nc" id="L457">        infoPanel.add(showConflicts);</span>
+
+<span class="nc" id="L459">        container.add(infoPanel, BorderLayout.SOUTH);</span>
+
+<span class="nc" id="L461">    }</span>
+
+
+    public void startTimer() {
+
+<span class="nc" id="L466">        timeUsed = puzzle.getTimeUsed();</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">        if (timer != null) {</span>
+<span class="nc" id="L468">            timer.stop();</span>
+        }
+<span class="nc" id="L470">        timer = new Timer(1000, new ActionListener() {</span>
             @Override
             public void actionPerformed(ActionEvent e) {
-<span class="nc" id="L238">                String gameTime = String.valueOf(puzzle.getTimeUsed());</span>
-<span class="nc" id="L239">                String gameTime2 = dateFormat.format(new Date());</span>
-<span class="nc" id="L240">                timer.setText(gameTime);</span>
-<span class="nc" id="L241">                timer3.setText(gameTime2);</span>
+<span class="nc" id="L473">                timeUsed++;</span>
+<span class="nc" id="L474">                timerField.setText(String.valueOf(timeUsed));</span>
 
-<span class="nc" id="L243">            }</span>
+<span class="nc" id="L476">            }</span>
         });
 
-<span class="nc" id="L246">        timer2.start();</span>
-<span class="nc" id="L247">        infoPanel.add(timer);</span>
-<span class="nc" id="L248">        infoPanel.add(timer3);</span>
-
-<span class="nc" id="L250">        container.add(infoPanel, BorderLayout.SOUTH);</span>
+<span class="nc" id="L479">        timer.start();</span>
+<span class="nc" id="L480">    }</span>
 
 
-
-<span class="nc" id="L254">    }</span>
-
-
-<span class="nc" id="L257">    private  final MouseListener mouseListener = new MouseAdapter() {</span>
+<span class="nc" id="L483">    private  final MouseListener mouseListener = new MouseAdapter() {</span>
         @Override
         public void mouseReleased(final MouseEvent e) {
 
-<span class="nc" id="L261">        }</span>
+<span class="nc" id="L487">        }</span>
     };
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-<span class="nc" id="L267">    }</span>
+<span class="nc" id="L493">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

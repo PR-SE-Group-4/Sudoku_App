@@ -8,7 +8,7 @@ import java.util.ArrayList;
 <span class="nc" id="L8">public class Loader {</span>
 
     private static File[] files;
-    private ArrayList&lt;Puzzle&gt; storedPuzzles;
+    private static ArrayList&lt;Puzzle&gt; storedPuzzles;
 
     // -------------------------------------------
     // -- setup game for first use --------------
@@ -16,14 +16,14 @@ import java.util.ArrayList;
 
     public static void setup() {
         //creates filesave dir if not present
-        //creates two puzzles if not present
+        //creates four puzzles if not present
 <span class="nc" id="L20">        File appdir = new File(System.getenv(&quot;APPDATA&quot;)+&quot;\\SudokuGR04&quot;);</span>
 <span class="nc" id="L21">        appdir.mkdir();</span>
         try {
 <span class="nc" id="L23">            File presaved00 = new File(appdir + &quot;\\supereasy.txt&quot;);</span>
 <span class="nc" id="L24">            presaved00.createNewFile();</span>
 <span class="nc" id="L25">            FileWriter presaved00wr = new FileWriter(presaved00);</span>
-<span class="nc" id="L26">            presaved00wr.write(&quot;EASY;CLASSIC;false;000000;1U0-1O0-1O3-2O4-2O5-2O6-3O7-3U0-3O9-1O4-1O5-1O6-2O7-2O8-2U0-3O1-3O2-3O3-1O7-1O8-1O9-2U0-2O2-2O3-3O4-3O5-3O6-4O2-4U0-4O4-5O5-5O6-5O7-6O8-6O9-6U0-4O5-4O6-4O7-5O8-5O9-5O1-6U0-6O3-6O4-4O8-4O9-4O1-5O2-5U0-5O4-6O5-6O6-6O7-7O3-7O4-7U0-8O6-8O7-8O8-9O9-9O1-9O2-7U0-7O7-7O8-8O9-8O1-8O2-9O3-9U0-9O5-7O9-7O1-7O2-8O3-8O4-8U0-9O6-9O7-9O8-;&quot;);</span>
+<span class="nc" id="L26">            presaved00wr.write(&quot;EASY;CLASSIC;false;000000;1U0-1U0-1O3-2O4-2O5-2O6-3O7-3U0-3O9-1O4-1O5-1O6-2O7-2O8-2U0-3O1-3O2-3O3-1O7-1O8-1O9-2U0-2O2-2O3-3O4-3O5-3O6-4O2-4U0-4O4-5O5-5O6-5O7-6O8-6O9-6U0-4O5-4O6-4O7-5O8-5O9-5O1-6U0-6O3-6O4-4O8-4O9-4O1-5O2-5U0-5O4-6O5-6O6-6O7-7O3-7O4-7U0-8O6-8O7-8O8-9O9-9O1-9O2-7U0-7O7-7O8-8O9-8O1-8O2-9O3-9U0-9O5-7O9-7O1-7O2-8O3-8O4-8U0-9O6-9O7-9O8-;&quot;);</span>
 <span class="nc" id="L27">            presaved00wr.close();</span>
 <span class="nc" id="L28">            File presaved01 = new File(appdir + &quot;\\medium01.txt&quot;);</span>
 <span class="nc" id="L29">            presaved01.createNewFile();</span>
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 <span class="nc" id="L38">            File presaved03 = new File(appdir + &quot;\\freeform01.txt&quot;);</span>
 <span class="nc" id="L39">            presaved03.createNewFile();</span>
 <span class="nc" id="L40">            FileWriter presaved03wr = new FileWriter(presaved03);</span>
-<span class="nc" id="L41">            presaved03wr.write(&quot;HARD;CLASSIC;false;000000;1O5-2U0-2O3-2U0-3U0-3O1-3O7-3U0-3U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-4O3-1O8-1U0-1O4-2O6-2U0-2O7-3U0-4U0-4U0-1O1-1U0-8U0-9U0-9O6-9U0-4U0-4U0-4U0-1U0-8U0-8U0-9O3-9U0-9O9-4U0-4U0-5U0-8U0-8U0-8U0-9U0-9O8-9U0-4U0-5U0-5O9-8U0-8U0-7U0-6O5-6U0-6O3-5O4-5U0-5O1-8O3-7U0-7U0-7U0-6U0-6U0-6U0-5U0-5U0-7U0-7U0-7O5-7O8-7U0-6U0-6O1-6U0-5O7-;&quot;);</span>
+<span class="nc" id="L41">            presaved03wr.write(&quot;HARD;FREEFORM;false;000000;1O5-2U0-2O3-2U0-3U0-3O1-3O7-3U0-3U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-4O3-1O8-1U0-1O4-2O6-2U0-2O7-3U0-4U0-4U0-1O1-1U0-8U0-9U0-9O6-9U0-4U0-4U0-4U0-1U0-8U0-8U0-9O3-9U0-9O9-4U0-4U0-5U0-8U0-8U0-8U0-9U0-9O8-9U0-4U0-5U0-5O9-8U0-8U0-7U0-6O5-6U0-6O3-5O4-5U0-5O1-8O3-7U0-7U0-7U0-6U0-6U0-6U0-5U0-5U0-7U0-7U0-7O5-7O8-7U0-6U0-6O1-6U0-5O7-;&quot;);</span>
 <span class="nc" id="L42">            presaved03wr.close();</span>
 <span class="nc" id="L43">        } catch (IOException e) {</span>
 <span class="nc" id="L44">            e.printStackTrace();</span>
@@ -79,15 +79,15 @@ import java.util.ArrayList;
 <span class="nc" id="L79">        return files;</span>
     }
 
-    public ArrayList&lt;Puzzle&gt; getStoredPuzzles() {
+    public static ArrayList&lt;Puzzle&gt; getStoredPuzzles() {
 <span class="nc" id="L83">        files = getFiles();</span>
 <span class="nc" id="L84">        storedPuzzles = new ArrayList&lt;Puzzle&gt;();</span>
 <span class="nc" id="L85">        System.out.println();</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (int j = 0; j &lt;= files.length; j++) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (int j = 0; j &lt; files.length; j++) {</span>
             try {
 <span class="nc" id="L88">                storedPuzzles.add(loadPuzzle(j));</span>
 <span class="nc" id="L89">            } catch(Exception e) {</span>
-<span class="nc" id="L90">                System.out.println(&quot;EXPECTICOTIDON&quot;);}</span>
+<span class="nc" id="L90">                System.out.println(&quot;Error in getting Puzzles&quot;);}</span>
         }
 <span class="nc" id="L92">        return storedPuzzles;</span>
     }

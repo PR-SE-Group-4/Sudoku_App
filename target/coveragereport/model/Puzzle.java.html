@@ -10,24 +10,14 @@ public abstract class Puzzle {
     protected String contentString;
 
 
-
-
-<span class="nc" id="L15">    public Puzzle() {</span>
-<span class="nc" id="L16">        this.name = &quot;dummy&quot;;</span>
-<span class="nc" id="L17">        this.difficulty = Difficulty.EASY;</span>
-<span class="nc" id="L18">        this.type = Type.CLASSIC;</span>
-<span class="nc" id="L19">        this.solved = false;</span>
-<span class="nc" id="L20">        this.contentString = &quot;1U0-1O2-1O3-2O4-2O5-2O6-3O7-3U0-3O9-1O4-1O5-1O6-2O7-2O8-2U0-3O1-3O2-3O3-1O7-1O8-1O9-2U0-2O2-2O3-3O4-3O5-3O6-4O2-4U0-4O4-5O5-5O6-5O7-6O8-6O9-6U0-4O5-4O6-4O7-5O8-5O9-5O1-6U0-6O3-6O4-4O8-4O9-4O1-5O2-5U0-5O4-6O5-6O6-6O7-7O3-7O4-7U0-8O6-8O7-8O8-9O9-9O1-9O2-7U0-7O7-7O8-8O9-8O1-8O2-9O3-9U0-9O5-7O9-7O1-7O2-8O3-8O4-8U0-9O6-9O7-9O8-&quot;;</span>
-<span class="nc" id="L21">    }</span>
-
-<span class="fc" id="L23">    public Puzzle(String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {</span>
-<span class="fc" id="L24">        this.name = name;</span>
-<span class="fc" id="L25">        this.difficulty = difficulty;</span>
-<span class="fc" id="L26">        this.type = type;</span>
-<span class="fc" id="L27">        this.solved = solved;</span>
-<span class="fc" id="L28">        this.timeUsed = timeUsed;</span>
-<span class="fc" id="L29">        this.contentString = contentString;</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L13">    public Puzzle(String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {</span>
+<span class="fc" id="L14">        this.name = name;</span>
+<span class="fc" id="L15">        this.difficulty = difficulty;</span>
+<span class="fc" id="L16">        this.type = type;</span>
+<span class="fc" id="L17">        this.solved = solved;</span>
+<span class="fc" id="L18">        this.timeUsed = timeUsed;</span>
+<span class="fc" id="L19">        this.contentString = contentString;</span>
+<span class="fc" id="L20">    }</span>
 
 
     public abstract Tile getTile(int nsqFieldNr, int row, int col);
@@ -44,11 +34,20 @@ public abstract class Puzzle {
 
     public abstract Tile [] getArea(int nsqFieldNr, int row, int col);
 
-<span class="nc" id="L47">    public int getTimeUsed() { return timeUsed; }</span>
+<span class="nc" id="L37">    public int getTimeUsed() { return timeUsed; }</span>
+
+    public void setTimeUsed(int timeUsed) {
+<span class="nc" id="L40">        this.timeUsed = timeUsed;</span>
+<span class="nc" id="L41">    }</span>
 
     public Type getType() {
-<span class="nc" id="L50">        return type;</span>
+<span class="nc" id="L44">        return type;</span>
     }
+
+    public Difficulty getDifficulty() {
+<span class="nc" id="L48">        return difficulty;</span>
+    }
+
 
     public abstract String export();
 
