@@ -348,7 +348,6 @@ public class SudokuUI implements ActionListener {
             public void mouseClicked(MouseEvent e) {
 
                 Solver.Candidate candidate = Solver.getHint(puzzle);
-                System.out.println("HINT: " + candidate.getEntry() + " " + candidate.getRow() + " " + candidate.getCol());
                 puzzle.setEntry(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol(), candidate.getEntry());
                 puzzle.getTile(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol()).setHint(true);
                 sudokufield.repaint();
