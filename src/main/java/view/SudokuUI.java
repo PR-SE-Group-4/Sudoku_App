@@ -6,14 +6,19 @@ import model.Type;
 import model.Puzzle;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.Timer;
+import javax.swing.plaf.ColorUIResource;
 import java.util.TimerTask;
 
 
@@ -23,16 +28,17 @@ public class SudokuUI implements ActionListener {
     private SudokuField sudokufield;
     private JPanel sudokuPanel;
     private JPanel infoPanel;
+    private JLabel timerHeader;
     private JLabel timerField;
     final Container container;
     private Puzzle puzzle;
     private Color color;
     private Timer timer;
     private int timeUsed;
-    private Font buttonFont;
+    private SudokuListener listener;
 
+    public SudokuUI(Puzzle puzzle) throws IOException {
 
-    public SudokuUI(Puzzle puzzle) {
 
         this.frame = new JFrame("Sudoku");
         this.puzzle=puzzle;
@@ -45,10 +51,17 @@ public class SudokuUI implements ActionListener {
 
         JLabel startImage = new JLabel(new ImageIcon("src/main/java/ressources/logo.png"));
 
+        UIManager UI=new UIManager();
+        UI.put("OptionPane.background",new ColorUIResource(175,210,245));
+        UI.put("Panel.background",new ColorUIResource(175,210,245));
+
         sudokuPanel.add(startImage);
         sudokuPanel.setBackground(color);
 
         container.add(sudokuPanel);
+        timerHeader = new JLabel("Time");
+        timerField = new JLabel("0");
+
 
         createMenu();
 
@@ -65,18 +78,27 @@ public class SudokuUI implements ActionListener {
 
     }
 
+
     public void createGame() {
 
         sudokuPanel.removeAll();
 
+        if (sudokufield != null) {
+            this.sudokufield = null;
+            this.frame.removeKeyListener(listener);
+
+        }
+
         if (puzzle.getType() == Type.SAMURAI) {
             this.sudokufield = new SamuraiField(puzzle);
+            System.out.println("Samurai Puzzle");
         } else if (puzzle.getType() == Type.CLASSIC || puzzle.getType() == Type.FREEFORM) {
             this.sudokufield = new NinesquareField(puzzle);
         }
 
         sudokuPanel.add(sudokufield);
-        SudokuListener listener = new SudokuListener(sudokufield);
+
+        listener = new SudokuListener(sudokufield);
         sudokufield.addMouseListener(listener);
         this.frame.addKeyListener(listener);
 
@@ -86,35 +108,75 @@ public class SudokuUI implements ActionListener {
 
     }
 
-    public void createMenu(){
+    public void createMenu() throws IOException {
 
         JPanel menupanel = new JPanel();
         menupanel.setPreferredSize(new Dimension(100, 600));
-        menupanel.setLayout(new GridLayout(7,1, 0, 0));
+        menupanel.setMinimumSize(new Dimension(100, 500));
+        menupanel.setLayout(new GridLayout(10,1, 0, 0));
+        menupanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        menupanel.setBorder(BorderFactory.createMatteBorder(0,0,0,2, Color.BLACK));
         menupanel.setBackground(color);
 
-        JButton load = new JButton("Load");
-        JButton create = new JButton("Create");
-        JButton save = new JButton("Save");
-        JButton solve = new JButton("Solve");
-        JButton hint = new JButton("Hint");
-        JButton help = new JButton("Help");
-        JButton exit = new JButton("Exit");
 
-        buttonFont = new Font("Verdana", Font.BOLD, 18);
+        JLabel load = new JLabel();
+        load.setName("load");
+        load.setToolTipText("Load");
+        load.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel create = new JLabel();
+        create.setName("create");
+        create.setToolTipText("Create");
+        create.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel save = new JLabel();
+        save.setName("save");
+        save.setToolTipText("Save");
+        save.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel solve = new JLabel();
+        solve.setName("solve");
+        solve.setToolTipText("Solve");
+        solve.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel hint = new JLabel();
+        hint.setName("hint");
+        hint.setToolTipText("Hint");
+        hint.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel help = new JLabel();
+        help.setName("help");
+        help.setToolTipText("Help");
+        help.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel exit = new JLabel();
+        exit.setName("exit");
+        exit.setToolTipText("Exit");
+        exit.setHorizontalAlignment(SwingConstants.CENTER);
 
-        load.setFont(buttonFont);
-        create.setFont(buttonFont);
-        save.setFont(buttonFont);
-        solve.setFont(buttonFont);
-        hint.setFont(buttonFont);
-        help.setFont(buttonFont);
-        exit.setFont(buttonFont);
+        addIcon(load);
+        addIcon(create);
+        addIcon(save);
+        addIcon(solve);
+        addIcon(hint);
+        addIcon(help);
+        addIcon(exit);
+
+        timerHeader.setFont(new Font("Verdana", Font.BOLD, 26));
+        timerField.setFont(new Font("Verdana", Font.BOLD, 28));
+        timerHeader.setHorizontalAlignment(SwingConstants.CENTER);
+        timerField.setHorizontalAlignment(SwingConstants.CENTER);
+        timerField.setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.BLACK));
+
+        menupanel.add(timerHeader);
+        menupanel.add(timerField);
+        menupanel.add(load);
+        menupanel.add(create);
+        menupanel.add(save);
+        menupanel.add(solve);
+        menupanel.add(hint);
+        menupanel.add(help);
+        menupanel.add(exit);
 
 
-        load.addActionListener(new ActionListener() {
+
+        load.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
 
                 ArrayList<Puzzle> loadedPuzzles = Loader.getStoredPuzzles();
                 ArrayList<String> namedPuzzles = new ArrayList<>();
@@ -123,7 +185,7 @@ public class SudokuUI implements ActionListener {
                 for (Puzzle p : loadedPuzzles) {
                     String type = p.getType().toString();
                     String difficulty = p.getDifficulty().toString();
-                    String dropdowntext = "- Schwierigkeit: " + difficulty + " | " + " Typ: " + type;
+                    String dropdowntext = "- Difficulty: " + difficulty + " | " + " Type: " + type;
                     namedPuzzles.add(dropdowntext);
                 }
                 Object[] selectionValues = namedPuzzles.toArray();
@@ -143,15 +205,26 @@ public class SudokuUI implements ActionListener {
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
-                   createGame();
+                    createGame();
                 }
+            }
+
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(load);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addIcon(load);
             }
         });
 
-        create.addActionListener(new ActionListener() {
+        create.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-
+            public void mouseClicked(MouseEvent e) {
                 Object[] options = {"Classic", "Samurai", "Freiform"};
 
                 int selected = JOptionPane.showOptionDialog(null,
@@ -187,14 +260,22 @@ public class SudokuUI implements ActionListener {
                     }
                 }
 
+            }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(create);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addIcon(create);
             }
         });
 
-        save.addActionListener(new ActionListener() {
+        save.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-
+            public void mouseClicked(MouseEvent e) {
 
                 Object[] options = {"Save", "Save & Exit", "Cancel"};
 
@@ -231,45 +312,94 @@ public class SudokuUI implements ActionListener {
                     }
                 }
 
+            }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(save);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addIcon(save);
             }
         });
-        solve.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
+        solve.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 Solver.solve(puzzle);
                 sudokufield.repaint();
+            }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(solve);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addIcon(solve);
             }
         });
 
-        hint.addActionListener(new ActionListener() {
+        hint.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
+
                 Solver.Candidate candidate = Solver.getHint(puzzle);
                 System.out.println("HINT: " + candidate.getEntry() + " " + candidate.getRow() + " " + candidate.getCol());
                 puzzle.setEntry(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol(), candidate.getEntry());
                 puzzle.getTile(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol()).setHint(true);
                 sudokufield.repaint();
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(hint);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addIcon(hint);
+            }
         });
 
-        help.addActionListener(new ActionListener() {
+
+        help.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
 
                 JOptionPane.showMessageDialog(null,
                         "Hier kommt der Hilfetext zur Unterstützung für Anfänger",
                         "Sudoku Help",3);
+            }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(help);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+               addIcon(help);
             }
         });
 
-        exit.addActionListener(new ActionListener() {
+        exit.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 System.exit(0);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createHover(exit);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addIcon(exit);
             }
         });
 
@@ -292,6 +422,15 @@ public class SudokuUI implements ActionListener {
 
     }
 
+    public void createHover (JLabel label) {
+        label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT)));
+    }
+
+    public void addIcon (JLabel label) {
+        label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+
+    }
+
     public void createInfoPanel() {
 
         infoPanel.removeAll();
@@ -309,7 +448,6 @@ public class SudokuUI implements ActionListener {
                     } else {
                         sudokufield.setShowConflicts(false);
                     }
-                    sudokufield.repaint();
 
                     System.out.println("Checked? " + sudokufield.showConflicts);
                 }
@@ -318,7 +456,7 @@ public class SudokuUI implements ActionListener {
             startTimer();
 
         infoPanel.add(showConflicts);
-        infoPanel.add(timerField);
+
         container.add(infoPanel, BorderLayout.SOUTH);
 
     }
@@ -326,7 +464,6 @@ public class SudokuUI implements ActionListener {
 
     public void startTimer() {
 
-        timerField = new JLabel();
         timeUsed = puzzle.getTimeUsed();
         if (timer != null) {
             timer.stop();
@@ -335,7 +472,7 @@ public class SudokuUI implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeUsed++;
-                timerField.setText("Playing Time: " + String.valueOf(timeUsed));
+                timerField.setText(String.valueOf(timeUsed));
 
             }
         });

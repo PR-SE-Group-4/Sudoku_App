@@ -10,8 +10,6 @@ public abstract class Puzzle {
     protected String contentString;
 
 
-
-
     public Puzzle() {
         this.name = "dummy";
         this.difficulty = Difficulty.EASY;
