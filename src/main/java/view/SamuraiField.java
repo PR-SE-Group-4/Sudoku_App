@@ -1,6 +1,7 @@
 package view;
 
 import model.Puzzle;
+import model.Tile;
 
 import java.awt.*;
 
