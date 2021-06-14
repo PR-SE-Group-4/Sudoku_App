@@ -115,6 +115,10 @@ public class Samurai extends Puzzle{
         }
     }
 
+    public Ninesquare getNinesquare(int nsqFieldNr) {
+        return ninesquares[nsqFieldNr];
+    }
+
     @Override
     public Tile[] getRow(int nsqFieldNr, int row) {
         return ninesquares[nsqFieldNr].getRow(99, row);

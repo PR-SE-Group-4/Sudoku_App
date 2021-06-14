@@ -153,20 +153,28 @@ public class Solver {
 
 
     // --------------------------------------------
-    public static void solveNinesquare(Ninesquare toSolve) {
+    public static int solveNinesquare(Ninesquare toSolve) {
         LinkedList<Candidate> candidates = new LinkedList<>();
         candidates.add(new Candidate(99, 0,0,0));
+        int filledFields = 0;
         while (!toSolve.isSolved() && !candidates.isEmpty()){
            candidates = getCandidates(toSolve);
             for (Candidate c : candidates) {
+                filledFields++;
                 toSolve.setEntry(99, c.row, c.col, c.entry);
             }
         }
-
+        return filledFields;
     }
 
     public static void solveSamurai(Samurai toSolve) {
-        //TODO;
+        int filledInThisRound = 1;
+        while (filledInThisRound > 0) {
+            filledInThisRound = 0;
+            for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) {
+                filledInThisRound += solveNinesquare(toSolve.getNinesquare(nsqFieldNr));
+            }
+        }
     }
 
     public static void solve(Puzzle toSolve) {
