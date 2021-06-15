@@ -100,5 +100,9 @@
             </build>
         </profile>
     </profiles>
-
+    <properties>
+        <sonar.projectKey>PR-SE-Group-4_Sudoku_App</sonar.projectKey>
+        <sonar.organization>pr-se-group-4</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
 </project>
