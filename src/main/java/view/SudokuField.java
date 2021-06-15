@@ -55,6 +55,8 @@ public abstract class SudokuField extends JPanel {
                 return new Color(255,221,124); //orange
             case 9:
                 return new Color(203,176,243); //purple
+            case 10:
+                return Color.WHITE;
             default:
                 break;
         }

@@ -4,11 +4,20 @@ public abstract class Puzzle {
 
     protected final String name;
     protected final Difficulty difficulty;
-    protected final Type type;
+    protected Type type;
     protected boolean solved;
     protected int timeUsed;
     protected String contentString;
 
+
+    public Puzzle(){
+        this.name = "";
+        this.difficulty = null;
+        this.type = null;
+        this.solved = false;
+        this.timeUsed = 0;
+        this.contentString = null;
+    }
 
     public Puzzle(String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {
         this.name = name;
@@ -43,6 +52,8 @@ public abstract class Puzzle {
     public Type getType() {
         return type;
     }
+
+    public void setType(Type type) {this.type = type; }
 
     public Difficulty getDifficulty() {
         return difficulty;
