@@ -3,6 +3,18 @@ package model;
 public class Ninesquare extends Puzzle {
     private Tile[][] content;
 
+
+    public Ninesquare () {
+        super();
+        //Parser
+        content = new Tile[9][9];
+        for (int row = 0; row < 9 ; row++) {
+            for (int col = 0; col < 9; col++) {
+                content[row][col] = new Tile(col);
+            }
+        }
+    }
+
     // "normal" constructor - gets content as string, builds model.Tile-array
     public Ninesquare (String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString) {
         super(name, difficulty, type, solved, timeUsed, contentString);

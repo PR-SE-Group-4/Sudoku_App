@@ -4,6 +4,16 @@ public class Samurai extends Puzzle{
 
     private Ninesquare[] ninesquares;
 
+    public Samurai (){
+        super();
+        //Parser
+        ninesquares = new Ninesquare[5];
+        String partString;
+        for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) {
+            ninesquares[nsqFieldNr] = new Ninesquare();
+        }
+    }
+
     // constructor
     public Samurai (String name, Difficulty difficulty, Type type, boolean solved, int timeUsed, String contentString){
         super(name, difficulty, type, solved, timeUsed, contentString);
