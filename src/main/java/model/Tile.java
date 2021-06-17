@@ -109,7 +109,7 @@ public class Tile {
         if (!filled) {
             sb.append("   ");
         } else if(changeable) {
-            sb.append(" ").append(entry).append(color);
+            sb.append((conflicted ? "X" : " ")).append(entry).append(color);
         } else {
             sb.append("[").append(entry).append("]");
         }

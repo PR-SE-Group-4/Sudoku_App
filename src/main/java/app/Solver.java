@@ -7,6 +7,7 @@ import model.Tile;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 
 
 public class Solver {
@@ -50,8 +51,10 @@ public class Solver {
 
 
 
-    static LinkedList<Candidate> getCandidates(Ninesquare toSolve) {
+    static LinkedList<Candidate> getCandidates(Ninesquare toSolve, int numberOfOptions) {
 
+        // at NumberOfOptions == 1 the result is definitive.
+        // at a higher NumberOfOptions, the result is less and less probable
         //boolean[row][col][pillar / entry]
         boolean[][][] candidateCube = new boolean[9][9][9]; // mit false initialisiert: false bedeutet "ist Kandidat"
 
@@ -102,9 +105,7 @@ public class Solver {
                         trigger = p;
                     }
                 }
-                if (falseCounter == 1) {
-                    System.out.println("Folgender Pillar: " + (trigger + 1) + ", in Row " + r + ", Col " + c);
-
+                if (falseCounter > 0 && falseCounter <= numberOfOptions) {
                     candidates.add(new Candidate(99, r, c, trigger+1));
                 }
             }
@@ -120,8 +121,7 @@ public class Solver {
                         trigger = r;
                     }
                 }
-                if (falseCounter == 1) {
-                    System.out.println("Folgende Row: " + trigger + ", in Col " + c + ", Pillar " + (p+1));
+                if (falseCounter > 0 && falseCounter <=  numberOfOptions) {
                     candidates.add(new Candidate(99, trigger, c, p+1));
                 }
             }
@@ -137,17 +137,12 @@ public class Solver {
                         trigger = c;
                     }
                 }
-                if (falseCounter == 1) {
-                    System.out.println("Folgende Col: " + trigger + ", in Pillar " + (p+1) + ", Row " + r);
+                if (falseCounter > 0 && falseCounter <= numberOfOptions) {
                     candidates.add(new Candidate(99, r, trigger, p+1));
                 }
             }
         }
-
-        for (Candidate candidate : candidates) {
-            System.out.println(candidate);
-        }
-        return candidates;
+    return candidates;
     }
 
 
@@ -158,10 +153,11 @@ public class Solver {
         candidates.add(new Candidate(99, 0,0,0));
         int filledFields = 0;
         while (!toSolve.isSolved() && !candidates.isEmpty()){
-           candidates = getCandidates(toSolve);
+           candidates = getCandidates(toSolve, 1);
             for (Candidate c : candidates) {
                 filledFields++;
                 toSolve.setEntry(99, c.row, c.col, c.entry);
+
             }
         }
         return filledFields;
@@ -179,7 +175,8 @@ public class Solver {
 
     public static void solve(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {
-            Solver.solveNinesquare((Ninesquare) toSolve);
+//            Solver.solveNinesquare((Ninesquare) toSolve);
+            Solver.solveBFNinesquarev2((Ninesquare) toSolve);
 
         } else if (Samurai.class.isInstance(toSolve)) {
             Solver.solveSamurai((Samurai) toSolve);
@@ -190,9 +187,8 @@ public class Solver {
     public static Candidate getHint(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
             Ninesquare ts = (Ninesquare) toSolve;
-            LinkedList<Candidate> candidates = getCandidates(ts);
+            LinkedList<Candidate> candidates = getCandidates(ts, 1);
             return candidates.get(0);
-
 
         } else if (Samurai.class.isInstance(toSolve)) {             // TODO Samurai
             return new Candidate(0,0,0,0);
@@ -200,7 +196,41 @@ public class Solver {
         return new Candidate(0,0,0,0);
     }
 
+    public static void solveBFNinesquarev2(Ninesquare toSolve) { // Brute Force
+         do {
+            solveNinesquare(toSolve);
+            for (int easeRestrictions = 2; easeRestrictions < 9; easeRestrictions++) {
+                LinkedList<Candidate> currentEasedCandidates = getCandidates(toSolve, 2);
+                if (!currentEasedCandidates.isEmpty()) {
+                    int randomEasedCandidate = new Random().nextInt(currentEasedCandidates.size());
+                    Candidate c = currentEasedCandidates.get(randomEasedCandidate);
+                    toSolve.setEntry(99, c.row, c.col, c.entry);
 
+                    easeRestrictions = 9;
+                }
+            }
+            LinkedList<Candidate> candidates1 = getCandidates(toSolve, 4);
+            if (candidates1.isEmpty()) {
+                if (toSolve.isSolved()) {
+                    boolean isConflicted = false;
+                    for (int r = 0; r < 9; r++) {
+                        for (int c = 0; c < 9; c++) {
+                            if (toSolve.getTile(99, r, c).isConflicted()) isConflicted = true;
+                        }
+                    }
+                    if (!isConflicted) break;
+                    System.out.println(toSolve);
+                }
+                deleteGuess(toSolve);
+            }
+        } while (!toSolve.isSolved());
+    }
 
-
+    public static void deleteGuess(Ninesquare toSolve) {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                toSolve.deleteEntry(99, row, col);
+            }
+        }
+    }
 }
