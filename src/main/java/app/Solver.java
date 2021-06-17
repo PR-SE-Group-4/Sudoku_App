@@ -5,7 +5,6 @@ import model.Puzzle;
 import model.Samurai;
 import model.Tile;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -91,11 +90,12 @@ public class Solver {
             }
         }
 
-        // Kandidatenliste erstellen
+        // make a list of candidates
         LinkedList<Candidate> candidates = new LinkedList<>();
         int falseCounter;
         int trigger = 0;
-        // Single-Pillars: im Pillar folgender r/c ist genau 1 false:
+
+        // Single-Pillars: there are less than numberOfOptions candidates in:
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
                 falseCounter = 0;
@@ -148,7 +148,7 @@ public class Solver {
 
 
     // --------------------------------------------
-    public static int solveNinesquare(Ninesquare toSolve) {
+    public static int solveNinesquareUnambiguously(Ninesquare toSolve) {
         LinkedList<Candidate> candidates = new LinkedList<>();
         candidates.add(new Candidate(99, 0,0,0));
         int filledFields = 0;
@@ -163,26 +163,27 @@ public class Solver {
         return filledFields;
     }
 
-    public static void solveSamurai(Samurai toSolve) {
+    public static void solveSamuraiUnambiguously(Samurai toSolve) {
         int filledInThisRound = 1;
         while (filledInThisRound > 0) {
             filledInThisRound = 0;
             for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) {
-                filledInThisRound += solveNinesquare(toSolve.getNinesquare(nsqFieldNr));
+                filledInThisRound += solveNinesquareUnambiguously(toSolve.getNinesquare(nsqFieldNr));
             }
         }
     }
 
     public static void solve(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {
-//            Solver.solveNinesquare((Ninesquare) toSolve);
-            Solver.solveBFNinesquarev2((Ninesquare) toSolve);
+            Solver.solve9sqWithEducatedGuesses((Ninesquare) toSolve);
 
         } else if (Samurai.class.isInstance(toSolve)) {
-            Solver.solveSamurai((Samurai) toSolve);
+            Solver.solveSamuraiWithEducatedGuesses((Samurai) toSolve);
         }
         System.out.println(toSolve);
     }
+
+
 
     public static Candidate getHint(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
@@ -196,21 +197,14 @@ public class Solver {
         return new Candidate(0,0,0,0);
     }
 
-    public static void solveBFNinesquarev2(Ninesquare toSolve) { // Brute Force
-         do {
-            solveNinesquare(toSolve);
-            for (int easeRestrictions = 2; easeRestrictions < 9; easeRestrictions++) {
-                LinkedList<Candidate> currentEasedCandidates = getCandidates(toSolve, 2);
-                if (!currentEasedCandidates.isEmpty()) {
-                    int randomEasedCandidate = new Random().nextInt(currentEasedCandidates.size());
-                    Candidate c = currentEasedCandidates.get(randomEasedCandidate);
-                    toSolve.setEntry(99, c.row, c.col, c.entry);
-
-                    easeRestrictions = 9;
-                }
-            }
-            LinkedList<Candidate> candidates1 = getCandidates(toSolve, 4);
-            if (candidates1.isEmpty()) {
+    public static void solve9sqWithEducatedGuesses(Ninesquare toSolve) { // solve with a mixture of conclusive solving and educated guessing
+         do { // as long as it isn't solved
+            solveNinesquareUnambiguously(toSolve); // fill all unambiguous fields
+            LinkedList<Candidate> currentEasedCandidates = getCandidates(toSolve, 2); // get slightly ambiguous candidates
+            if (!currentEasedCandidates.isEmpty()) {
+                Candidate c = currentEasedCandidates.get(new Random().nextInt(currentEasedCandidates.size())); // randomly pick an ambiguous candidate
+                toSolve.setEntry(99, c.row, c.col, c.entry);
+            } else {
                 if (toSolve.isSolved()) {
                     boolean isConflicted = false;
                     for (int r = 0; r < 9; r++) {
@@ -218,12 +212,17 @@ public class Solver {
                             if (toSolve.getTile(99, r, c).isConflicted()) isConflicted = true;
                         }
                     }
-                    if (!isConflicted) break;
+                    if (!isConflicted) break; // if no more candidates, is solved and no conflicts: job is done
                     System.out.println(toSolve);
                 }
-                deleteGuess(toSolve);
+                deleteGuess(toSolve); // if there are no more candidates and it is not (solved and not conflicted) this is a dead end
             }
         } while (!toSolve.isSolved());
+    }
+
+    private static void solveSamuraiWithEducatedGuesses(Samurai toSolve) {
+        solveSamuraiUnambiguously(toSolve);
+        //TODO
     }
 
     public static void deleteGuess(Ninesquare toSolve) {
