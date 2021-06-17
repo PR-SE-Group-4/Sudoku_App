@@ -24,6 +24,13 @@ public class Tile {
         this.filled = false;
     }
 
+    public Tile() {
+        this.color = 10;
+        this.entry = 0;
+        this.changeable = true;
+        this.filled = false;
+    }
+
     public boolean empty() {
         if(!changeable) {
             return false;

@@ -54,29 +54,7 @@ public class NinesquareField extends SudokuField {
         graphics = (Graphics2D) g;
 
 
-        for (int x = 0; x <= this.getWidth(); x += tileWidth) {
-            if ((x / tileWidth) % 3 == 0) {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(x, 0, x, this.getHeight());
 
-            } else {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(x, 0, x, this.getHeight());
-            }
-        }
-
-        for (int y = 0; y <= this.getHeight(); y += tileHeight) {
-
-            if ((y / tileHeight) % 3 == 0) {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(0, y, this.getWidth(), y);
-
-            } else {
-                graphics.setStroke(new BasicStroke(2));
-                graphics.drawLine(0, y, this.getWidth(), y);
-
-            }
-        }
 
 
         for (int row = 0; row <=8; row++){
@@ -114,6 +92,32 @@ public class NinesquareField extends SudokuField {
 
             }
 
+        }
+
+        g.setColor(new Color (175,210,245));
+
+        for (int x = 0; x <= this.getWidth(); x += tileWidth) {
+            if ((x / tileWidth) % 3 == 0) {
+                graphics.setStroke(new BasicStroke(4));
+                graphics.drawLine(x, 0, x, this.getHeight());
+
+            } else {
+                graphics.setStroke(new BasicStroke(1));
+                graphics.drawLine(x, 0, x, this.getHeight());
+            }
+        }
+
+        for (int y = 0; y <= this.getHeight(); y += tileHeight) {
+
+            if ((y / tileHeight) % 3 == 0) {
+                graphics.setStroke(new BasicStroke(4));
+                graphics.drawLine(0, y, this.getWidth(), y);
+
+            } else {
+                graphics.setStroke(new BasicStroke(1));
+                graphics.drawLine(0, y, this.getWidth(), y);
+
+            }
         }
 
         if (selectedCol != -1 && selectedRow != -1) {

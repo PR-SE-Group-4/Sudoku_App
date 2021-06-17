@@ -2,6 +2,8 @@ package view;
 
 import app.Loader;
 import app.Solver;
+import model.Ninesquare;
+import model.Samurai;
 import model.Type;
 import model.Puzzle;
 
@@ -225,42 +227,40 @@ public class SudokuUI implements ActionListener {
         create.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Object[] options = {"Classic", "Samurai", "Freiform"};
+
+                Object[] options = {"Classic", "Samurai"};
 
                 int selected = JOptionPane.showOptionDialog(null,
-                        "Welches Spiel möchten Sie starten?",
-                        "Spiel starten",
+                        "Create a new Game?",
+                        "Create",
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.INFORMATION_MESSAGE,
                         null, options, options[0]);
-                System.out.println("Spieleart: " + selected);
 
                 if (selected == 0) {
                     try {
-                        puzzle = Loader.loadPuzzle(1);
-                        createGame();
+                        puzzle = new Ninesquare();
+                        puzzle.setType(Type.CLASSIC);
+
+
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
                 }
                 else if (selected == 1) {
                     try {
-                        puzzle = Loader.loadPuzzle(2);
-                        createGame();
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                }
-                else if (selected == 2) {
-                    try {
-                        puzzle = Loader.loadPuzzle(0);
-                        createGame();
+                      puzzle = new Samurai();
+                      puzzle.setType(Type.SAMURAI);
+
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
                 }
 
-            }
+                        createGame();
+
+                }
+
 
             @Override
             public void mouseEntered(MouseEvent e) {
