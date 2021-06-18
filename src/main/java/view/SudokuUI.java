@@ -289,6 +289,7 @@ public class SudokuUI implements ActionListener {
                 if (selected == 0) {
                     try {
                         //Save the Game
+                        Loader.saveGame(puzzle, puzzle.getName());
                         // Send playing time to puzzle
                     } catch (Exception exception) {
                         exception.printStackTrace();

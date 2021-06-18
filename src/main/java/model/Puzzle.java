@@ -2,7 +2,7 @@ package model;
 
 public abstract class Puzzle {
 
-    protected final String name;
+    protected String name;
     protected final Difficulty difficulty;
     protected Type type;
     protected boolean solved;
@@ -63,5 +63,9 @@ public abstract class Puzzle {
     public abstract String export();
 
     public abstract boolean isSolved();
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
 }
