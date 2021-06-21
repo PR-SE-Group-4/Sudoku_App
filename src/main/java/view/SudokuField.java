@@ -1,8 +1,7 @@
 package view;
 
-import app.Solver;
-import model.Puzzle;
 
+import model.Puzzle;
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,7 +27,6 @@ public abstract class SudokuField extends JPanel {
         showConflicts = false;
         gameFont = new Font("Verdana",Font.BOLD, 15);
         gameFont2 = new Font("Verdana", Font.BOLD, 17);
-
 
 
     }

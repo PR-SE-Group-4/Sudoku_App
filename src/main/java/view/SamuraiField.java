@@ -1,8 +1,6 @@
 package view;
 
 import model.Puzzle;
-import model.Tile;
-
 import java.awt.*;
 
 
@@ -33,7 +31,7 @@ public class SamuraiField extends SudokuField {
         int starty = 0;
         graphics = (Graphics2D) g;
 
-
+        //Calculate the start x and y coordinates for the 5 field of samurai
         for (int fieldnumber = 0; fieldnumber < 5; fieldnumber++) {
 
             switch (fieldnumber) {
@@ -61,6 +59,7 @@ public class SamuraiField extends SudokuField {
                     break;
             }
 
+            // Draw the full samurai
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
                 String input = String.valueOf(puzzle.getTile(fieldnumber, row, col).getEntry());
@@ -84,6 +83,8 @@ public class SamuraiField extends SudokuField {
 
                     if (conflicted || overlapConflicted ){
                         graphics.setColor(Color.RED);
+                        graphics.fillRect(startx + col * tileWidth , starty + row * tileHeight, tileWidth , tileHeight);
+                        graphics.setColor(Color.WHITE);
                         graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
 
                     } else {
@@ -98,6 +99,7 @@ public class SamuraiField extends SudokuField {
 
                     g.setColor(new Color (175,210,245));
 
+                //Draw vertical lines
                     for (int x = startx; x <= startx  +  (tileWidth * 9); x += tileWidth) {
                         if ((x / tileWidth) % 3 == 0) {
                             graphics.setStroke(new BasicStroke(4));
@@ -109,6 +111,7 @@ public class SamuraiField extends SudokuField {
                         }
                     }
 
+                    //Draw horizontal lines
                     for (int y = starty;  y <= starty + (tileHeight * 9); y += tileHeight) {
 
                         if ((y / tileHeight) % 3 == 0) {
@@ -125,6 +128,8 @@ public class SamuraiField extends SudokuField {
 
             }
 
+
+        // Mark the selected tile
             if (selectedField == fieldnumber) {
 
                 if (selectedRow != -1 && selectedCol != -1) {
@@ -163,6 +168,7 @@ public class SamuraiField extends SudokuField {
         }
     }
 
+    //Calculate fieldnumber of selected coordinates
     public int getFieldNr(int x, int y) {
         int fieldnr = 99;
 
