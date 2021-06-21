@@ -23,4 +23,5 @@ view\SudokuUI$6.class
 view\KeyHandler.class
 model\Ninesquare.class
 view\NinesquareField.class
+view\SudokuUI$10.class
 view\SudokuUI$1.class

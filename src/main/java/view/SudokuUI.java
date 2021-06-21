@@ -7,21 +7,13 @@ import model.Samurai;
 import model.Type;
 import model.Puzzle;
 
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.Timer;
 import javax.swing.plaf.ColorUIResource;
-import java.util.TimerTask;
 
 
 public class SudokuUI implements ActionListener {
