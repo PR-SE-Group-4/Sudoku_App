@@ -1,9 +1,6 @@
 import model.*;
 import org.junit.jupiter.api.*;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -110,9 +107,9 @@ class SamuraiTest {
     void getArea() {
         tiles = samurai1.getArea(2, 3,3);
         assertEquals(4, tiles[0].getEntry());
-        int tileColor = samurai1.getTile(2,3,3).getColor();
+        int tileColor = samurai1.getTile(2,3,3).getBelongsToArea();
         for (int i = 0; i<tiles.length; i++) {
-            assertEquals(tileColor,tiles[i].getColor());
+            assertEquals(tileColor,tiles[i].getBelongsToArea());
         }
     }
 

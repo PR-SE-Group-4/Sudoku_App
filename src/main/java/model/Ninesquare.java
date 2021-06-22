@@ -39,7 +39,7 @@ public class Ninesquare extends Puzzle {
     }
 
     @Override
-    public int getColor(int nsqFieldNr, int row, int col) {return content[row][col].getColor();
+    public int getColor(int nsqFieldNr, int row, int col) {return content[row][col].getBelongsToArea();
     }
 
     @Override
