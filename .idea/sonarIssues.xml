@@ -13,6 +13,26 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../../../../JavaProjects/Weather/app/src/main/java/de/codeyourapp/weather/RemoteFetch.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../../SmartWecker/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../../SmartWecker/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../../SmartWecker/app/src/main/java/com/example/smartclock/weather/RemoteFetch.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../../../../Test/src/AllPointsCombined.java">
           <value>
             <set />
@@ -69,6 +89,36 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/SudokuUI.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/app/App.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/app/Loader.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/app/Save.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/Puzzle.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/model/Tile.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/view/SudokuUI.java">
           <value>
             <set />
           </value>

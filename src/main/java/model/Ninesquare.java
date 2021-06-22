@@ -4,13 +4,27 @@ public class Ninesquare extends Puzzle {
     private Tile[][] content;
 
 
+    // Empty constuctor for creating an empty new field
     public Ninesquare () {
         super();
         //Parser
         content = new Tile[9][9];
+        int color = 0;
         for (int row = 0; row < 9 ; row++) {
             for (int col = 0; col < 9; col++) {
-                content[row][col] = new Tile(col);
+
+                //Default tile color
+                if(col < 3 && row < 3) {color = 1;}
+                else if (col > 2 && col < 6 && row < 3) {color = 2;}
+                else if (col > 5 && row < 3) {color = 3;}
+                else if (col < 3 && row > 2 && row < 6) {color = 4;}
+                else if (col > 2 && col < 6 && row > 2 && row < 6) {color = 5;}
+                else if (col > 5 && row > 2 && row < 6) {color = 6;}
+                else if (col < 3 && row > 5 ) {color = 7;}
+                else if (col > 2 && col < 6 && row > 5) {color = 8;}
+                else if (col > 5 && row > 5) {color = 9;}
+
+                content[row][col] = new Tile(color);
             }
         }
     }

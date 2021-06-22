@@ -1,7 +1,7 @@
 package model;
 
 public class Tile {
-    private final boolean changeable;
+    private boolean changeable;
     private boolean filled;
     private boolean conflicted = false;
     private final int belongsToArea;
@@ -49,6 +49,8 @@ public class Tile {
     public boolean isChangeable() {
         return changeable;
     }
+
+    public void setChangeable(boolean changeable) { this.changeable = changeable; }
 
     public boolean isFilled() {
         return filled;

@@ -2,12 +2,9 @@ package view;
 
 import model.Puzzle;
 
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class NinesquareField extends SudokuField {
-
-
 
 
     public NinesquareField(Puzzle puzzle) {
@@ -15,10 +12,8 @@ public class NinesquareField extends SudokuField {
         tileWidth = 70;
         tileHeight = 70;
         this.setPreferredSize(new Dimension(tileWidth * 9 , tileHeight * 9 ));
-//        this.setPreferredSize(new Dimension((int) (super.getParent().getBounds().width*0.9), (int) (super.getParent().getBounds().height*0.9)));
         selectedRow = -1;
         selectedCol = -1;
-
 
     }
 
@@ -27,10 +22,7 @@ public class NinesquareField extends SudokuField {
         super.paintComponent(g);
         graphics = (Graphics2D) g;
         graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-
         graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-        graphics.setColor(new Color(0.0f, 0.0f, 0.0f));
 
         createComponent(graphics);
 
@@ -49,16 +41,15 @@ public class NinesquareField extends SudokuField {
         createComponent(graphics);
 
     }
+
     public void createComponent(Graphics g) {
 
         graphics = (Graphics2D) g;
 
-
-
-
-
+        //Draw every single Tile
         for (int row = 0; row <=8; row++){
             for (int col = 0; col <= 8; col++) {
+                // get Input of Tile
                 String input = String.valueOf(puzzle.getTile(99, row, col).getEntry());
                 boolean hint = puzzle.getTile(99, row, col).isHint();
 
@@ -67,24 +58,35 @@ public class NinesquareField extends SudokuField {
 
                 coloredtile.setColor(getTileColor(square));
                 graphics.setFont(gameFont);
+
                 if (puzzle.getTile(99, row, col).isChangeable() == false) {
                     graphics.setFont(gameFont2);
                 }
+                //Draw the Rectangle
                 graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);
 
+                // Color black, if no conflict
                 if(!showConflicts && !input.equals("0") && !hint) {
                     graphics.setColor(Color.BLACK);
                     graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
                 } else if (showConflicts && !input.equals("0") && !hint){
                     boolean conflicted = puzzle.getTile(99, row, col).isConflicted();
+
+                    //Draw red tile if there is an conflict
                     if (conflicted){
                         graphics.setColor(Color.RED);
+                        graphics.fillRect(col * tileWidth + 1, row * tileHeight + 1, tileWidth - 1, tileHeight - 1);
+                        graphics.setColor(Color.WHITE);
                         graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
+
                     } else {
                         graphics.setColor(Color.BLACK);
                         graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
                     }
-                } else if (hint){
+                }
+
+                // Hint are shown in green
+                else if (hint){
                     graphics.setColor(Color.GREEN);
                     graphics.drawString(input, (col * tileWidth) + (tileWidth / 2) - 5, (row * tileHeight) + (tileHeight / 2) + 10);
                     puzzle.getTile(99,row, col).setHint(false);
@@ -96,6 +98,7 @@ public class NinesquareField extends SudokuField {
 
         g.setColor(new Color (175,210,245));
 
+        // Draw verticle lines
         for (int x = 0; x <= this.getWidth(); x += tileWidth) {
             if ((x / tileWidth) % 3 == 0) {
                 graphics.setStroke(new BasicStroke(4));
@@ -106,7 +109,7 @@ public class NinesquareField extends SudokuField {
                 graphics.drawLine(x, 0, x, this.getHeight());
             }
         }
-
+        // Draw horizontal lines
         for (int y = 0; y <= this.getHeight(); y += tileHeight) {
 
             if ((y / tileHeight) % 3 == 0) {
@@ -120,6 +123,7 @@ public class NinesquareField extends SudokuField {
             }
         }
 
+        //Mark the selected tile with a blue border
         if (selectedCol != -1 && selectedRow != -1) {
         if(puzzle.getTile(99, selectedRow, selectedCol).isChangeable() == true) {
 
@@ -140,9 +144,9 @@ public class NinesquareField extends SudokuField {
     }
 
 
+    // Get x and y coordinates to find the col and row which is selected
     public void inputActionListener(int x, int y, int value) {
 
-        System.out.println( x + " - " + y + " - " + value);
         setSelectedRowCol(x,y);
 
         if (selectedCol != -1 && selectedRow != -1 && value != -1) {
