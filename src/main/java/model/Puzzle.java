@@ -9,7 +9,6 @@ public abstract class Puzzle {
     protected int timeUsed;
     protected String contentString;
 
-
     public Puzzle(){
         this.name = "";
         this.difficulty = null;
@@ -27,7 +26,6 @@ public abstract class Puzzle {
         this.timeUsed = timeUsed;
         this.contentString = contentString;
     }
-
 
     public abstract Tile getTile(int nsqFieldNr, int row, int col);
 
@@ -58,7 +56,6 @@ public abstract class Puzzle {
     public Difficulty getDifficulty() {
         return difficulty;
     }
-
 
     public abstract String export();
 

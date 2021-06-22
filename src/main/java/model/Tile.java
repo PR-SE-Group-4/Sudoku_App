@@ -4,28 +4,33 @@ public class Tile {
     private boolean changeable;
     private boolean filled;
     private boolean conflicted = false;
-    private final int color;
+    private final int belongsToArea;
     private int entry;
     private boolean hint = false;
 
 
-
-    public Tile(int color, int entry, boolean changeable) {
-        this.color = color;
+    /**
+     *
+     * @param belongsToArea
+     * @param entry
+     * @param changeable
+     */
+    public Tile(int belongsToArea, int entry, boolean changeable) {
+        this.belongsToArea = belongsToArea;
         this.entry = entry;
         this.filled = entry != 0;
         this.changeable = changeable;
     }
 
-    public Tile(int color) {
-        this.color = color;
+    public Tile(int belongsToArea) {
+        this.belongsToArea = belongsToArea;
         this.entry = 0;
         this.changeable = true;
         this.filled = false;
     }
 
     public Tile() {
-        this.color = 10;
+        this.belongsToArea = 10;
         this.entry = 0;
         this.changeable = true;
         this.filled = false;
@@ -51,8 +56,8 @@ public class Tile {
         return filled;
     }
 
-    public int getColor() {
-        return color;
+    public int getBelongsToArea() {
+        return belongsToArea;
     }
 
     public int getEntry() {
@@ -81,7 +86,7 @@ public class Tile {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        switch(color){
+        switch(belongsToArea){
             case 0:
                 sb.append("\u001B[0m");
                 break;
@@ -118,7 +123,7 @@ public class Tile {
         if (!filled) {
             sb.append("   ");
         } else if(changeable) {
-            sb.append((conflicted ? "X" : " ")).append(entry).append(color);
+            sb.append((conflicted ? "X" : " ")).append(entry).append(belongsToArea);
         } else {
             sb.append("[").append(entry).append("]");
         }
@@ -126,6 +131,6 @@ public class Tile {
     }
 
     public String export() {
-        return color + (changeable ? "U" : "O") + entry;
+        return belongsToArea + (changeable ? "U" : "O") + entry;
     }
 }

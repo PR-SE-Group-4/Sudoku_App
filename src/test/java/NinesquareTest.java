@@ -68,9 +68,9 @@ class NinesquareTest {
     void getArea() {
         tiles = ninesquare1.getArea(99, 0,0);
         assertEquals(5, tiles[0].getEntry());
-        int tileColor = ninesquare1.getTile(99,0,0).getColor();
+        int tileColor = ninesquare1.getTile(99,0,0).getBelongsToArea();
         for (int i = 0; i<tiles.length; i++) {
-            assertEquals(tileColor,tiles[i].getColor());
+            assertEquals(tileColor,tiles[i].getBelongsToArea());
         }
     }
 
@@ -79,7 +79,7 @@ class NinesquareTest {
         tiles = ninesquare1.getArea(99, 2);
         assertEquals(3, tiles[1].getEntry());
         for (int i = 0; i<tiles.length; i++) {
-            assertEquals(2,tiles[i].getColor());
+            assertEquals(2,tiles[i].getBelongsToArea());
         }
     }
 
