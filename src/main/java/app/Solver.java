@@ -47,9 +47,6 @@ public class Solver {
         }
     }
 
-
-
-
     static LinkedList<Candidate> getCandidates(Ninesquare toSolve, int numberOfOptions) {
 
         // at NumberOfOptions == 1 the result is definitive.
@@ -145,45 +142,15 @@ public class Solver {
     return candidates;
     }
 
-
-
-    // --------------------------------------------
-    public static int solveNinesquareUnambiguously(Ninesquare toSolve) {
-        LinkedList<Candidate> candidates = new LinkedList<>();
-        candidates.add(new Candidate(99, 0,0,0));
-        int filledFields = 0;
-        while (!toSolve.isSolved() && !candidates.isEmpty()){
-           candidates = getCandidates(toSolve, 1);
-            for (Candidate c : candidates) {
-                filledFields++;
-                toSolve.setEntry(99, c.row, c.col, c.entry);
-
-            }
-        }
-        return filledFields;
-    }
-
-    public static void solveSamuraiUnambiguously(Samurai toSolve) {
-        int filledInThisRound = 1;
-        while (filledInThisRound > 0) {
-            filledInThisRound = 0;
-            for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) {
-                filledInThisRound += solveNinesquareUnambiguously(toSolve.getNinesquare(nsqFieldNr));
-            }
-        }
-    }
-
     public static void solve(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {
-            Solver.solve9sqWithEducatedGuesses((Ninesquare) toSolve);
+            Solver.solve9sq((Ninesquare) toSolve);
 
         } else if (Samurai.class.isInstance(toSolve)) {
-            Solver.solveSamuraiWithEducatedGuesses((Samurai) toSolve);
+            Solver.solveSam((Samurai) toSolve);
         }
         System.out.println(toSolve);
     }
-
-
 
     public static Candidate getHint(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
@@ -197,35 +164,70 @@ public class Solver {
         return new Candidate(0,0,0,0);
     }
 
-    public static void solve9sqWithEducatedGuesses(Ninesquare toSolve) { // solve with a mixture of conclusive solving and educated guessing
-         do { // as long as it isn't solved
-            solveNinesquareUnambiguously(toSolve); // fill all unambiguous fields
-            LinkedList<Candidate> currentEasedCandidates = getCandidates(toSolve, 2); // get slightly ambiguous candidates
-            if (!currentEasedCandidates.isEmpty()) {
-                Candidate c = currentEasedCandidates.get(new Random().nextInt(currentEasedCandidates.size())); // randomly pick an ambiguous candidate
-                toSolve.setEntry(99, c.row, c.col, c.entry);
-            } else {
-                if (toSolve.isSolved()) {
-                    boolean isConflicted = false;
-                    for (int r = 0; r < 9; r++) {
-                        for (int c = 0; c < 9; c++) {
-                            if (toSolve.getTile(99, r, c).isConflicted()) isConflicted = true;
-                        }
-                    }
-                    if (!isConflicted) break; // if no more candidates, is solved and no conflicts: job is done
-                    System.out.println(toSolve);
-                }
-                deleteGuess(toSolve); // if there are no more candidates and it is not (solved and not conflicted) this is a dead end
-            }
+    public static void solve9sq(Ninesquare toSolve) { // solve with a mixture of conclusive solving and educated guessing
+        boolean solvingIsWorking = true;
+        do { // as long as it isn't solved
+            solve9sqPrecisely(toSolve); // fill all unambiguous fields
+            solvingIsWorking = solve9sqWithLowerAccuracy(toSolve); // guess one probable number
+            if (!solvingIsWorking && !toSolve.isSolved()) deleteGuess(toSolve); // this is a dead end
         } while (!toSolve.isSolved());
     }
 
-    private static void solveSamuraiWithEducatedGuesses(Samurai toSolve) {
-        solveSamuraiUnambiguously(toSolve);
-        //TODO
+    public static int solve9sqPrecisely(Ninesquare toSolve) {
+        LinkedList<Candidate> candidates = new LinkedList<>();
+        candidates.add(new Candidate(99, 0,0,0));
+        int filledFields = 0;
+        while (!toSolve.isSolved() && !candidates.isEmpty()){
+            candidates = getCandidates(toSolve, 1);
+            for (Candidate c : candidates) {
+                filledFields++;
+                toSolve.setEntry(99, c.row, c.col, c.entry);
+            }
+        }
+        return filledFields;
     }
 
-    public static void deleteGuess(Ninesquare toSolve) {
+    private static boolean solve9sqWithLowerAccuracy(Ninesquare toSolve) {
+        LinkedList<Candidate> currentEasedCandidates = getCandidates(toSolve, 2); // get slightly ambiguous candidates
+        if (currentEasedCandidates.isEmpty()) {
+            return false;
+        } else {
+            Candidate c = currentEasedCandidates.get(new Random().nextInt(currentEasedCandidates.size())); // randomly pick an ambiguous candidate
+            toSolve.setEntry(99, c.row, c.col, c.entry);
+            return true;
+        }
+    }
+
+    public static void solveSam(Samurai toSolve) {
+/*        do {
+            int solvingProgress = 0;
+            boolean solvingIsWorking = true;
+            for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) { // iterate precise filling
+                solvingProgress = solve9sqPrecisely(toSolve.getNinesquare(nsqFieldNr));
+                System.out.println("genaulösen nsqf " + nsqFieldNr + " solvingProg " + solvingProgress + " nachher:\n" + toSolve.getNinesquare(nsqFieldNr));
+                if (solvingProgress > 0) nsqFieldNr = -1;
+            }
+            int random9SqChoice = new Random().nextInt(5); // afterwards start guessing
+            solvingIsWorking = solve9sqWithLowerAccuracy(toSolve.getNinesquare(random9SqChoice));
+            System.out.println("raten feld " + random9SqChoice + " isworking " + solvingIsWorking);
+            if (!solvingIsWorking && !toSolve.isSolved())
+                System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXDead end: \n" + toSolve);
+                deleteGuess(toSolve); // this is a dead end
+        } while (!toSolve.isSolved());
+*/    }
+
+    public static void deleteGuess(Puzzle toSolve) {
+        if (Ninesquare.class.isInstance(toSolve)) {
+            Solver.deleteNinesquare((Ninesquare) toSolve);
+
+        } else if (Samurai.class.isInstance(toSolve)) {
+            for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++) {
+                Solver.deleteNinesquare(((Samurai) toSolve).getNinesquare(nsqFieldNr));
+            }
+        }
+    }
+
+    public static void deleteNinesquare(Ninesquare toSolve) {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 toSolve.deleteEntry(99, row, col);

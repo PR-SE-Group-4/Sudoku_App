@@ -167,7 +167,7 @@ public class Ninesquare extends Puzzle {
     public boolean isSolved() {
         for (Tile[] x : content) {
             for (Tile y : x) {
-                if (!y.isFilled()) return false;
+                if (!y.isFilled() || y.isConflicted()) return false;
             }
         }
         solved = true;
