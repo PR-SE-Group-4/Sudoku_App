@@ -3,14 +3,14 @@ package model;
 public abstract class Puzzle {
 
     protected String name;
-    protected final Difficulty difficulty;
+    protected Difficulty difficulty;
     protected Type type;
-    protected boolean solved;
+    public boolean solved;
     protected int timeUsed;
     protected String contentString;
 
     public Puzzle(){
-        this.name = "";
+        this.name = null;
         this.difficulty = null;
         this.type = null;
         this.solved = false;
@@ -55,6 +55,10 @@ public abstract class Puzzle {
 
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    public void  setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public abstract String export();

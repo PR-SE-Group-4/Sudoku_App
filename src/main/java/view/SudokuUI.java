@@ -2,10 +2,7 @@ package view;
 
 import app.Loader;
 import app.Solver;
-import model.Ninesquare;
-import model.Samurai;
-import model.Type;
-import model.Puzzle;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -290,20 +287,23 @@ public class SudokuUI implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                Object[] options = {"Save", "Save & Exit", "Cancel"};
+                saveGame();
 
-                int selected = JOptionPane.showOptionDialog(null,
+              /*  Object[] options = {"Save", "Save & Exit", "Cancel"};
+
+                int selected = JOptionPane.showInputDialog(null,
                         "Save the game?",
                         "Save",
                         JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        null, options, options[0]);
+                        null,
+                        options,
+                        options[0]);
 
                 if (selected == 0) {
                     try {
-                        //Save the Game
-                        Loader.saveGame(puzzle, puzzle.getName());
-                        // Send playing time to puzzle
+                        //Save the Game and send playing time to puzzle
+                        saveGame("Test");
+
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
@@ -325,7 +325,7 @@ public class SudokuUI implements ActionListener {
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
-                }
+                }*/
 
             }
 
@@ -436,9 +436,9 @@ public class SudokuUI implements ActionListener {
                 if (selected == 0) {
                     try {
                         //Save the Game
-                        Loader.saveGame(puzzle, puzzle.getName());
+                        saveGame();
                         System.exit(0);
-                        // Send playing time to puzzle
+
 
                     } catch (Exception exception) {
                         exception.printStackTrace();
@@ -510,23 +510,55 @@ public class SudokuUI implements ActionListener {
 
     }
 
+    public void saveGame() {
+        String name = JOptionPane.showInputDialog(null, "Choose a name for this savegame!", "Save the game!", JOptionPane.INFORMATION_MESSAGE);
+
+
+        if (puzzle.getName() == null) {
+            puzzle.setDifficulty(Difficulty.NORMAL);
+            Loader.saveTemplate(puzzle, name);
+        }
+        else {
+            puzzle.setTimeUsed(timeUsed);
+            Loader.saveGame(puzzle, name);
+        }
+
+
+    }
+
 
     public void startTimer() {
 
         timeUsed = puzzle.getTimeUsed();
         if (timer != null) {
-            timer.stop();
+           stopTimer();
         }
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeUsed++;
                 timerField.setText(String.valueOf(timeUsed));
-
+                if(puzzle.solved) {gameFinished();}
             }
         });
 
+
         timer.start();
+    }
+
+    public void stopTimer() {
+
+        timer.stop();
+    }
+
+    public void gameFinished(){
+
+        stopTimer();
+
+        JOptionPane.showMessageDialog(null,
+                "You have finished your game in " + String.valueOf(timeUsed) + " seconds!",
+                "Congratulations",1);
+
     }
 
 

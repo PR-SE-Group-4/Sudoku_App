@@ -72,4 +72,6 @@ public abstract class SudokuField extends JPanel {
     public abstract void inputActionListener(int x, int y, int value);
 
     public abstract void setSelectedRowCol(int x, int y);
+
+
 }
