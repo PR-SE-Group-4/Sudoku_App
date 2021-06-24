@@ -36,7 +36,6 @@ public class Ninesquare extends Puzzle {
         super(name, difficulty, type, solved, timeUsed, contentString);
         //Parser
         content = new Tile[9][9];
-        System.out.println(contentString);
         for (int row = 0; row < 9 ; row++) {
             for (int col = 0; col < 9; col++) {
                 content[row][col] = new Tile(
@@ -173,7 +172,6 @@ public class Ninesquare extends Puzzle {
                 if (!y.isFilled() || y.isConflicted()) return false;
             }
         }
-        System.out.println("Solved");
         solved = true;
         return true;
     }

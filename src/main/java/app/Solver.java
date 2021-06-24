@@ -132,16 +132,16 @@ public class Solver {
         } else if (Samurai.class.isInstance(toSolve)) {
             Solver.solveSam((Samurai) toSolve);
         }
-        System.out.println("Final form: \n" + toSolve);
     }
 
+    @org.jetbrains.annotations.Nullable
     public static Candidate getHint(Puzzle toSolve) {
         LinkedList<Candidate> candidates = new LinkedList<Candidate>();
         if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
             Ninesquare ts = (Ninesquare) toSolve;
             candidates.addAll(getCandidates(99, ts, 1));
 
-        } else if (Samurai.class.isInstance(toSolve)) {             // Puzzle is
+        } else if (Samurai.class.isInstance(toSolve)) {             // Puzzle is Samurai
             Ninesquare ts;
             for (int nsqFieldNr = 0; nsqFieldNr<5; nsqFieldNr++) {
                 ts = ((Samurai) toSolve).getNinesquare(nsqFieldNr);

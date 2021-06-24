@@ -75,9 +75,6 @@ public class Loader {
         };
         //in the files-array there is a list of all files in the dir
         files = path.listFiles(fileFilter);
-        for (File i : files) {
-            System.out.println(i);
-        }
         return files;
     }
 
@@ -116,26 +113,21 @@ public class Loader {
                 switch (stage) {
                     case 0: // first block: difficulty
                         difficulty = Difficulty.valueOf(sb.toString());
-                        System.out.println(difficulty);
                         break;
                     case 1: // second: model.Type of model.Puzzle
                         type = Type.valueOf(sb.toString());
-                        System.out.println(type);
                         break;
                     case 2: // third: solved
                         if (sb.toString().equals("true"))
                             solved = true;
                         else
                             solved = false;
-                        System.out.println(solved);
                         break;
                     case 3: //fourth: timeUsed
                         timeUsed = Integer.parseInt(sb.toString());
-                        System.out.println(timeUsed);
                         break;
                     case 4: // fifth: ContentString
                         contentString = sb.toString();
-                        System.out.println(contentString);
                         break;
                     default:
                         throw new Exception();
@@ -152,7 +144,6 @@ public class Loader {
         } else if (contentString.length() == 1624) {
             return new Samurai(name, difficulty, type, solved, timeUsed, contentString);
         } else {
-            System.out.println(contentString.length());
             throw new Exception();
         }
 
