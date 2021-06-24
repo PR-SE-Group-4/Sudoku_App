@@ -1,5 +1,7 @@
 package model;
 
+import view.SudokuUI;
+
 public class Ninesquare extends Puzzle {
     private Tile[][] content;
 
@@ -137,6 +139,7 @@ public class Ninesquare extends Puzzle {
             tiles = getArea(99, i+1);
             checkConflicts(tiles);
         }
+        isSolved();
     }
 
     private void checkConflicts(Tile[] tiles){
@@ -170,6 +173,7 @@ public class Ninesquare extends Puzzle {
                 if (!y.isFilled() || y.isConflicted()) return false;
             }
         }
+        System.out.println("Solved");
         solved = true;
         return true;
     }

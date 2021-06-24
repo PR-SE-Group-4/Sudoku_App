@@ -179,7 +179,7 @@ public class Loader {
 
     public static void saveTemplate(Puzzle puzzle, String name) {
         for (int fieldnr=0; fieldnr<5; fieldnr++){
-            if(puzzle.getType() != Type.SAMURAI) fieldnr=5;
+            if(puzzle.getType() != Type.SAMURAI) {fieldnr=5;}
 
             for (int r=0;r<9;r++){
                 for (int c=0;c<9;c++){

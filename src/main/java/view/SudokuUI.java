@@ -2,10 +2,8 @@ package view;
 
 import app.Loader;
 import app.Solver;
-import model.Ninesquare;
-import model.Samurai;
-import model.Type;
-import model.Puzzle;
+import model.*;
+import org.w3c.dom.Text;
 
 import javax.swing.*;
 import java.awt.*;
@@ -290,43 +288,9 @@ public class SudokuUI implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                Object[] options = {"Save", "Save & Exit", "Cancel"};
-
-                int selected = JOptionPane.showOptionDialog(null,
-                        "Save the game?",
-                        "Save",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        null, options, options[0]);
-
-                if (selected == 0) {
-                    try {
-                        //Save the Game
-                        Loader.saveGame(puzzle, puzzle.getName());
-                        // Send playing time to puzzle
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
+                if (puzzle != null) {
+                    saveGame();
                 }
-                else if (selected == 1) {
-                    try {
-                        // Send playing time to puzzle
-                        Loader.saveGame(puzzle, puzzle.getName());
-                        System.exit(0);
-
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                }
-                else if (selected == 2) {
-                    try {
-
-                        // Do nothing
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                }
-
             }
 
             @Override
@@ -367,7 +331,9 @@ public class SudokuUI implements ActionListener {
                 if (puzzle != null) {
                     Solver.Candidate candidate = Solver.getHint(puzzle);
                     if (candidate == null) {
-                        //TODO: Popup: "No more hints found"
+                        JOptionPane.showMessageDialog(null,
+                                "No more hints found!",
+                                "Information!",JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         puzzle.setEntry(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol(), candidate.getEntry());
                         puzzle.getTile(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol()).setHint(true);
@@ -393,9 +359,25 @@ public class SudokuUI implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                JOptionPane.showMessageDialog(null,
-                        "Hier kommt der Hilfetext zur Unterstützung für Anfänger",
-                        "Sudoku Help",3);
+                String filename = "src/main/java/ressources/btn";
+
+
+                Object inputHelp[] = {
+                        new ImageIcon(new ImageIcon(filename  + "load.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can open a saved game!"),
+                        new ImageIcon(new ImageIcon(filename  + "create.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can create a new game!"),
+                        new ImageIcon(new ImageIcon(filename  + "save.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can save your game!"),
+                        new ImageIcon(new ImageIcon(filename  + "solve.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can solve your game!"),
+                        new ImageIcon(new ImageIcon(filename  + "hint.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can ask for a hint!"),
+                        new ImageIcon(new ImageIcon(filename  + "help.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), "Here you can find help!",
+                        new ImageIcon(new ImageIcon(filename  + "reset.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), "Here you can reset the game!",
+                        new ImageIcon(new ImageIcon(filename  + "exit.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), "Here you can exit the game!"};
+
+
+                JOptionPane helpPanel = new JOptionPane();
+                helpPanel.setMessage(inputHelp);
+                helpPanel.setAlignmentX(JLabel.CENTER);
+                JDialog dialog = helpPanel.createDialog(sudokuPanel, "You need our help?");
+                dialog.setVisible(true);
             }
 
             @Override
@@ -441,9 +423,8 @@ public class SudokuUI implements ActionListener {
                 if (selected == 0) {
                     try {
                         //Save the Game
-                        Loader.saveGame(puzzle, puzzle.getName());
+                        saveGame();
                         System.exit(0);
-                        // Send playing time to puzzle
 
                     } catch (Exception exception) {
                         exception.printStackTrace();
@@ -481,6 +462,26 @@ public class SudokuUI implements ActionListener {
 
     public void addIcon (JLabel label) {
         label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+    }
+
+
+
+
+    public void saveGame() {
+        String name = JOptionPane.showInputDialog(null, "Choose a name for this savegame!", "Save the game!", JOptionPane.INFORMATION_MESSAGE);
+
+        if (name == null) {
+
+        }
+        else {
+            if (puzzle.getName() == null) {
+                puzzle.setDifficulty(Difficulty.NORMAL);
+                Loader.saveTemplate(puzzle, name);
+            } else {
+                puzzle.setTimeUsed(timeUsed);
+                Loader.saveGame(puzzle, name);
+            }
+        }
 
     }
 
@@ -520,20 +521,34 @@ public class SudokuUI implements ActionListener {
 
         timeUsed = puzzle.getTimeUsed();
         if (timer != null) {
-            timer.stop();
+            stopTimer();
         }
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeUsed++;
                 timerField.setText(String.valueOf(timeUsed));
-
+                if(puzzle.solved) {gameFinished();}
             }
         });
 
         timer.start();
     }
 
+    public void stopTimer() {
+
+        timer.stop();
+    }
+
+    public void gameFinished(){
+
+        stopTimer();
+
+        JOptionPane.showMessageDialog(null,
+                "You have finished your game in " + String.valueOf(timeUsed) + " seconds!",
+                "Congratulations",1);
+
+    }
 
     private  final MouseListener mouseListener = new MouseAdapter() {
         @Override
