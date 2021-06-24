@@ -53,7 +53,7 @@ public class Ninesquare extends Puzzle {
     }
 
     @Override
-    public int getColor(int nsqFieldNr, int row, int col) {return content[row][col].getBelongsToArea();
+    public int getBelongsToArea(int nsqFieldNr, int row, int col) {return content[row][col].getBelongsToArea();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Ninesquare extends Puzzle {
         int cnt = 0;
         for (int r = 0; r < 9; r++){
             for (int c = 0; c < 9; c++) {
-                if (getColor(99,r,c) == getColor(99,row, col)) {
+                if (getBelongsToArea(99,r,c) == getBelongsToArea(99,row, col)) {
                     tiles[cnt] = content[r][c];
                     cnt++;
                     if (cnt >= 9) break;
@@ -107,7 +107,7 @@ public class Ninesquare extends Puzzle {
         int cnt = 0;
         for (int r = 0; r < 9; r++){
             for (int c = 0; c < 9; c++) {
-                if (getColor(nsqFieldNr,r,c) == color) {
+                if (getBelongsToArea(nsqFieldNr,r,c) == color) {
                     tiles[cnt] = content[r][c];
                     cnt++;
                     if (cnt >= 9) break;

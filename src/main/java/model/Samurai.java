@@ -33,8 +33,8 @@ public class Samurai extends Puzzle{
     }
 
     @Override
-    public int getColor(int nsqFieldNr, int row, int col) {
-        return ninesquares[nsqFieldNr].getColor(99, row, col);
+    public int getBelongsToArea(int nsqFieldNr, int row, int col) {
+        return ninesquares[nsqFieldNr].getBelongsToArea(99, row, col);
     }
 
     @Override

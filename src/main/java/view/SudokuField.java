@@ -50,7 +50,7 @@ public abstract class SudokuField extends JPanel {
                 boolean hint = puzzle.getTile(fieldnumber, row, col).isHint();
 
                 Graphics2D coloredtile = (Graphics2D) g;
-                int square = puzzle.getColor(fieldnumber, row, col);
+                int square = puzzle.getBelongsToArea(fieldnumber, row, col);
 
                 coloredtile.setColor(getTileColor(square));
                 graphics.setFont(gameFont);

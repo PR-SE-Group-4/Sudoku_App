@@ -28,8 +28,8 @@ class SamuraiTest {
 
     @Test
     void getColor() {
-        assertEquals(1, samurai1.getColor(0,0,0));
-        assertEquals(2, samurai1.getColor(2,0,3));
+        assertEquals(1, samurai1.getBelongsToArea(0,0,0));
+        assertEquals(2, samurai1.getBelongsToArea(2,0,3));
     }
 
     @Test

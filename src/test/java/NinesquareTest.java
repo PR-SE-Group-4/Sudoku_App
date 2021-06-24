@@ -23,8 +23,8 @@ class NinesquareTest {
 
     @Test
     void getColor() {
-        assertEquals(1, ninesquare1.getColor(99,0,0));
-        assertEquals(2, ninesquare1.getColor(99,0,1));
+        assertEquals(1, ninesquare1.getBelongsToArea(99,0,0));
+        assertEquals(2, ninesquare1.getBelongsToArea(99,0,1));
     }
 
     @Test

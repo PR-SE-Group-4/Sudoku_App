@@ -29,7 +29,7 @@ public abstract class Puzzle {
 
     public abstract Tile getTile(int nsqFieldNr, int row, int col);
 
-    public abstract int getColor(int nsqFieldNr, int row, int col);
+    public abstract int getBelongsToArea(int nsqFieldNr, int row, int col);
 
     public abstract void setEntry(int nsqFieldNr, int selectedRow, int selectedCol, int entry);
 

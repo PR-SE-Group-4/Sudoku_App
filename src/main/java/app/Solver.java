@@ -18,7 +18,7 @@ public class Solver {
         int col;
         int entry;
 
-        Candidate(int nsqFieldNr, int row, int col, int entry) {
+        public Candidate(int nsqFieldNr, int row, int col, int entry) {
             this.nsqFieldNr = nsqFieldNr;
             this.row = row;
             this.col = col;
@@ -74,11 +74,11 @@ public class Solver {
 
                     // clearNumberInArea: in dieser area gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
                     // 1. Area/Color des aktuellen Tile evaluieren
-                    int currentArea = toSolve.getColor(99,row, col);
+                    int currentArea = toSolve.getBelongsToArea(99,row, col);
                     // 2. toSolve durchiterieren und bei getColor-Hit dann eliminieren
                     for (int arearow = 0; arearow < 9; arearow++) {
                         for (int areacol = 0; areacol < 9; areacol++) {
-                            if (toSolve.getColor(99,arearow, areacol) == currentArea) {
+                            if (toSolve.getBelongsToArea(99,arearow, areacol) == currentArea) {
                               candidateCube[arearow][areacol][eliminationValue] = true;
                             }
                         }
@@ -88,54 +88,37 @@ public class Solver {
         }
 
         // make a list of candidates
-        LinkedList<Candidate> candidates = new LinkedList<>();
-        int falseCounter;
-        int trigger = 0;
+        LinkedList<Solver.Candidate> candidates = new LinkedList<>();
+        int falseCounterRCP, falseCounterCPR, falseCounterPRC;          // counts how many candidates in a Row, Column, Pillar
+        int triggerP = 0, triggerR = 0, triggerC = 0;                   // used when a fitting amount is found
 
-        // Single-Pillars: there are less than numberOfOptions candidates in:
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
-                falseCounter = 0;
-                for (int p = 0; p < 9; p++) {
-                    if (!candidateCube[r][c][p]) {
-                        falseCounter++;
-                        trigger = p;
+        for (int v1 = 0; v1 < 9; v1++){                                 // v1 can be row, column or pillar
+            for (int v2 = 0; v2 < 9; v2++){                             // v2 can be column pillar or row
+                falseCounterRCP = 0;
+                falseCounterCPR = 0;
+                falseCounterPRC = 0;
+                for (int v3 = 0; v3 <9; v3++){
+                    if(!candidateCube[v1][v2][v3]) {                    // if the arrayfield is false, it is a probable candidate
+                        falseCounterRCP++;                              // probable candidates in Pillar are counted
+                        triggerP = v3;                                  // stores the current pillar for triggering
+                    }
+                    if(!candidateCube[v3][v1][v2]) {                    // see above, only pivoted
+                        falseCounterCPR++;
+                        triggerR = v3;
+                    }
+                    if(!candidateCube[v2][v3][v1]) {
+                        falseCounterPRC++;
+                        triggerC = v3;
                     }
                 }
-                if (falseCounter > 0 && falseCounter <= numberOfOptions) {
-                    candidates.add(new Candidate(nsqFieldNr, r, c, trigger+1));
+                if (falseCounterRCP > 0 && falseCounterRCP <= numberOfOptions) {    // if there is a fitting amount of probable candidates
+                    candidates.add(new Solver.Candidate(nsqFieldNr, v1, v2, triggerP+1));   // it is added as a definitive candidate
                 }
-            }
-        }
-
-        // Single-Rows: im Row folgender c/p ist genau 1 false:
-        for (int c = 0; c < 9; c++) {
-            for (int p = 0; p < 9; p++) {
-                falseCounter = 0;
-                for (int r = 0; r < 9; r++) {
-                    if (!candidateCube[r][c][p]){
-                        falseCounter++;
-                        trigger = r;
-                    }
+                if (falseCounterCPR > 0 && falseCounterCPR <= numberOfOptions) {
+                    candidates.add(new Solver.Candidate(nsqFieldNr, triggerR, v1, v2+1));
                 }
-                if (falseCounter > 0 && falseCounter <=  numberOfOptions) {
-                    candidates.add(new Candidate(nsqFieldNr, trigger, c, p+1));
-                }
-            }
-        }
-
-        // Single-Col: im Col folgender p/r ist genau 1 false:
-        for (int p = 0; p < 9; p++) {
-            for (int r = 0; r < 9; r++) {
-                falseCounter = 0;
-                for (int c = 0; c < 9; c++) {
-                    if (!candidateCube[r][c][p]){
-                        falseCounter++;
-                        trigger = c;
-                    }
-                }
-                if (falseCounter > 0 && falseCounter <= numberOfOptions) {
-                    candidates.add(new Candidate(nsqFieldNr, r, trigger, p+1));
+                if (falseCounterPRC > 0 && falseCounterPRC <= numberOfOptions) {
+                    candidates.add(new Solver.Candidate(nsqFieldNr, v2, triggerC, v1+1));
                 }
             }
         }
@@ -157,7 +140,6 @@ public class Solver {
         if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
             Ninesquare ts = (Ninesquare) toSolve;
             candidates.addAll(getCandidates(99, ts, 1));
-
 
         } else if (Samurai.class.isInstance(toSolve)) {             // Puzzle is
             Ninesquare ts;
