@@ -1,5 +1,7 @@
 package model;
 
+import view.SudokuUI;
+
 public class Samurai extends Puzzle{
 
     private Ninesquare[] ninesquares;

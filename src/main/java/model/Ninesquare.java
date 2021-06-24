@@ -1,5 +1,6 @@
 package model;
 
+import view.SudokuField;
 import view.SudokuUI;
 
 public class Ninesquare extends Puzzle {

@@ -5,7 +5,7 @@ public abstract class Puzzle {
     protected String name;
     protected  Difficulty difficulty;
     protected Type type;
-    public boolean solved;
+    protected boolean solved;
     protected int timeUsed;
     protected String contentString;
 
@@ -70,3 +70,5 @@ public abstract class Puzzle {
     public void setName(String name) { this.name = name; }
 
 }
+
+
