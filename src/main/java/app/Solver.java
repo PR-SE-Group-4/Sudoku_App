@@ -47,7 +47,7 @@ public class Solver {
         }
     }
 
-    static LinkedList<Candidate> getCandidates(Ninesquare toSolve, int numberOfOptions) {
+    static LinkedList<Candidate> getCandidates(int nsqFieldNr, Ninesquare toSolve, int numberOfOptions) {
 
         // at NumberOfOptions == 1 the result is definitive.
         // at a higher NumberOfOptions, the result is less and less probable
@@ -103,7 +103,7 @@ public class Solver {
                     }
                 }
                 if (falseCounter > 0 && falseCounter <= numberOfOptions) {
-                    candidates.add(new Candidate(99, r, c, trigger+1));
+                    candidates.add(new Candidate(nsqFieldNr, r, c, trigger+1));
                 }
             }
         }
@@ -119,7 +119,7 @@ public class Solver {
                     }
                 }
                 if (falseCounter > 0 && falseCounter <=  numberOfOptions) {
-                    candidates.add(new Candidate(99, trigger, c, p+1));
+                    candidates.add(new Candidate(nsqFieldNr, trigger, c, p+1));
                 }
             }
         }
@@ -135,7 +135,7 @@ public class Solver {
                     }
                 }
                 if (falseCounter > 0 && falseCounter <= numberOfOptions) {
-                    candidates.add(new Candidate(99, r, trigger, p+1));
+                    candidates.add(new Candidate(nsqFieldNr, r, trigger, p+1));
                 }
             }
         }
@@ -153,15 +153,24 @@ public class Solver {
     }
 
     public static Candidate getHint(Puzzle toSolve) {
+        LinkedList<Candidate> candidates = new LinkedList<Candidate>();
         if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
             Ninesquare ts = (Ninesquare) toSolve;
-            LinkedList<Candidate> candidates = getCandidates(ts, 1);
-            return candidates.get(0);
+            candidates.addAll(getCandidates(99, ts, 1));
 
-        } else if (Samurai.class.isInstance(toSolve)) {             // TODO Samurai
-            return new Candidate(0,0,0,0);
+
+        } else if (Samurai.class.isInstance(toSolve)) {             // Puzzle is
+            Ninesquare ts;
+            for (int nsqFieldNr = 0; nsqFieldNr<5; nsqFieldNr++) {
+                ts = ((Samurai) toSolve).getNinesquare(nsqFieldNr);
+                candidates.addAll(getCandidates(nsqFieldNr, ts, 1));
+            }
         }
-        return new Candidate(0,0,0,0);
+        if (candidates.isEmpty()) {
+            return null;
+        } else {
+            return candidates.get(0);
+        }
     }
 
     public static void solve9sq(Ninesquare toSolve) { // solve with a mixture of conclusive solving and educated guessing
@@ -178,7 +187,7 @@ public class Solver {
         candidates.add(new Candidate(99, 0,0,0));
         int filledFields = 0;
         while (!toSolve.isSolved() && !candidates.isEmpty()){
-            candidates = getCandidates(toSolve, 1);
+            candidates = getCandidates(99, toSolve, 1);
             for (Candidate c : candidates) {
                 filledFields++;
                 toSolve.setEntry(99, c.row, c.col, c.entry);
@@ -188,7 +197,7 @@ public class Solver {
     }
 
     private static boolean solve9sqUnprecise(Ninesquare toSolve) {
-        LinkedList<Candidate> currentEasedCandidates = getCandidates(toSolve, 2); // get slightly ambiguous candidates
+        LinkedList<Candidate> currentEasedCandidates = getCandidates(99, toSolve, 2); // get slightly ambiguous candidates
         if (currentEasedCandidates.isEmpty()) {
             return false;
         } else {

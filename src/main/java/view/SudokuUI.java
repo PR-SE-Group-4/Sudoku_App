@@ -366,6 +366,9 @@ public class SudokuUI implements ActionListener {
 
                 if (puzzle != null) {
                     Solver.Candidate candidate = Solver.getHint(puzzle);
+                    if (candidate == null) {
+                        //TODO: Popup: "No more hints found"
+                    }
                     puzzle.setEntry(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol(), candidate.getEntry());
                     puzzle.getTile(candidate.getNsqFieldNr(), candidate.getRow(), candidate.getCol()).setHint(true);
                     sudokufield.repaint();
