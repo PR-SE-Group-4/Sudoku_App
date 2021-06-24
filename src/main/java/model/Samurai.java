@@ -172,7 +172,7 @@ public class Samurai extends Puzzle{
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 5; i++) {
             sb.append(ninesquares[i]);
-            sb.append("\n");
+            sb.append("\n ---------------------------" + i + "---------------------- \n");
         }
         return sb.toString();
     }
