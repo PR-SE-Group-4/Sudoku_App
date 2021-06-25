@@ -22,13 +22,6 @@ public class Tile {
         this.changeable = changeable;
     }
 
-    public Tile(int belongsToArea) {
-        this.belongsToArea = belongsToArea;
-        this.entry = 0;
-        this.changeable = true;
-        this.filled = false;
-    }
-
     public Tile() {
         this.belongsToArea = 10;
         this.entry = 0;

@@ -14,7 +14,7 @@ class TileTest {
 
     @BeforeEach
     void init(){
-        t1 = new Tile(0);
+        t1 = new Tile(0, 0, true);
         t2 = new Tile (1, 5, false);
     }
 

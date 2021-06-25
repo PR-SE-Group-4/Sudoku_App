@@ -256,8 +256,6 @@ public class SudokuUI implements ActionListener {
                 if (selected == 0) {
                     try {
                         puzzle = new Ninesquare();
-                        puzzle.setType(Type.CLASSIC);
-
 
                     } catch (Exception exception) {
                         exception.printStackTrace();

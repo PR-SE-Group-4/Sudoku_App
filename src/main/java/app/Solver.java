@@ -11,7 +11,6 @@ import java.util.Random;
 
 public class Solver {
 
-    //------
     public static class Candidate {
         int nsqFieldNr;
         int row;
@@ -60,17 +59,13 @@ public class Solver {
                 if (currTile.isFilled()) {                        // das Tile in row, col ist filled, Elimination beginnt
                     int eliminationValue = currTile.getEntry() - 1;   // der Wert im aktuellen Tile, umgerechnet auf Arrayindex (1 = 0)
 
-                    // clearFilledPillar: diese row, col ist befült und braucht keine Candidates mehr
-                    for (int i = 0; i <9; i++) {
-                      candidateCube[row][col][i] = true;
-                    }
-
                     for (int i = 0; i < 9; i++) {
-                      // clearNumberinRow: in dieser row gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
-                        System.out.println("row " + row + " i " + i + " eliminationV " + eliminationValue);
-                      candidateCube[row][i][eliminationValue] = true;
-                      // clearNumberinCol: in dieser col gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
-                      candidateCube[i][col][eliminationValue] = true;
+                        // clearFilledPillar: diese row, col ist befült und braucht keine Candidates mehr
+                        candidateCube[row][col][i] = true;
+                        // clearNumberinRow: in dieser row gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
+                        candidateCube[row][i][eliminationValue] = true;
+                        // clearNumberinCol: in dieser col gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
+                        candidateCube[i][col][eliminationValue] = true;
                     }
 
                     // clearNumberInArea: in dieser area gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
@@ -80,7 +75,7 @@ public class Solver {
                     for (int arearow = 0; arearow < 9; arearow++) {
                         for (int areacol = 0; areacol < 9; areacol++) {
                             if (toSolve.getBelongsToArea(99,arearow, areacol) == currentArea) {
-                              candidateCube[arearow][areacol][eliminationValue] = true;
+                                candidateCube[arearow][areacol][eliminationValue] = true;
                             }
                         }
                     }
@@ -133,6 +128,7 @@ public class Solver {
         } else if (Samurai.class.isInstance(toSolve)) {
             Solver.solveSam((Samurai) toSolve);
         }
+        System.out.println(toSolve);
     }
 
     @org.jetbrains.annotations.Nullable
@@ -154,6 +150,7 @@ public class Solver {
         } else {
             return candidates.get(0);
         }
+
     }
 
     public static void solve9sq(Ninesquare toSolve) { // solve with a mixture of conclusive solving and educated guessing
@@ -180,14 +177,16 @@ public class Solver {
     }
 
     private static boolean solve9sqUnprecise(Ninesquare toSolve) {
-        LinkedList<Candidate> currentEasedCandidates = getCandidates(99, toSolve, 2); // get slightly ambiguous candidates
-        if (currentEasedCandidates.isEmpty()) {
-            return false;
-        } else {
-            Candidate c = currentEasedCandidates.get(new Random().nextInt(currentEasedCandidates.size())); // randomly pick an ambiguous candidate
-            toSolve.setEntry(99, c.row, c.col, c.entry);
-            return true;
+        for (int unprecision = 2; unprecision < 10; unprecision++) {
+            LinkedList<Candidate> currentEasedCandidates = getCandidates(99, toSolve, unprecision); // get slightly ambiguous candidates
+            if (!currentEasedCandidates.isEmpty()) {
+                Candidate c = currentEasedCandidates.get(new Random().nextInt(currentEasedCandidates.size())); // randomly pick an ambiguous candidate
+                toSolve.setEntry(99, c.row, c.col, c.entry);
+                unprecision = 11;
+                return true;
+            }
         }
+        return false;
     }
 
     public static void solveSam(Samurai toSolve) {

@@ -9,27 +9,7 @@ public class Ninesquare extends Puzzle {
 
     // Empty constuctor for creating an empty new field
     public Ninesquare () {
-        super();
-        //Parser
-        content = new Tile[9][9];
-        int color = 0;
-        for (int row = 0; row < 9 ; row++) {
-            for (int col = 0; col < 9; col++) {
-
-                //Default tile color
-                if(col < 3 && row < 3) {color = 1;}
-                else if (col > 2 && col < 6 && row < 3) {color = 2;}
-                else if (col > 5 && row < 3) {color = 3;}
-                else if (col < 3 && row > 2 && row < 6) {color = 4;}
-                else if (col > 2 && col < 6 && row > 2 && row < 6) {color = 5;}
-                else if (col > 5 && row > 2 && row < 6) {color = 6;}
-                else if (col < 3 && row > 5 ) {color = 7;}
-                else if (col > 2 && col < 6 && row > 5) {color = 8;}
-                else if (col > 5 && row > 5) {color = 9;}
-
-                content[row][col] = new Tile(color);
-            }
-        }
+        this("new Classic", Difficulty.NORMAL, Type.CLASSIC, false, 0, "1U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-1U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-1U0-1U0-1U0-2U0-2U0-2U0-3U0-3U0-3U0-4U0-4U0-4U0-5U0-5U0-5U0-6U0-6U0-6U0-4U0-4U0-4U0-5U0-5U0-5U0-6U0-6U0-6U0-4U0-4U0-4U0-5U0-5U0-5U0-6U0-6U0-6U0-7U0-7U0-7U0-8U0-8U0-8U0-9U0-9U0-9U0-7U0-7U0-7U0-8U0-8U0-8U0-9U0-9U0-9U0-7U0-7U0-7U0-8U0-8U0-8U0-9U0-9U0-9U0-");
     }
 
     // "normal" constructor - gets content as string, builds model.Tile-array
@@ -143,7 +123,7 @@ public class Ninesquare extends Puzzle {
     }
 
     private void checkConflicts(Tile[] tiles){
-
+        tiles = sortTiles(tiles);
         tiles = sortTiles(tiles);
 
         for (int i = 0; i < 8; i++) {
