@@ -67,6 +67,7 @@ public class Solver {
 
                     for (int i = 0; i < 9; i++) {
                       // clearNumberinRow: in dieser row gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
+                        System.out.println("row " + row + " i " + i + " eliminationV " + eliminationValue);
                       candidateCube[row][i][eliminationValue] = true;
                       // clearNumberinCol: in dieser col gibt es die Zahl eliminationValue schon und kann nicht mehr vorkommen
                       candidateCube[i][col][eliminationValue] = true;

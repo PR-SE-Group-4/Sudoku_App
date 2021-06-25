@@ -74,8 +74,13 @@ public class Tile {
 
     public void setEntry(int entry) {
         if (this.changeable) {
-            this.entry = entry;
-            this.filled = true;
+            if (entry >= 1 && entry <= 9) {
+                this.entry = entry;
+                this.filled = true;
+            } else {
+                this.entry = 0;
+                this.filled = false;
+            }
         }
     }
 

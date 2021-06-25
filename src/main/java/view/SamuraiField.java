@@ -25,7 +25,7 @@ public class SamuraiField extends SudokuField {
     public void inputActionListener(int x, int y, int value) {
 
         setSelectedRowCol(x, y);
-        if (selectedCol != -1 && selectedRow != -1) {
+        if (selectedCol != -1 && selectedRow != -1 && value != -1) {
             System.out.println("fields: " + getFieldNr(x,y) + " value " + value + " row " + selectedRow + " col " + selectedCol);
             puzzle.setEntry( getFieldNr(x, y), selectedRow, selectedCol, value);
 
