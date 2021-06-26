@@ -9,9 +9,11 @@ public class SamuraiField extends SudokuField {
 
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
-        tileWidth = 40;
-        tileHeight = 40;
-        this.setPreferredSize(new Dimension(super.tileWidth * 21, super.tileHeight * 21));
+        tileWidth =38;
+        tileHeight = 38;
+        this.setPreferredSize(new Dimension(tileWidth * 21, tileHeight * 21));
+        gameFont = new Font("Verdana",Font.BOLD, 20);
+        gameFont2 = new Font("Verdana", Font.BOLD, 22);
 
     }
 

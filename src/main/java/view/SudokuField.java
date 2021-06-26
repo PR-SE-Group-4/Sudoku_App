@@ -2,6 +2,8 @@ package view;
 
 
 import model.Puzzle;
+import model.Type;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,8 +29,6 @@ public abstract class SudokuField extends JPanel {
         selectedCol = -1;
         selectedRow = -1;
         showConflicts = false;
-        gameFont = new Font("Verdana",Font.BOLD, 15);
-        gameFont2 = new Font("Verdana", Font.BOLD, 17);
     }
 
     @Override
@@ -52,7 +52,12 @@ public abstract class SudokuField extends JPanel {
                 Graphics2D coloredtile = (Graphics2D) g;
                 int square = puzzle.getBelongsToArea(fieldnumber, row, col);
 
-                coloredtile.setColor(getTileColor(square));
+                if (puzzle.getType() == Type.FREEFORM){
+                    coloredtile.setColor(getTileColorFreeform(square));
+                } else {
+                    coloredtile.setColor(getTileColorClassic(square));
+                }
+
                 graphics.setFont(gameFont);
                 if (!puzzle.getTile(fieldnumber, row, col).isChangeable()) {
                     graphics.setFont(gameFont2);
@@ -119,12 +124,9 @@ public abstract class SudokuField extends JPanel {
 
     protected void markSelectedTile(int fieldnumber){
         if (selectedField == fieldnumber) {
-
             if (selectedRow != -1 && selectedCol != -1) {
                 if (puzzle.getTile(selectedField, selectedRow, selectedCol).isChangeable()) {
-
                     graphics.setColor(Color.blue);
-
                     graphics.setStroke(new BasicStroke(3));
                     int i = 3;
 
@@ -169,7 +171,26 @@ public abstract class SudokuField extends JPanel {
         }
     }
 
-    protected Color getTileColor(int square){
+    protected Color getTileColorClassic(int square){
+        switch (square) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 9:
+                return new Color(255,221,124); //orange
+            case 2:
+            case 4:
+            case 6:
+            case 8:
+                return new Color(254,255,195); //yellow
+            default:
+                break;
+        }
+        return Color.WHITE;
+    }
+
+    protected Color getTileColorFreeform(int square){
         switch (square) {
             case 0:
                 return Color.BLACK;

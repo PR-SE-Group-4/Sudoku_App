@@ -12,6 +12,8 @@ public class NinesquareField extends SudokuField {
         tileWidth = 70;
         tileHeight = 70;
         this.setPreferredSize(new Dimension(tileWidth * 9 , tileHeight * 9 ));
+        gameFont = new Font("Verdana",Font.BOLD, 28);
+        gameFont2 = new Font("Verdana", Font.BOLD, 30);
     }
 
     public void createComponent(Graphics g) {
