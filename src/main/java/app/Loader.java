@@ -5,14 +5,20 @@ import model.*;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * The Loader class provides methods for setting up pre-saved games, getting stored Puzzles for the disc
+ * and saving Puzzles to the disc
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
 public class Loader {
 
     private static File[] files;
     private static ArrayList<Puzzle> storedPuzzles;
 
-    // -------------------------------------------
-    // -- setup game for first use --------------
-    // ------------------------------------------
+    /**
+     * sets up 4 pre-defined games when application is started for the first time
+     */
 
     public static void setup() {
         //creates filesave dir if not present
@@ -47,9 +53,10 @@ public class Loader {
         }
     }
 
-    //---------------------------------------------------
-    // -- get saved files as list or a single puzzle ----
-    // --------------------------------------------------
+    /**
+     * Returns all saved files as Array
+     * @return saved files
+     */
 
     public static File[] getFiles() /*throws IOException*/ {
 
@@ -78,6 +85,11 @@ public class Loader {
         return files;
     }
 
+    /**
+     * Returns a list of all saved puzzles
+     * @return saved puzzles
+     */
+
     public static ArrayList<Puzzle> getStoredPuzzles() {
         files = getFiles();
         storedPuzzles = new ArrayList<Puzzle>();
@@ -91,7 +103,12 @@ public class Loader {
         return storedPuzzles;
     }
 
-
+    /**
+     * Creates a Puzzle with the content from the file
+     * @param nrOfFile number of file
+     * @return puzzle with content from file
+     * @throws Exception
+     */
     public static Puzzle loadPuzzle(int nrOfFile) throws Exception {
         files = getFiles();
         FileReader fileReader = new FileReader(files[nrOfFile]);
@@ -139,6 +156,7 @@ public class Loader {
             }
         }
 
+        //call Ninesquare or Samurai Constructor depending on the length of contentString
         if (contentString.length() == 324) {
             return new Ninesquare(name, difficulty, type, solved, timeUsed, contentString);
         } else if (contentString.length() == 1624) {
@@ -149,12 +167,15 @@ public class Loader {
 
     }
 
-    // ---------------------------------------------------------
-    // -- save a model.Puzzle to disc after playing ------------------
-    // ---------------------------------------------------------
+    /**
+     * Saves a Puzzle to disc after playing
+     * @param puzzle changed Puzzle that need to be saved
+     * @param name name for saving
+     */
 
     public static void saveGame(Puzzle puzzle, String name){
         try {
+            //generate File in dir SudokuGR04
             File file = new File(System.getenv("APPDATA")+"\\SudokuGR04\\" + name + ".txt");
             FileWriter wr = new FileWriter(file);
             wr.write(puzzle.export());
@@ -164,14 +185,17 @@ public class Loader {
         }
     }
 
-    // ---------------------------------------------------------
-    // -- save a model.Puzzle Template -------------------------
-    // ---------------------------------------------------------
+    /**
+     * Saves a Puzzle as template
+     * @param puzzle
+     * @param name
+     */
 
     public static void saveTemplate(Puzzle puzzle, String name) {
         for (int fieldnr=0; fieldnr<5; fieldnr++){
             if(puzzle.getType() != Type.SAMURAI) {fieldnr=5;}
 
+            //set entries not changeable
             for (int r=0;r<9;r++){
                 for (int c=0;c<9;c++){
                     if(puzzle.getTile(fieldnr,r,c).getEntry() !=0) {

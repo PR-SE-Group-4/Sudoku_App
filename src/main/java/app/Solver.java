@@ -8,14 +8,31 @@ import model.Tile;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * The Solver class provides methods for auto-solving sudoku-games, giving hints and resetting game to initial state.
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
 
 public class Solver {
 
+    /**
+     * The Candidate class represents a possible entry with its ninesquarfieldnumber, row, column and value
+     *
+     */
     public static class Candidate {
         int nsqFieldNr;
         int row;
         int col;
         int entry;
+
+        /**
+         * Constructor for the class Candiate
+         * @param nsqFieldNr number of ninesquarefield (important for samurai)
+         * @param row row of entry
+         * @param col column of entry
+         * @param entry entry
+         */
 
         public Candidate(int nsqFieldNr, int row, int col, int entry) {
             this.nsqFieldNr = nsqFieldNr;
@@ -24,27 +41,51 @@ public class Solver {
             this.entry = entry;
         }
 
+        /**
+         * Returns fieldnumber of a Candidate (important for samurai)
+         * @return fieldnumber
+         */
+
         public int getNsqFieldNr() {
             return nsqFieldNr;
         }
 
+        /**
+         * Returns row of a Candidate
+         * @return row
+         */
         public int getRow() {
             return row;
         }
 
+        /**
+         * Returns column of a Candidate
+         * @return column
+         */
         public int getCol() {
             return col;
         }
+
+        /**
+         * Returns entry of a Candidate
+         * @return entry
+         */
 
         public int getEntry() {
             return entry;
         }
 
+        /**
+         * Converts the Candidate object to a String
+         * @return String of Candidate
+         */
         @Override
         public String toString() {
             return row + ", " + col + ", " + entry;
         }
     }
+
+
 
     static LinkedList<Candidate> getCandidates(int nsqFieldNr, Ninesquare toSolve, int numberOfOptions) {
 
