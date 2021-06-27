@@ -23,6 +23,17 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <goals>
+                    <goal>compile</goal>
+                </goals>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

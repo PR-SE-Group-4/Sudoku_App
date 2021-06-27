@@ -66,7 +66,7 @@ public abstract class SudokuField extends JPanel {
 
                 if(!showConflicts && !input.equals("0") && !hint) {
                     graphics.setColor(Color.BLACK);
-                    graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
+                    graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 10, starty + (row * tileHeight) + (tileHeight / 2) + 10);
 
                 } else if (showConflicts && !input.equals("0") && !hint){
 

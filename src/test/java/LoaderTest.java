@@ -93,13 +93,13 @@ class LoaderTest {
 
     }
 
-    @Test
+  /*  @Test
     @Order(5)
     void saveGame() {
         Loader.saveGame(newPuzzle, "testPuzzle");
         assertTrue(testPuzzle.exists());
     }
-
+*/
     @Test
     @Order(6)
     void saveTemplate() {

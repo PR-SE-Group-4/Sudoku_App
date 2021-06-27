@@ -91,8 +91,7 @@ public class SudokuUI implements ActionListener {
 
         if (puzzle.getType() == Type.SAMURAI) {
             this.sudokufield = new SamuraiField(puzzle);
-            System.out.println("Samurai Puzzle");
-        } else if (puzzle.getType() == Type.CLASSIC || puzzle.getType() == Type.FREEFORM) {
+        } else {
             this.sudokufield = new NinesquareField(puzzle);
         }
 
@@ -502,7 +501,11 @@ public class SudokuUI implements ActionListener {
                 Loader.saveTemplate(puzzle, sudokuName.getText());
             } else {
                 puzzle.setTimeUsed(timeUsed);
-                Loader.saveGame(puzzle, sudokuName.getText());
+                try {
+                    Loader.saveGame(puzzle, sudokuName.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             JOptionPane.showMessageDialog(sudokuPanel,"Successful! ", "Game saved!!", JOptionPane.INFORMATION_MESSAGE );
