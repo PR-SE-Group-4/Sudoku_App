@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * The Tile class represents a single tile of a Sudoku-Puzzle
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
+
 public class Tile {
     private boolean changeable;
     private boolean filled;
@@ -10,10 +16,10 @@ public class Tile {
 
 
     /**
-     *
-     * @param belongsToArea
-     * @param entry
-     * @param changeable
+     *Contructor of the class Tile
+     * @param belongsToArea area a Tile belongs to
+     * @param entry entry of a Tile
+     * @param changeable if a Tile is changeable
      */
     public Tile(int belongsToArea, int entry, boolean changeable) {
         this.belongsToArea = belongsToArea;
@@ -22,6 +28,9 @@ public class Tile {
         this.changeable = changeable;
     }
 
+    /**
+     * Empty Constructor of the class Tile
+     */
     public Tile() {
         this.belongsToArea = 10;
         this.entry = 0;
@@ -29,6 +38,10 @@ public class Tile {
         this.filled = false;
     }
 
+    /**
+     * Returns if a Tile contains an entry
+     * @return empty
+     */
     public boolean empty() {
         if(!changeable) {
             return false;
@@ -39,32 +52,64 @@ public class Tile {
         }
     }
 
+    /**
+     * Returns if a Tile is changeable
+     * @return changeable
+     */
     public boolean isChangeable() {
         return changeable;
     }
 
+    /**
+     * Sets if a Tile is changeable or not
+     * @param changeable changeable
+     */
     public void setChangeable(boolean changeable) { this.changeable = changeable; }
 
+    /**
+     * Returns if a Tile is filled or not
+     * @return filled
+     */
     public boolean isFilled() {
         return filled;
     }
 
+    /**
+     * Returns the area a Tile belongs to
+     * @return area a Tile belongs to
+     */
     public int getBelongsToArea() {
         return belongsToArea;
     }
 
+    /**
+     * Returns the entry of a Tile
+     * @return entry
+     */
     public int getEntry() {
         return entry;
     }
 
+    /**
+     * Returns if a Tile is in conflict with others
+     * @return conflicted
+     */
     public boolean isConflicted() {
         return conflicted;
     }
 
+    /**
+     * Sets a Tile conflicted or not conflicted
+     * @param conflicted conflicted
+     */
     public void setConflicted(boolean conflicted) {
         this.conflicted = conflicted;
     }
 
+    /**
+     * Sets an entry if Tile is changeable
+     * @param entry entry
+     */
     public void setEntry(int entry) {
         if (this.changeable) {
             if (entry >= 1 && entry <= 9) {
@@ -77,10 +122,22 @@ public class Tile {
         }
     }
 
+    /**
+     * Retruns if the entry of a Tile was a hint or not
+     * @return hint
+     */
     public boolean isHint() { return hint;   }
 
+    /**
+     * Sets a Tile to be a hint
+     * @param hint hint
+     */
     public void setHint(boolean hint) {this.hint = hint;}
 
+    /**
+     * Converts a Tile object to a String
+     * @return String of a Tile object
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -128,6 +185,10 @@ public class Tile {
         return sb.toString();
     }
 
+    /**
+     * Returns an Export-String of a Tile object, is needed for saving a Puzzle to disc
+     * @return Export-String
+     */
     public String export() {
         return belongsToArea + (changeable ? "U" : "O") + entry;
     }
