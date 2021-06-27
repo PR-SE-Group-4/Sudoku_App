@@ -178,8 +178,6 @@ public class Loader {
             e.printStackTrace();
         } finally {
             wr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
