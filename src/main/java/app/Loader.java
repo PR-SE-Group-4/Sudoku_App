@@ -64,15 +64,8 @@ public class Loader {
             path = new File(System.getProperty("user.home" + "/Library/Application Support/SudokuGR04" ));
         }
 
-        FileFilter fileFilter = new FileFilter() {
-            @Override
-            public boolean accept(File dir) {
-                if (dir.isFile()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        FileFilter fileFilter = dir -> {
+            return dir.isFile();
         };
         //in the files-array there is a list of all files in the dir
         files = path.listFiles(fileFilter);
@@ -100,9 +93,7 @@ public class Loader {
 
     public static Puzzle loadPuzzle(int nrOfFile) throws Exception {
         files = getFiles();
-        FileReader fileReader = null;
-        try  {
-            fileReader = new FileReader(files[nrOfFile]);
+        try  (FileReader fileReader = new FileReader(files[nrOfFile])) {
             String name = files[nrOfFile].toString();
             name = name.substring(name.indexOf("4")+2, name.indexOf("."));
             Difficulty difficulty = null;
@@ -124,10 +115,7 @@ public class Loader {
                             type = Type.valueOf(sb.toString());
                             break;
                         case 2: // third: solved
-                            if (sb.toString().equals("true"))
-                                solved = true;
-                            else
-                                solved = false;
+                            solved = sb.toString().equals("true");
                             break;
                         case 3: //fourth: timeUsed
                             timeUsed = Integer.parseInt(sb.toString());
@@ -155,8 +143,6 @@ public class Loader {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            fileReader.close();
         }
         return new Ninesquare();
     }

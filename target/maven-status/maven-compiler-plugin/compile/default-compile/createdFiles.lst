@@ -1,7 +1,6 @@
 view\SudokuUI.class
 app\Loader.class
 app\App.class
-app\Loader$1.class
 view\SudokuUI$4.class
 model\Samurai.class
 view\SudokuUI$7.class

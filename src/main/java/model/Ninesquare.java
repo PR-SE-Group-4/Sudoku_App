@@ -208,8 +208,7 @@ public class Ninesquare extends Puzzle {
      */
 
     private void checkConflicts(Tile[] tiles){
-        tiles = sortTiles(tiles);
-        tiles = sortTiles(tiles);
+        sortTiles(sortTiles(tiles));
 
         for (int i = 0; i < 8; i++) {
             if (tiles[i].getEntry() > 0 && tiles[i].getEntry() == tiles[i + 1].getEntry()) {
