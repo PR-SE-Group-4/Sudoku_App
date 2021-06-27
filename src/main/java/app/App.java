@@ -1,7 +1,5 @@
 package app;
 
-import model.Puzzle;
-
 /**
  * The App class contains the main-method and is responsible for starting the application
  * @author Clemens Grill, Thomas Hollin, Lisa Köberl

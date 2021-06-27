@@ -175,6 +175,8 @@ public abstract class Puzzle {
      */
     public String getName() { return name; }
 
+    public abstract void checkConflicts();
+
     /**
      * Sets the name of a Puzzle
      * @param name name of Puzzle

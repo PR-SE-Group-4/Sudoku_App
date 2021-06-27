@@ -54,9 +54,9 @@ public class Loader {
 
     public static File[] getFiles() /*throws IOException*/ {
 
-        String OS = (System.getProperty("os.name")).toUpperCase();
+        String os = (System.getProperty("os.name")).toUpperCase();
         File path;
-        if (OS.contains("WIN")) {
+        if (os.contains("WIN")) {
             path = new File(System.getenv("APPDATA")+"\\SudokuGR04");
         }
         else
@@ -134,13 +134,17 @@ public class Loader {
             }
 
             //call Ninesquare or Samurai Constructor depending on the length of contentString
+            Puzzle toReturn;
             if (contentString.length() == 324) {
-                return new Ninesquare(name, difficulty, type, solved, timeUsed, contentString);
+                toReturn = new Ninesquare(name, difficulty, type, solved, timeUsed, contentString);
             } else if (contentString.length() == 1624) {
-                return new Samurai(name, difficulty, type, solved, timeUsed, contentString);
+                toReturn = new Samurai(name, difficulty, type, solved, timeUsed, contentString);
             } else {
                 throw new Exception();
             }
+            toReturn.checkConflicts();
+            return toReturn;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,7 +158,7 @@ public class Loader {
      */
 
     public static void saveGame(Puzzle puzzle, String name) throws IOException {
-        FileWriter wr = null;
+        FileWriter wr;
         File file = new File(System.getenv("APPDATA")+"\\SudokuGR04\\" + name + ".txt");
         wr = new FileWriter(file);
         try {
@@ -169,8 +173,8 @@ public class Loader {
 
     /**
      * Saves a Puzzle as template
-     * @param puzzle
-     * @param name
+     * @param puzzle current Puzzle which is the new template
+     * @param name name for saving
      */
 
     public static void saveTemplate(Puzzle puzzle, String name) {

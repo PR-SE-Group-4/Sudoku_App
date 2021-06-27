@@ -250,6 +250,12 @@ public class Samurai extends Puzzle{
         return true;
     }
 
+    public void checkConflicts() {
+        for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++){
+            ninesquares[nsqFieldNr].checkConflicts();
+        }
+    }
+
     /**
      * Converts a Samurai object to a String
      * @return String of Samurai
@@ -262,6 +268,8 @@ public class Samurai extends Puzzle{
         }
         return sb.toString();
     }
+
+
 
 
 

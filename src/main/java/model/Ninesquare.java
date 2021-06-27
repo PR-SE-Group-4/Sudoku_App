@@ -179,7 +179,7 @@ public class Ninesquare extends Puzzle {
     /**
      * Checks if there are conflicted entries within a Ninesquare
      */
-    private void checkConflicts() {
+    public void checkConflicts() {
         //set all tiles to be not conflicted
         for (Tile[] t : content) {
             for (Tile tile : t) {

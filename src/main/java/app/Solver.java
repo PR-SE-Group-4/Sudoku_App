@@ -16,6 +16,8 @@ import java.util.Random;
 
 public class Solver {
 
+    private Solver(){}
+
     /**
      * The Candidate class represents a possible entry with its ninesquarfieldnumber, row, column and value
      *
@@ -163,19 +165,18 @@ public class Solver {
     }
 
     public static void solve(Puzzle toSolve) {
-        if (Ninesquare.class.isInstance(toSolve)) {
+        if (toSolve instanceof Ninesquare) {
             Solver.solve9sq((Ninesquare) toSolve);
 
-        } else if (Samurai.class.isInstance(toSolve)) {
+        } else if (toSolve instanceof Samurai) {
             Solver.solveSam((Samurai) toSolve);
         }
-        System.out.println(toSolve);
     }
 
     @org.jetbrains.annotations.Nullable
     public static Candidate getHint(Puzzle toSolve) {
-        LinkedList<Candidate> candidates = new LinkedList<Candidate>();
-        if (Ninesquare.class.isInstance(toSolve)) {                 // Puzzle is Ninesquare
+        LinkedList<Candidate> candidates = new LinkedList<>();
+        if (toSolve instanceof Ninesquare) {                 // Puzzle is Ninesquare
             Ninesquare ts = (Ninesquare) toSolve;
             candidates.addAll(getCandidates(99, ts, 1));
 
