@@ -105,17 +105,17 @@ public abstract class SudokuField extends JPanel {
                         graphics.setColor(Color.RED);
                         graphics.fillRect(startx + col * tileWidth , starty + row * tileHeight, tileWidth , tileHeight);
                         graphics.setColor(Color.WHITE);
-                        graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
+                        graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 10, starty + (row * tileHeight) + (tileHeight / 2) + 10);
 
                     } else {
                         graphics.setColor(Color.BLACK);
-                        graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 5, starty + (row * tileHeight) + (tileHeight / 2) + 10);
+                        graphics.drawString(input, startx + (col * tileWidth) + (tileWidth / 2) - 10, starty + (row * tileHeight) + (tileHeight / 2) + 10);
                     }
                 } else if (hint){
                     graphics.setColor(new Color(85,107,47));
                     graphics.fillRect(startx + col * tileWidth , starty + row * tileHeight, tileWidth , tileHeight);
                     graphics.setColor(Color.WHITE);
-                    graphics.drawString(input, (startx + col * tileWidth) + (tileWidth / 2) - 5, (starty + row * tileHeight) + (tileHeight / 2) + 10);
+                    graphics.drawString(input, (startx + col * tileWidth) + (tileWidth / 2) - 10, (starty + row * tileHeight) + (tileHeight / 2) + 10);
                     puzzle.getTile(fieldnumber,row, col).setHint(false);
                 }
                 g.setColor(new Color (175,210,245));
