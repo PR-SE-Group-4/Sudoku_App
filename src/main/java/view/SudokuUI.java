@@ -496,7 +496,7 @@ public class SudokuUI implements ActionListener {
 
         if (result == JOptionPane.OK_OPTION && !sudokuName.getText().isEmpty()) {
 
-            if (puzzle.getName() == null) {
+            if (puzzle.getName().equals("new Classic") || puzzle.getName().equals("new Samurai")) {
                 puzzle.setDifficulty(Difficulty.valueOf(sudokuDifficulty.getSelectedItem().toString()));
                 Loader.saveTemplate(puzzle, sudokuName.getText());
             } else {
