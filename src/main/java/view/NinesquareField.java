@@ -4,9 +4,17 @@ import model.Puzzle;
 
 import java.awt.*;
 
+/**
+ * The NinesquareField class implementst the class SudokuField and draws a Classic or a Freeform Sudoku
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
 public class NinesquareField extends SudokuField {
 
-
+    /**
+     * Constructor of the class NinesquareField
+     * @param puzzle Sudoku-Puzzle that should be drawn
+     */
     public NinesquareField(Puzzle puzzle) {
         super(puzzle);
         tileWidth = 70;
@@ -16,12 +24,20 @@ public class NinesquareField extends SudokuField {
         gameFont2 = new Font("Verdana", Font.BOLD, 30);
     }
 
+    /**
+     * Draws an Classic or Freeform Sudoku by calling createComponent implemented in SudokuField
+     * @param g Graphics
+     */
     public void createComponent(Graphics g) {
         createComponent(g, 99);
     }
 
-
-    // Get x and y coordinates to find the col and row which is selected
+    /**
+     * Sets or deletes an entered entry at a given position
+     * @param x x-Coordinate
+     * @param y y-Coordinate
+     * @param value entered value
+     */
     public void inputActionListener(int x, int y, int value) {
 
         setSelectedRowCol(x,y);
@@ -32,6 +48,12 @@ public class NinesquareField extends SudokuField {
         selectedRow = -1;
         selectedCol = -1;
     }
+
+    /**
+     * Sets selected row and selected col depending on the coordinates
+     * @param x x-Coordinate
+     * @param y y-Coordinate
+     */
     public void setSelectedRowCol(int x, int y) {
         selectedField = 99;
         selectedCol = x / tileWidth;

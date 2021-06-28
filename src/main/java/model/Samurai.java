@@ -1,7 +1,7 @@
 package model;
 
 /**
- * The Samurai class implements the class Puzzle and represents a Samurai-Sudoku.
+ * The Samurai class implements the class Puzzle and represents a Samurai-Sudoku by representing it as an array of 5 ninesquaures.
  * A Samurai consists of 5 Ninesquares.
  * @author Clemens Grill, Thomas Hollin, Lisa Köberl
  * @version %I%, %G%

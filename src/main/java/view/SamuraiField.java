@@ -3,10 +3,18 @@ package view;
 import model.Puzzle;
 import java.awt.*;
 
-
+/**
+ * The SamuraiField class implements the class SudokuField and draws a Samurai-Puzzle
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
 
 public class SamuraiField extends SudokuField {
 
+    /**
+     * Constructor for the class SamuraiField
+     * @param puzzle Sudoku-Puzzle that should be drawn
+     */
     public SamuraiField(Puzzle puzzle) {
         super(puzzle);
         tileWidth =38;
@@ -17,6 +25,10 @@ public class SamuraiField extends SudokuField {
 
     }
 
+    /**
+     * Draws a Samurai Sudoku by calling createComponent implemented in SudokuField for each ninesquare of the Samurai-Puzzle
+     * @param g Graphics
+     */
     protected void createComponent(Graphics g){
 
         for (int fieldnumber = 0; fieldnumber < 5; fieldnumber++) {
@@ -24,6 +36,12 @@ public class SamuraiField extends SudokuField {
         }
     }
 
+    /**
+     * Sets or deletes an entered entry at a given position
+     * @param x x-Coordinate
+     * @param y y-Coordinate
+     * @param value entered value
+     */
     public void inputActionListener(int x, int y, int value) {
 
         setSelectedRowCol(x, y);
@@ -36,7 +54,12 @@ public class SamuraiField extends SudokuField {
         }
     }
 
-    //Calculate fieldnumber of selected coordinates
+    /**
+     * Returns the ninesquarefieldnumber a Tile belongs to depending on the coordinates
+     * @param x x-Coordinate
+     * @param y y-Coordinate
+     * @return ninesquarefieldnumber
+     */
     public int getFieldNr(int x, int y) {
         int fieldnr = 99;
 
@@ -66,6 +89,11 @@ public class SamuraiField extends SudokuField {
 
     }
 
+    /**
+     * Sets selected row and selected col depending on the coordinates and sets selected field by calling getFieldNr
+     * @param x x-Coordinate
+     * @param y y-Coordinate
+     */
     public void setSelectedRowCol(int x, int y) {
 
         selectedField = getFieldNr(x,y);
@@ -99,6 +127,13 @@ public class SamuraiField extends SudokuField {
 
     }
 
+    /**
+     * Checks if a Tile overlaps with another one that is conflicted (for not overpainting a conflict)
+     * @param nsqFieldNr ninesquarefieldnumber of the Tile
+     * @param row row
+     * @param col column
+     * @return if an overlapping Tile is conflicted
+     */
     @Override
     protected boolean overlapConflicted(int nsqFieldNr, int row, int col) {
         if (nsqFieldNr == 2 && row < 3 && col < 3) {
