@@ -5,7 +5,7 @@ import model.Puzzle;
 import java.awt.*;
 
 /**
- * The NinesquareField class implementst the class SudokuField and draws a Classic or a Freeform Sudoku
+ * The NinesquareField class extends the class SudokuField and draws a Classic or a Freeform Sudoku
  * @author Clemens Grill, Thomas Hollin, Lisa Köberl
  * @version %I%, %G%
  */

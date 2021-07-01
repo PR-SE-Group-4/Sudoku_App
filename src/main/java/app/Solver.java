@@ -72,7 +72,6 @@ public class Solver {
          * Returns entry of a Candidate
          * @return entry
          */
-
         public int getEntry() {
             return entry;
         }

@@ -4,7 +4,7 @@ import model.Puzzle;
 import java.awt.*;
 
 /**
- * The SamuraiField class implements the class SudokuField and draws a Samurai-Puzzle
+ * The SamuraiField class extends the class SudokuField and draws a Samurai-Puzzle
  * @author Clemens Grill, Thomas Hollin, Lisa Köberl
  * @version %I%, %G%
  */

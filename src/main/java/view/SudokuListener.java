@@ -3,14 +3,22 @@ package view;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.*;
 
+/**
+ * The SudokuListener class handles Mouse-Input and Keyboard-Input
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
 
-public class SudokuListener extends MouseInputAdapter implements KeyListener, ActionListener {
+public class SudokuListener extends MouseInputAdapter implements KeyListener {
 
     static int x;
     static int y;
     SudokuField sudokuField;
 
-
+    /**
+     * Constructor for the class SudokuListener
+     * @param sudokuField current sudokufield
+     */
     public SudokuListener(SudokuField sudokuField) {
 
         this.sudokuField = sudokuField;
@@ -18,7 +26,10 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
         y = -1;
     }
 
-
+    /**
+     * Sets selected row and col depending on the coordinates when mouse is clicked
+     * @param e MouseEvent
+     */
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
 
@@ -30,10 +41,6 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -44,6 +51,10 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
 
     }
 
+    /**
+     * Calls inputActionListener with coordinates and value when key is released
+     * @param e KeyEvent
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int value = -1;
@@ -74,8 +85,7 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener, Ac
             }
             sudokuField.inputActionListener(x, y, value);
             e.getComponent().repaint();
-        }
-    else {
+        } else {
             System.out.println("Kein Feld ausgewählt");
         }
 

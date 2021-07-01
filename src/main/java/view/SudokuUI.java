@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 import javax.swing.plaf.ColorUIResource;
 
-
-public class SudokuUI implements ActionListener {
+/**
+ * The SudokuUI class draws the frame and the menu for the application and contains the sudokufield
+ * @author Clemens Grill, Thomas Hollin, Lisa Köberl
+ * @version %I%, %G%
+ */
+public class SudokuUI {
 
     private JFrame frame;
     private SudokuField sudokufield;
@@ -29,8 +33,11 @@ public class SudokuUI implements ActionListener {
     private int timeUsed;
     private SudokuListener listener;
 
+    /**
+     * Constructor for the class SudokuUI, sets settings for the window
+     * @throws IOException
+     */
     public SudokuUI() throws IOException {
-
 
         this.frame = new JFrame("Sudoku");
         color = new Color (175,210,245);
@@ -77,7 +84,9 @@ public class SudokuUI implements ActionListener {
 
     }
 
-    // Create the gamefield
+    /**
+     * Creates the gamefield (sudokufield) for the game and adds listener
+     */
     public void createGame() {
 
         //before creating a new field, delete the existing one
@@ -107,6 +116,10 @@ public class SudokuUI implements ActionListener {
 
     }
 
+    /**
+     * Creates the Menu for the window and adds listeners to the buttons
+     * @throws IOException
+     */
     public void createMenu() throws IOException {
 
         // Settings for Menu Panel
@@ -462,17 +475,26 @@ public class SudokuUI implements ActionListener {
 
     }
 
+    /**
+     * Creates a hover for a menu-buttons
+     * @param label label to create a hover for
+     */
     public void createHover (JLabel label) {
         label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT)));
     }
 
+    /**
+     * Sets an icon for a menu-button
+     * @param label label to add the icon to
+     */
     public void addIcon (JLabel label) {
         label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
     }
 
 
-
-
+    /**
+     * Creates a JLabel for saving a game
+     */
     public void saveGame() {
 
         JLabel labelName = new JLabel("Choose a name for this savegame:");
@@ -518,6 +540,9 @@ public class SudokuUI implements ActionListener {
 
     }
 
+    /**
+     * Creates an info-panel and calls startTimer
+     */
     public void createInfoPanel() {
 
         infoPanel.removeAll();
@@ -549,7 +574,9 @@ public class SudokuUI implements ActionListener {
 
     }
 
-
+    /**
+     * Starts the timer
+     */
     public void startTimer() {
 
         timeUsed = puzzle.getTimeUsed();
@@ -568,11 +595,17 @@ public class SudokuUI implements ActionListener {
         timer.start();
     }
 
+    /**
+     * Stops the timer
+     */
     public void stopTimer() {
 
         timer.stop();
     }
 
+    /**
+     * Creates a pane when game is finished
+     */
     public void gameFinished(){
 
         stopTimer();
@@ -583,15 +616,4 @@ public class SudokuUI implements ActionListener {
 
     }
 
-    private  final MouseListener mouseListener = new MouseAdapter() {
-        @Override
-        public void mouseReleased(final MouseEvent e) {
-
-        }
-    };
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
