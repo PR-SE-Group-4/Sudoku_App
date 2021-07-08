@@ -220,8 +220,13 @@ public class SudokuUI {
                 }
                 Object[] selectionValues = namedPuzzles.toArray();
 
-                Object selected = JOptionPane.showInputDialog(sudokufield, "Choose a puzzle?",
-                        "Load a Game", JOptionPane.QUESTION_MESSAGE, null, selectionValues, 1);
+                Object selected = JOptionPane.showInputDialog(sudokuPanel,
+                        "Choose a puzzle?",
+                        "Load a Game",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        selectionValues,
+                        1);
 
                 int index = namedPuzzles.indexOf(selected);
 
@@ -430,7 +435,7 @@ public class SudokuUI {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                Object[] options = {"Save & Exit", "Exit without Saving"};
+                Object[] options = {"Save & Exit", "Exit without Saving", "Cancel"};
 
                 int selected = JOptionPane.showOptionDialog(sudokuPanel,
                         "You want to leave?",
@@ -529,6 +534,9 @@ public class SudokuUI {
                     e.printStackTrace();
                 }
             }
+
+           createGame();
+
 
             JOptionPane.showMessageDialog(sudokuPanel,"Successful! ", "Game saved!!", JOptionPane.INFORMATION_MESSAGE );
         }
