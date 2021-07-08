@@ -161,6 +161,7 @@ public class Loader {
         FileWriter wr;
         File file = new File(System.getenv("APPDATA")+"\\SudokuGR04\\" + name + ".txt");
         wr = new FileWriter(file);
+        puzzle.setName(name);
         try {
             //generate File in dir SudokuGR04
             wr.write(puzzle.export());
