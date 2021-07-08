@@ -220,21 +220,10 @@ public abstract class SudokuField extends JPanel {
      * @return Color of Tile
      */
     protected Color getTileColorClassic(int square){
-        switch (square) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 9:
-                return new Color(255,221,124); //orange
-            case 2:
-            case 4:
-            case 6:
-            case 8:
-                return new Color(254,255,195); //yellow
-            default:
-                break;
-        }
+        if (square%2 == 1)
+                return new Color(224,255,255); //light cyan
+        else if (square%2 == 0)
+                return new Color(223,255,224); //green
         return Color.WHITE;
     }
 
