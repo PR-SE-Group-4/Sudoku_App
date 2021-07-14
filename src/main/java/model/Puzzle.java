@@ -177,6 +177,8 @@ public abstract class Puzzle {
 
     public abstract void checkConflicts();
 
+    public abstract boolean hasConflict();
+
     /**
      * Sets the name of a Puzzle
      * @param name name of Puzzle

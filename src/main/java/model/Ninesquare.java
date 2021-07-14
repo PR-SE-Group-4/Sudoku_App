@@ -219,6 +219,24 @@ public class Ninesquare extends Puzzle {
     }
 
     /**
+     * Checks if a Ninesquare has a conflict
+     * @return if Ninesquare has a conflict
+     */
+
+    public boolean hasConflict() {
+
+        for (Tile[] t : content) {
+            for (Tile tile : t) {
+                if(tile.isConflicted()) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns given Tile-Array sorted by entry (asc)
      * @param tiles unsorted Tile-Array
      * @return sorted Tile-Array

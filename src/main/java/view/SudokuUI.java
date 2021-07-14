@@ -525,7 +525,16 @@ public class SudokuUI {
 
             if (puzzle.getName().equals("new Classic") || puzzle.getName().equals("new Samurai")) {
                 puzzle.setDifficulty(Difficulty.valueOf(sudokuDifficulty.getSelectedItem().toString()));
-                Loader.saveTemplate(puzzle, sudokuName.getText());
+                puzzle.checkConflicts();
+                if (puzzle.hasConflict()) {
+                    JOptionPane.showMessageDialog(sudokuPanel,"There is a conflict in your template! ", "Error!!", JOptionPane.ERROR_MESSAGE );
+                    return;
+                }
+
+                else {
+                    Loader.saveTemplate(puzzle, sudokuName.getText());
+                }
+
             } else {
                 puzzle.setTimeUsed(timeUsed);
                 try {

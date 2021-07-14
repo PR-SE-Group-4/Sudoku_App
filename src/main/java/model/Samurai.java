@@ -257,6 +257,20 @@ public class Samurai extends Puzzle{
     }
 
     /**
+     * Checks if a Ninesquare has a conflict
+     * @return if Ninesquare has a conflict
+     */
+
+    public boolean hasConflict() {
+
+        for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++){
+            if (ninesquares[nsqFieldNr].hasConflict()) return true;
+        }
+        return false;
+    }
+
+
+    /**
      * Converts a Samurai object to a String
      * @return String of Samurai
      */
