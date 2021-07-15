@@ -35,7 +35,6 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener {
 
             y = e.getY();
             x = e.getX();
-            System.out.println("CLICKED" + "X: " + x  + " y: " + y);
             sudokuField.setSelectedRowCol(x, y);
             e.getComponent().repaint();
         }

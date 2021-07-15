@@ -230,7 +230,7 @@ public class SudokuUI {
 
                 int index = namedPuzzles.indexOf(selected);
 
-                System.out.println(index);
+
                 if ( index >= 0){
 
 
@@ -273,6 +273,7 @@ public class SudokuUI {
                 if (selected == 0) {
                     try {
                         puzzle = new Ninesquare();
+                        createGame();
 
                     } catch (Exception exception) {
                         exception.printStackTrace();
@@ -282,13 +283,14 @@ public class SudokuUI {
                     try {
                       puzzle = new Samurai();
                       puzzle.setType(Type.SAMURAI);
+                      createGame();
 
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
                 }
 
-                        createGame();
+
 
                 }
 
@@ -447,7 +449,9 @@ public class SudokuUI {
                 if (selected == 0) {
                     try {
                         //Save the Game
-                        saveGame();
+                        if (puzzle != null) {
+                            saveGame();
+                        }
                         System.exit(0);
 
                     } catch (Exception exception) {
@@ -455,7 +459,7 @@ public class SudokuUI {
                     }
                 } else if (selected == 1) {
                     try {
-                        // Send playing time to puzzle
+
                         System.exit(0);
 
                     } catch (Exception exception) {
@@ -524,14 +528,16 @@ public class SudokuUI {
         if (result == JOptionPane.OK_OPTION && !sudokuName.getText().isEmpty()) {
 
             if (puzzle.getName().equals("new Classic") || puzzle.getName().equals("new Samurai")) {
-                puzzle.setDifficulty(Difficulty.valueOf(sudokuDifficulty.getSelectedItem().toString()));
+
                 puzzle.checkConflicts();
                 if (puzzle.hasConflict()) {
+
                     JOptionPane.showMessageDialog(sudokuPanel,"There is a conflict in your template! ", "Error!!", JOptionPane.ERROR_MESSAGE );
                     return;
                 }
 
                 else {
+                    puzzle.setDifficulty(Difficulty.valueOf(sudokuDifficulty.getSelectedItem().toString()));
                     Loader.saveTemplate(puzzle, sudokuName.getText());
                 }
 
@@ -579,7 +585,7 @@ public class SudokuUI {
                         sudokufield.setShowConflicts(false);
                     }
                     sudokufield.repaint();
-                    System.out.println("Checked? " + sudokufield.showConflicts);
+
                 }
             });
 
