@@ -51,7 +51,11 @@ public class SudokuUI {
         infoPanel = new JPanel(new FlowLayout());
 
         //Load Startimage
-        ImageIcon logo = new ImageIcon("src/main/java/ressources/logo.png");
+
+        java.net.URL logoOneUrl = getClass().getResource("/logo.png");
+        System.out.println(logoOneUrl);
+        ImageIcon logo = new ImageIcon(logoOneUrl);
+
         JLabel startImage = new JLabel(logo);
         this.frame.setIconImage(logo.getImage());
 
@@ -381,18 +385,15 @@ public class SudokuUI {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                String filename = "src/main/java/ressources/btn";
-
-
                 Object inputHelp[] = {
-                        new ImageIcon(new ImageIcon(filename  + "load.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can open a saved game!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "create.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can create a new empty game!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "save.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can save your game!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "solve.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can solve your game!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "hint.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can ask for a hint!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "help.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can find help!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "reset.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can reset the game!", JLabel.CENTER),
-                        new ImageIcon(new ImageIcon(filename  + "exit.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can exit the game!", JLabel.CENTER)};
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnload.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can open a saved game!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btncreate.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can create a new empty game!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnsave.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can save your game!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnsolve.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can solve your game!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnhint.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can ask for a hint!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnhelp.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can find help!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnreset.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can reset the game!", JLabel.CENTER),
+                        new ImageIcon(new ImageIcon(getClass().getResource("/btnexit.png")).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)), new JLabel("Here you can exit the game!", JLabel.CENTER)};
 
 
                 JOptionPane helpPanel = new JOptionPane();
@@ -489,7 +490,7 @@ public class SudokuUI {
      * @param label label to create a hover for
      */
     public void createHover (JLabel label) {
-        label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT)));
+        label.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/btn" + label.getName() + ".png")).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT)));
     }
 
     /**
@@ -497,7 +498,7 @@ public class SudokuUI {
      * @param label label to add the icon to
      */
     public void addIcon (JLabel label) {
-        label.setIcon(new ImageIcon(new ImageIcon("src/main/java/ressources/btn" + label.getName() + ".png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+        label.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/btn" + label.getName() + ".png")).getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
     }
 
 
