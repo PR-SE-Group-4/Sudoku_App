@@ -250,6 +250,10 @@ public class Samurai extends Puzzle{
         return true;
     }
 
+    /**
+     * Checks if there are conflicts within the Samurai
+     */
+    @Override
     public void checkConflicts() {
         for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++){
             ninesquares[nsqFieldNr].checkConflicts();
@@ -260,7 +264,7 @@ public class Samurai extends Puzzle{
      * Checks if a Ninesquare has a conflict
      * @return if Ninesquare has a conflict
      */
-
+    @Override
     public boolean hasConflict() {
 
         for (int nsqFieldNr = 0; nsqFieldNr < 5; nsqFieldNr++){
@@ -274,6 +278,7 @@ public class Samurai extends Puzzle{
      * Converts a Samurai object to a String
      * @return String of Samurai
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 5; i++) {

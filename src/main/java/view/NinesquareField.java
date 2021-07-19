@@ -28,6 +28,7 @@ public class NinesquareField extends SudokuField {
      * Draws an Classic or Freeform Sudoku by calling createComponent implemented in SudokuField
      * @param g Graphics
      */
+    @Override
     public void createComponent(Graphics g) {
         createComponent(g, 99);
     }
@@ -38,6 +39,7 @@ public class NinesquareField extends SudokuField {
      * @param y y-Coordinate
      * @param value entered value
      */
+    @Override
     public void inputActionListener(int x, int y, int value) {
 
         setSelectedRowCol(x,y);
@@ -54,6 +56,7 @@ public class NinesquareField extends SudokuField {
      * @param x x-Coordinate
      * @param y y-Coordinate
      */
+    @Override
     public void setSelectedRowCol(int x, int y) {
         selectedField = 99;
         selectedCol = x / tileWidth;

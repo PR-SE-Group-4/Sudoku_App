@@ -29,6 +29,7 @@ public class SamuraiField extends SudokuField {
      * Draws a Samurai Sudoku by calling createComponent implemented in SudokuField for each ninesquare of the Samurai-Puzzle
      * @param g Graphics
      */
+    @Override
     protected void createComponent(Graphics g){
 
         for (int fieldnumber = 0; fieldnumber < 5; fieldnumber++) {
@@ -42,11 +43,11 @@ public class SamuraiField extends SudokuField {
      * @param y y-Coordinate
      * @param value entered value
      */
+    @Override
     public void inputActionListener(int x, int y, int value) {
 
         setSelectedRowCol(x, y);
         if (selectedCol != -1 && selectedRow != -1 && value != -1) {
-            System.out.println("fields: " + getFieldNr(x,y) + " value " + value + " row " + selectedRow + " col " + selectedCol);
             puzzle.setEntry( getFieldNr(x, y), selectedRow, selectedCol, value);
 
             selectedCol = -1;
@@ -94,6 +95,7 @@ public class SamuraiField extends SudokuField {
      * @param x x-Coordinate
      * @param y y-Coordinate
      */
+    @Override
     public void setSelectedRowCol(int x, int y) {
 
         selectedField = getFieldNr(x,y);

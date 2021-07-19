@@ -86,8 +86,13 @@ public class Solver {
         }
     }
 
-
-
+    /**
+     * Returns a list of Candidates with a specific uncertainty
+     * @param nsqFieldNr ninesquarefieldnumber
+     * @param toSolve ninesquare that should be solved
+     * @param numberOfOptions uncertainty - if 1 there is only one option, if higher there are more
+     * @return a list of Candidates wiht given uncertainty
+     */
     static LinkedList<Candidate> getCandidates(int nsqFieldNr, Ninesquare toSolve, int numberOfOptions) {
 
         // at NumberOfOptions == 1 the result is definitive.
@@ -163,6 +168,10 @@ public class Solver {
     return candidates;
     }
 
+    /**
+     * Solves the given puzzle, if possible, by calling solve9sq or solveSam depending on the puzzle-type
+     * @param toSolve Puzzle that should be solved
+     */
     public static void solve(Puzzle toSolve) {
         if (toSolve instanceof Ninesquare) {
             Solver.solve9sq((Ninesquare) toSolve);
@@ -172,6 +181,11 @@ public class Solver {
         }
     }
 
+    /**
+     * Returns a hint for the given puzzle as Candidate-Object
+     * @param toSolve Puzzle a hint is wanted for
+     * @return hint (as Candidate-Object) for the given puzzle
+     */
     @org.jetbrains.annotations.Nullable
     public static Candidate getHint(Puzzle toSolve) {
         LinkedList<Candidate> candidates = new LinkedList<>();
@@ -194,6 +208,10 @@ public class Solver {
 
     }
 
+    /**
+     * Solves a Ninesquare by filling all tiles that can be filled precisely and afterwards guessing one number after another
+     * @param toSolve puzzle that should be solved
+     */
     public static void solve9sq(Ninesquare toSolve) { // solve with a mixture of conclusive solving and educated guessing
         boolean solvingIsWorking = true;
         do { // as long as it isn't solved
@@ -203,6 +221,11 @@ public class Solver {
         } while (!toSolve.isSolved());
     }
 
+    /**
+     * Fills in all the entries that can be filled precisely
+     * @param toSolve puzzle that should be solved
+     * @return number of tiles that could be filled precisely
+     */
     public static int solve9sqPrecisely(Ninesquare toSolve) {
         LinkedList<Candidate> candidates = new LinkedList<>();
         candidates.add(new Candidate(99, 0,0,0));
@@ -217,6 +240,11 @@ public class Solver {
         return filledFields;
     }
 
+    /**
+     * Filles one Tile with a Candidate with the lowest possible uncertainty - starting at 2 and raising until a Candidate is found
+     * @param toSolve puzzle that should be solved
+     * @return if a Tile was filled
+     */
     private static boolean solve9sqUnprecise(Ninesquare toSolve) {
         for (int unprecision = 2; unprecision < 10; unprecision++) {
             LinkedList<Candidate> currentEasedCandidates = getCandidates(99, toSolve, unprecision); // get slightly ambiguous candidates
@@ -230,6 +258,10 @@ public class Solver {
         return false;
     }
 
+    /**
+     * Solves a Samurai by filling all tiles that can be filled precisely and afterwards guessing one number after another
+     * @param toSolve puzzle that should be solved
+     */
     public static void solveSam(Samurai toSolve) {
         int preciselyFilled;
         boolean unpreciselyFilled;
@@ -251,6 +283,10 @@ public class Solver {
         } while(!toSolve.isSolved());
     }
 
+    /**
+     * Resets a puzzle to initial state by deleting all changeable entries
+     * @param toSolve puzzle that should be reset
+     */
     public static void deleteGuess(Puzzle toSolve) {
         if (Ninesquare.class.isInstance(toSolve)) {
             Solver.deleteNinesquare((Ninesquare) toSolve);
@@ -262,6 +298,10 @@ public class Solver {
         }
     }
 
+    /**
+     * Resets a ninesquare to initial state
+     * @param toSolve ninesquare that should be reset
+     */
     public static void deleteNinesquare(Ninesquare toSolve) {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {

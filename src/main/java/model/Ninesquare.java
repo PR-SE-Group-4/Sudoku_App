@@ -259,6 +259,7 @@ public class Ninesquare extends Puzzle {
      * Checks if a Ninesquare is solved
      * @return if Ninesquare is solved
      */
+    @Override
     public boolean isSolved() {
         for (Tile[] x : content) {
             for (Tile y : x) {
@@ -289,7 +290,7 @@ public class Ninesquare extends Puzzle {
      * Returns an Export-String of a Ninesquare, is needed for saving a Ninesquare to disc
      * @return Export-String of a Ninesquare
      */
-
+    @Override
     public String export() {
         StringBuilder sb = new StringBuilder();
         sb.append(difficulty).append(";").append(type).append(";");
@@ -300,7 +301,7 @@ public class Ninesquare extends Puzzle {
     }
 
     /**
-     * Returns the content of the Tile-Array content from a Ninesquare
+     * Returns the content of the Tile-Array content from a Ninesquare as a String
      * @return Content-String of a Ninesquare
      */
 

@@ -30,6 +30,7 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener {
      * Sets selected row and col depending on the coordinates when mouse is clicked
      * @param e MouseEvent
      */
+    @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
 
@@ -57,7 +58,6 @@ public class SudokuListener extends MouseInputAdapter implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int value = -1;
-        System.out.println("released");
         if (x > -1 && y > -1) {
             if (e.getKeyCode() == KeyEvent.VK_NUMPAD1 || e.getKeyCode() == KeyEvent.VK_1) {
                 value = 1;

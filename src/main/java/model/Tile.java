@@ -39,8 +39,8 @@ public class Tile {
     }
 
     /**
-     * Returns if a Tile contains an entry
-     * @return empty
+     * Deletes a Tiles entry if changeable and returns if entry could be deleted
+     * @return if entry could be deleted
      */
     public boolean empty() {
         if(!changeable) {

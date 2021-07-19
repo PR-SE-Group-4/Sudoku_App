@@ -47,7 +47,7 @@ public abstract class Puzzle {
     }
 
     /**
-     * Returns Tiel at a given position
+     * Returns Tile at a given position
      * @param nsqFieldNr ninesquarefieldnumber (important for Samurai)
      * @param row row
      * @param col column
@@ -175,8 +175,15 @@ public abstract class Puzzle {
      */
     public String getName() { return name; }
 
+    /**
+     * Checks if there are conflicted entries within the puzzle and sets appropriate Tiles conflicted
+     */
     public abstract void checkConflicts();
 
+    /**
+     * Checks if a puzzle has a conflict
+     * @return if there is a conflict somewhere within the puzzle
+     */
     public abstract boolean hasConflict();
 
     /**

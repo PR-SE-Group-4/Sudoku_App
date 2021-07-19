@@ -117,6 +117,7 @@ public class SudokuUI {
         sudokuPanel.setLayout(new FlowLayout());
         createInfoPanel();
         this.frame.pack();
+        startTimer();
 
     }
 
@@ -589,8 +590,6 @@ public class SudokuUI {
 
                 }
             });
-
-            startTimer();
 
         infoPanel.add(showConflicts);
 

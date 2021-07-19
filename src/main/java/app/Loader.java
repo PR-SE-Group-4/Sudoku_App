@@ -36,6 +36,12 @@ public class Loader {
        }
     }
 
+    /**
+     * Creates a new file in the given dictionary with the given name and content
+     * @param appdir dictionary file should be created in
+     * @param name name of the file that should be created
+     * @param content content of the file that should be created
+     */
     public static void writeNewMintGame(File appdir, String name, String content) {
         boolean successful;
         File presaved = new File(appdir + "\\" + name + ".txt");
